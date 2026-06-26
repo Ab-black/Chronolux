@@ -1,1 +1,1105 @@
+/*==================================================
+CHRONOLUX - STYLE.CSS
+PART 1
+==================================================*/
 
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/*=============== VARIABLES ===============*/
+
+:root{
+
+--gold:#C8A96A;
+--gold-dark:#A88445;
+--black:#050505;
+--dark:#111111;
+--light-dark:#1b1b1b;
+--white:#ffffff;
+--gray:#b8b8b8;
+
+--transition:.4s ease;
+
+--shadow:0 20px 50px rgba(0,0,0,.35);
+
+}
+
+/*=============== RESET ===============*/
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+
+font-family:'Inter',sans-serif;
+
+background:var(--black);
+
+color:var(--white);
+
+overflow-x:hidden;
+
+line-height:1.7;
+
+}
+
+img{
+
+display:block;
+
+max-width:100%;
+
+}
+
+a{
+
+text-decoration:none;
+
+color:inherit;
+
+}
+
+ul{
+
+list-style:none;
+
+}
+
+.container{
+
+width:90%;
+
+max-width:1280px;
+
+margin:auto;
+
+}
+
+/*=============== SCROLLBAR ===============*/
+
+::-webkit-scrollbar{
+
+width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+background:#0b0b0b;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:var(--gold);
+
+border-radius:30px;
+
+}
+
+/*=============== SECTION ===============*/
+
+section{
+
+padding:110px 0;
+
+}
+
+.section-header{
+
+text-align:center;
+
+margin-bottom:70px;
+
+}
+
+.section-header span{
+
+display:block;
+
+letter-spacing:4px;
+
+color:var(--gold);
+
+font-size:13px;
+
+text-transform:uppercase;
+
+margin-bottom:12px;
+
+}
+
+.section-header h2{
+
+font-size:52px;
+
+font-family:'Cormorant Garamond',serif;
+
+margin-bottom:18px;
+
+}
+
+.section-header p{
+
+color:var(--gray);
+
+max-width:760px;
+
+margin:auto;
+
+}
+
+/*=============== HEADER ===============*/
+
+.header{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+z-index:999;
+
+background:rgba(5,5,5,.85);
+
+backdrop-filter:blur(15px);
+
+border-bottom:1px solid rgba(255,255,255,.06);
+
+}
+
+.navbar{
+
+height:82px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+
+.logo{
+
+font-size:36px;
+
+font-family:'Cormorant Garamond',serif;
+
+font-weight:700;
+
+}
+
+.logo span{
+
+color:var(--gold);
+
+}
+
+.nav-menu{
+
+display:flex;
+
+gap:38px;
+
+}
+
+.nav-menu a{
+
+font-size:15px;
+
+font-weight:500;
+
+transition:var(--transition);
+
+}
+
+.nav-menu a:hover{
+
+color:var(--gold);
+
+}
+
+.nav-right{
+
+display:flex;
+
+gap:20px;
+
+font-size:20px;
+
+cursor:pointer;
+
+}
+
+.nav-right button{
+
+background:none;
+
+border:none;
+
+color:#fff;
+
+cursor:pointer;
+
+font-size:20px;
+
+transition:.3s;
+
+}
+
+.nav-right button:hover{
+
+color:var(--gold);
+
+}
+
+/*=============== HERO ===============*/
+
+.hero{
+
+padding-top:180px;
+
+padding-bottom:120px;
+
+}
+
+.hero-container{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+align-items:center;
+
+gap:70px;
+
+}
+
+.hero-tag{
+
+display:inline-block;
+
+padding:8px 18px;
+
+border:1px solid rgba(200,169,106,.4);
+
+border-radius:50px;
+
+color:var(--gold);
+
+font-size:13px;
+
+letter-spacing:3px;
+
+margin-bottom:25px;
+
+}
+
+.hero h1{
+
+font-family:'Cormorant Garamond',serif;
+
+font-size:74px;
+
+line-height:1.05;
+
+margin-bottom:25px;
+
+}
+
+.hero p{
+
+font-size:18px;
+
+color:var(--gray);
+
+margin-bottom:35px;
+
+max-width:560px;
+
+}
+
+.hero-buttons{
+
+display:flex;
+
+gap:18px;
+
+margin-bottom:50px;
+
+}
+
+.primary-btn{
+
+background:var(--gold);
+
+color:#000;
+
+padding:16px 38px;
+
+border-radius:40px;
+
+font-weight:600;
+
+transition:var(--transition);
+
+}
+
+.primary-btn:hover{
+
+transform:translateY(-5px);
+
+background:#d9b97a;
+
+}
+
+.secondary-btn{
+
+border:2px solid var(--gold);
+
+padding:16px 38px;
+
+border-radius:40px;
+
+transition:var(--transition);
+
+}
+
+.secondary-btn:hover{
+
+background:var(--gold);
+
+color:#000;
+
+}
+
+.hero-stats{
+
+display:flex;
+
+gap:50px;
+
+margin-top:30px;
+
+}
+
+.hero-stats h2{
+
+font-size:42px;
+
+font-family:'Cormorant Garamond',serif;
+
+color:var(--gold);
+
+}
+
+.hero-stats span{
+
+color:var(--gray);
+
+font-size:15px;
+
+}
+
+.hero-image{
+
+display:flex;
+
+justify-content:center;
+
+}
+
+.hero-image img{
+
+max-width:520px;
+
+animation:floatWatch 6s ease-in-out infinite;
+
+filter:drop-shadow(0 30px 60px rgba(0,0,0,.6));
+
+}
+
+/*=============== FLOAT ANIMATION ===============*/
+
+@keyframes floatWatch{
+
+0%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-18px);
+
+}
+
+100%{
+
+transform:translateY(0);
+
+}
+
+}
+/*=========================================
+COLLECTION SECTION
+=========================================*/
+
+.collections{
+    background:#080808;
+}
+
+.collection-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:30px;
+}
+
+.collection-card{
+    position:relative;
+    overflow:hidden;
+    border-radius:18px;
+    cursor:pointer;
+    height:420px;
+    background:#111;
+    box-shadow:var(--shadow);
+}
+
+.collection-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.7s ease;
+}
+
+.collection-card:hover img{
+    transform:scale(1.1);
+}
+
+.collection-card .overlay{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    padding:35px;
+    background:linear-gradient(to top,
+        rgba(0,0,0,.92),
+        rgba(0,0,0,.1));
+}
+
+.collection-card h3{
+    font-family:'Cormorant Garamond',serif;
+    font-size:34px;
+    margin-bottom:15px;
+}
+
+.collection-card a{
+    color:var(--gold);
+    font-weight:600;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    transition:.4s;
+}
+
+.collection-card a:hover{
+    letter-spacing:1px;
+}
+
+/*=========================================
+FEATURED WATCHES
+=========================================*/
+
+.featured-watches{
+    background:var(--black);
+}
+
+.watch-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:35px;
+
+}
+
+.watch-card{
+
+    background:var(--dark);
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    transition:.45s;
+
+    box-shadow:var(--shadow);
+
+}
+
+.watch-card:hover{
+
+    transform:translateY(-12px);
+
+}
+
+.watch-image{
+
+    background:#0d0d0d;
+
+    padding:40px;
+
+}
+
+.watch-image img{
+
+    width:100%;
+
+    transition:.5s;
+
+}
+
+.watch-card:hover img{
+
+    transform:scale(1.08);
+
+}
+
+.watch-details{
+
+    padding:30px;
+
+}
+
+.watch-details span{
+
+    color:var(--gold);
+
+    text-transform:uppercase;
+
+    font-size:13px;
+
+    letter-spacing:2px;
+
+}
+
+.watch-details h3{
+
+    font-family:'Cormorant Garamond',serif;
+
+    font-size:34px;
+
+    margin:14px 0;
+
+}
+
+.watch-details h4{
+
+    font-size:26px;
+
+    margin-bottom:25px;
+
+    color:#fff;
+
+}
+
+.watch-btn{
+
+    display:inline-block;
+
+    width:100%;
+
+    text-align:center;
+
+    background:var(--gold);
+
+    color:#000;
+
+    padding:16px;
+
+    border-radius:40px;
+
+    font-weight:700;
+
+    transition:.4s;
+
+}
+
+.watch-btn:hover{
+
+    background:#d8b97c;
+
+    transform:translateY(-3px);
+
+}
+
+/*=========================================
+HOVER GLOW
+=========================================*/
+
+.watch-card:hover{
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.5),
+    0 0 30px rgba(200,169,106,.18);
+
+}
+
+.collection-card:hover{
+
+    box-shadow:
+    0 20px 60px rgba(0,0,0,.55),
+    0 0 35px rgba(200,169,106,.18);
+
+  }
+/*=========================================
+WHY CHOOSE US
+=========================================*/
+
+.why-us{
+    background:#080808;
+}
+
+.features-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:30px;
+}
+
+.feature-card{
+    background:var(--dark);
+    padding:45px 30px;
+    text-align:center;
+    border-radius:18px;
+    transition:var(--transition);
+    border:1px solid rgba(255,255,255,.05);
+}
+
+.feature-card:hover{
+    transform:translateY(-12px);
+    border-color:rgba(200,169,106,.4);
+    box-shadow:0 20px 40px rgba(0,0,0,.45);
+}
+
+.feature-card i{
+    font-size:48px;
+    color:var(--gold);
+    margin-bottom:25px;
+}
+
+.feature-card h3{
+    font-family:'Cormorant Garamond',serif;
+    font-size:30px;
+    margin-bottom:15px;
+}
+
+.feature-card p{
+    color:var(--gray);
+    font-size:15px;
+}
+
+/*=========================================
+PREMIUM BRANDS
+=========================================*/
+
+.brands{
+    background:#050505;
+}
+
+.brands-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+}
+
+.brands-grid div{
+    background:var(--dark);
+    padding:40px 20px;
+    text-align:center;
+    border-radius:16px;
+    font-family:'Cormorant Garamond',serif;
+    font-size:28px;
+    letter-spacing:2px;
+    transition:var(--transition);
+    border:1px solid rgba(255,255,255,.05);
+}
+
+.brands-grid div:hover{
+    color:var(--gold);
+    border-color:var(--gold);
+    transform:translateY(-8px);
+}
+
+/*=========================================
+NEWSLETTER
+=========================================*/
+
+.newsletter{
+    background:linear-gradient(135deg,#0d0d0d,#1a1a1a);
+    text-align:center;
+}
+
+.newsletter h2{
+    font-size:54px;
+    font-family:'Cormorant Garamond',serif;
+    margin-bottom:20px;
+}
+
+.newsletter p{
+    color:var(--gray);
+    max-width:700px;
+    margin:0 auto 40px;
+}
+
+.newsletter-form{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.newsletter-form input{
+    width:420px;
+    max-width:100%;
+    padding:18px 22px;
+    border:none;
+    border-radius:50px;
+    background:#151515;
+    color:#fff;
+    outline:none;
+}
+
+.newsletter-form button{
+    padding:18px 38px;
+    border:none;
+    border-radius:50px;
+    background:var(--gold);
+    color:#000;
+    font-weight:700;
+    cursor:pointer;
+    transition:var(--transition);
+}
+
+.newsletter-form button:hover{
+    transform:translateY(-4px);
+    background:#d9b97a;
+}
+
+/*=========================================
+FOOTER
+=========================================*/
+
+.footer{
+    background:#030303;
+    padding:80px 0 30px;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+.footer-content{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:60px;
+    margin-bottom:50px;
+}
+
+.footer h2,
+.footer h3{
+    font-family:'Cormorant Garamond',serif;
+    margin-bottom:20px;
+}
+
+.footer p{
+    color:var(--gray);
+    line-height:1.8;
+}
+
+.footer a{
+    display:block;
+    margin-bottom:12px;
+    color:var(--gray);
+    transition:var(--transition);
+}
+
+.footer a:hover{
+    color:var(--gold);
+    padding-left:6px;
+}
+
+.copyright{
+    text-align:center;
+    color:#777;
+    padding-top:25px;
+    border-top:1px solid rgba(255,255,255,.06);
+    font-size:14px;
+}
+/*=========================================
+FLOATING WHATSAPP BUTTON
+=========================================*/
+
+.whatsapp-float{
+
+position:fixed;
+
+right:25px;
+
+bottom:25px;
+
+width:62px;
+
+height:62px;
+
+border-radius:50%;
+
+background:#25D366;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:30px;
+
+color:#fff;
+
+box-shadow:0 15px 35px rgba(37,211,102,.35);
+
+z-index:999;
+
+transition:var(--transition);
+
+animation:whatsappFloat 2.5s ease-in-out infinite;
+
+}
+
+.whatsapp-float:hover{
+
+transform:translateY(-8px) scale(1.08);
+
+box-shadow:0 20px 45px rgba(37,211,102,.45);
+
+}
+
+@keyframes whatsappFloat{
+
+0%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-8px);
+
+}
+
+100%{
+
+transform:translateY(0);
+
+}
+
+}
+
+/*=========================================
+BACK TO TOP BUTTON
+=========================================*/
+
+.scroll-top{
+
+position:fixed;
+
+left:25px;
+
+bottom:25px;
+
+width:55px;
+
+height:55px;
+
+border-radius:50%;
+
+background:var(--gold);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+color:#000;
+
+font-size:22px;
+
+cursor:pointer;
+
+opacity:0;
+
+visibility:hidden;
+
+transition:.4s;
+
+z-index:999;
+
+}
+
+.scroll-top.active{
+
+opacity:1;
+
+visibility:visible;
+
+}
+
+.scroll-top:hover{
+
+transform:translateY(-6px);
+
+}
+
+/*=========================================
+FADE ANIMATION
+=========================================*/
+
+.fade-up{
+
+opacity:0;
+
+transform:translateY(50px);
+
+transition:all .8s ease;
+
+}
+
+.fade-up.show{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+/*=========================================
+BUTTON EFFECTS
+=========================================*/
+
+.primary-btn,
+.secondary-btn,
+.watch-btn,
+.newsletter-form button{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.primary-btn::before,
+.secondary-btn::before,
+.watch-btn::before,
+.newsletter-form button::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:-120%;
+
+width:100%;
+
+height:100%;
+
+background:rgba(255,255,255,.25);
+
+transform:skewX(-30deg);
+
+transition:.7s;
+
+}
+
+.primary-btn:hover::before,
+.secondary-btn:hover::before,
+.watch-btn:hover::before,
+.newsletter-form button:hover::before{
+
+left:130%;
+
+}
+
+/*=========================================
+TEXT SELECTION
+=========================================*/
+
+::selection{
+
+background:var(--gold);
+
+color:#000;
+
+}
+
+/*=========================================
+SMOOTH IMAGE EFFECT
+=========================================*/
+
+img{
+
+transition:.5s ease;
+
+}
+
+/*=========================================
+GENERAL CARD EFFECT
+=========================================*/
+
+.watch-card,
+.collection-card,
+.feature-card,
+.brands-grid div{
+
+will-change:transform;
+
+}
+
+/*=========================================
+PREMIUM DIVIDER
+=========================================*/
+
+.section-header::after{
+
+content:"";
+
+display:block;
+
+width:80px;
+
+height:3px;
+
+background:var(--gold);
+
+margin:22px auto 0;
+
+border-radius:30px;
+
+}
+
+/*=========================================
+END OF STYLE.CSS
+=========================================*/
