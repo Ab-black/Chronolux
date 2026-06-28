@@ -142,7 +142,35 @@ section{
     max-width:320px;
     margin:auto;
 }
+/*==============================
+MOBILE NAVIGATION
+==============================*/
 
+.navbar{
+    height:70px;
+}
+
+.logo{
+    font-size:32px;
+}
+
+.nav-menu{
+    display:none;
+}
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.menu-btn{
+    display:block;
+}
+
+.search-btn{
+    display:block;
+}
 /* Collections */
 
 .collection-grid{
