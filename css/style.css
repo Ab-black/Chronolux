@@ -1099,7 +1099,102 @@ margin:22px auto 0;
 border-radius:30px;
 
 }
+.reveal {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 0.8s ease;
+}
 
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* ===============================
+   HERO SECTION - CINEMATIC LUXURY
+================================= */
+
+.hero {
+    height: 100vh;
+    background: url('your-hero-image.jpg') center/cover no-repeat;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.hero-content h1 {
+    font-size: 70px;
+    letter-spacing: 4px;
+    margin-bottom: 15px;
+    animation: fadeDown 1.2s ease;
+}
+
+.hero-content p {
+    font-size: 20px;
+    opacity: 0.85;
+    margin-bottom: 30px;
+    animation: fadeUp 1.5s ease;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s ease;
+}
+
+.btn.primary {
+    background: gold;
+    color: #000;
+}
+
+.btn.primary:hover {
+    transform: scale(1.05);
+}
+
+.btn.secondary {
+    border: 1px solid #fff;
+    color: #fff;
+}
+
+.btn.secondary:hover {
+    background: #fff;
+    color: #000;
+}
+
+@keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 /*=========================================
 END OF STYLE.CSS
 =========================================*/
