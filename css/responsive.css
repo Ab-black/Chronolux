@@ -155,7 +155,7 @@ MOBILE NAVIGATION
 }
 
 .nav-menu{
-    display:none;
+    display:none !important;
 }
 
 .nav-right{
