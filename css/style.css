@@ -419,45 +419,7 @@ color:var(--gold);
     border-radius:8px;
     font-weight:600;
     text-decoration:none;
-    transition:.3s;
-}
-
-.primary-btn:hover{
-    transform:translateY(-4px);
-    background:#d9b97a;
-}
-
-@media (max-width:768px){
-
-.hero{
-    padding:140px 20px 80px;
-    text-align:center;
-
-    background-position:center bottom;
-    background-size:70%;
-}
-
-.hero-container{
-    justify-content:center;
-}
-
-.hero-content{
-    max-width:100%;
-}
-
-.hero h1{
-    font-size:3rem;
-}
-
-.hero p{
-    margin:0 auto 35px;
-}
-
-.hero-buttons{
-    justify-content:center;
-}
-
-}
+https://github.com/Ab-black/Chronolux/blob/main/css/style.css
 /*============== FLOAT ANIMATION ===============*/
 
 @keyframes floatWatch{
