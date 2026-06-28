@@ -101,3 +101,37 @@ document.querySelectorAll(".nav-menu a").forEach(link => {
     });
 
 });
+/*==============================
+RESPONSIVE NAVIGATION
+==============================*/
+
+const menuBtn = document.querySelector(".menu-btn");
+const navMenu = document.querySelector(".nav-menu");
+const menuIcon = menuBtn.querySelector("i");
+
+menuBtn.addEventListener("click", () => {
+
+    navMenu.classList.toggle("show-menu");
+
+    if(navMenu.classList.contains("show-menu")){
+        menuIcon.classList.remove("fa-bars");
+        menuIcon.classList.add("fa-times");
+    }else{
+        menuIcon.classList.remove("fa-times");
+        menuIcon.classList.add("fa-bars");
+    }
+
+});
+
+document.querySelectorAll(".nav-menu a").forEach(link => {
+
+    link.addEventListener("click", () => {
+
+        navMenu.classList.remove("show-menu");
+
+        menuIcon.classList.remove("fa-times");
+        menuIcon.classList.add("fa-bars");
+
+    });
+
+});
