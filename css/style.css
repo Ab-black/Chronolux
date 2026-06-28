@@ -343,56 +343,98 @@ color:var(--gold);
     align-items:center;
     background:linear-gradient(90deg,#050505 35%,#111 100%);
 }
-
-.hero-watch{
-    position:absolute;
-    right:-80px;
-    top:50%;
-    transform:translateY(-50%);
-    width:48%;
-    max-width:650px;
-    opacity:.95;
-    pointer-events:none;
 /*=============== HERO ===============*/
 
 .hero{
     min-height:100vh;
     display:flex;
     align-items:center;
+    padding:120px 0 80px;
     position:relative;
     overflow:hidden;
-    padding:120px 0 80px;
-    background:linear-gradient(90deg,#050505 35%,#111 100%);
+
+    background-image:
+        linear-gradient(
+            to right,
+            rgba(5,5,5,.96) 0%,
+            rgba(5,5,5,.90) 45%,
+            rgba(5,5,5,.60) 70%,
+            rgba(5,5,5,.95) 100%
+        ),
+        url("../images/watches/watch.png");
+
+    background-repeat:no-repeat;
+    background-position:right center;
+    background-size:42%;
 }
 
 .hero-container{
     width:90%;
-    max-width:1400px;
+    max-width:1300px;
     margin:auto;
-    position:relative;
-    z-index:2;
     display:flex;
     align-items:center;
 }
 
-.hero-watch{
-    position:absolute;
-    right:-80px;
-    top:50%;
-    transform:translateY(-50%);
-    width:48%;
-    max-width:650px;
-    opacity:.9;
-    pointer-events:none;
-    filter:drop-shadow(0 40px 80px rgba(0,0,0,.8));
-    animation:floatWatch 6s ease-in-out infinite;
+.hero-content{
+    max-width:620px;
+}
+
+.hero-tag{
+    display:inline-block;
+    color:var(--gold);
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:5rem;
+    line-height:1.05;
+    margin-bottom:25px;
+}
+
+.hero p{
+    font-size:18px;
+    line-height:1.8;
+    color:var(--gray);
+    max-width:550px;
+    margin-bottom:40px;
+}
+
+.hero-buttons{
+    display:flex;
+}
+
+.primary-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:16px 40px;
+    background:var(--gold);
+    color:#111;
+    border-radius:8px;
+    font-weight:600;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.primary-btn:hover{
+    transform:translateY(-4px);
+    background:#d9b97a;
 }
 
 @media (max-width:768px){
 
 .hero{
-    text-align:center;
     padding:140px 20px 80px;
+    text-align:center;
+
+    background-position:center bottom;
+    background-size:70%;
 }
 
 .hero-container{
@@ -400,15 +442,7 @@ color:var(--gold);
 }
 
 .hero-content{
-    align-items:center;
-}
-
-.hero-watch{
-    width:90%;
-    right:50%;
-    top:70%;
-    transform:translate(50%,-50%);
-    opacity:.12;
+    max-width:100%;
 }
 
 .hero h1{
@@ -416,7 +450,7 @@ color:var(--gold);
 }
 
 .hero p{
-    margin:auto;
+    margin:0 auto 35px;
 }
 
 .hero-buttons{
