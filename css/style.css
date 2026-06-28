@@ -1103,12 +1103,21 @@ border-radius:30px;
 /*=========================================
 END OF STYLE.CSS
 =========================================*/
+.menu-btn{
+    display:none;
+}
 /*==============================
 MOBILE MENU
 ==============================*/
 
 @media (max-width:768px){
+.menu-btn{
+    display:block;
+}
 
+.search-btn{
+    display:block;
+}
 .nav-menu{
 
     position:fixed;
