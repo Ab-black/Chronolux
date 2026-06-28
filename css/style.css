@@ -1176,61 +1176,49 @@ MOBILE MENU
 ==============================*/
 
 @media (max-width:768px){
+
 .menu-btn{
     display:block;
 }
 
-.search-btn{
-    display:block;
-}
 .nav-menu{
-
     position:fixed;
-
     top:82px;
-
     right:-100%;
-
     width:280px;
-
     height:calc(100vh - 82px);
-
     background:#0b0b0b;
-
     display:flex;
-
     flex-direction:column;
-
     align-items:flex-start;
-
-    padding:45px 30px;
-
-    gap:30px;
-
-    transition:.4s ease;
-
-    border-left:1px solid rgba(255,255,255,.08);
-
+    padding:40px 30px;
+    gap:25px;
+    transition:.4s;
     z-index:999;
-
 }
 
 .nav-menu.show-menu{
-
     right:0;
+}
 
+.nav-menu li{
+    width:100%;
 }
 
 .nav-menu a{
-
-    font-size:18px;
-
+    display:block;
     width:100%;
-
-    padding-bottom:12px;
-
-    border-bottom:1px solid rgba(255,255,255,.08);
-
+    padding:15px 0;
+    border-bottom:1px solid rgba(255,255,255,.1);
 }
 
+.search-btn{
+    display:none;
+}
+}
+
+@media (min-width:769px){
+.menu-btn{
+    display:none;
+}
 }
