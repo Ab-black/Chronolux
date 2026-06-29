@@ -155,20 +155,25 @@ MOBILE NAVIGATION
 }
 
 .nav-menu{
-    display:none !important;
+    position:fixed;
+    top:70px;
+    right:-100%;
+    width:280px;
+    height:calc(100vh - 70px);
+    background:#0b0b0b;
+    display:flex;
+    flex-direction:column;
+    padding:30px;
+    gap:20px;
+    transition:.4s;
+    z-index:999;
 }
 
-.nav-right{
-    display:flex;
-    align-items:center;
-    gap:18px;
+.nav-menu.show-menu{
+    right:0;
 }
 
 .menu-btn{
-    display:block;
-}
-
-.search-btn{
     display:block;
 }
 /* Collections */
