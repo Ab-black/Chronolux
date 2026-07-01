@@ -1224,22 +1224,21 @@ MOBILE MENU
 }
 .watch-price{
     display:flex;
-    align-items:center;
-    gap:14px;
+    align-items:flex-end;
+    gap:12px;
     margin-bottom:25px;
-    font-family:'Inter', sans-serif;
 }
 
 .old-price{
+    font-size:18px;
     color:#777;
     text-decoration:line-through;
-    font-size:30px;
     font-weight:500;
 }
 
 .new-price{
-    color:var(--gold);
-    font-size:75px;   /* 2× the old price */
+    font-size:36px;   /* Exactly 2× the old price */
     font-weight:700;
+    color:var(--gold);
     line-height:1;
 }
