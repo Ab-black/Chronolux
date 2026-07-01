@@ -1222,3 +1222,22 @@ MOBILE MENU
     display:none;
 }
 }
+.watch-price{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.old-price{
+    color:#888;
+    text-decoration:line-through;
+    font-size:18px;
+    font-weight:500;
+}
+
+.new-price{
+    color:var(--gold);
+    font-size:28px;
+    font-weight:700;
+}
