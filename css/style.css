@@ -1233,13 +1233,13 @@ MOBILE MENU
 .old-price{
     color:#777;
     text-decoration:line-through;
-    font-size:18px;
+    font-size:30px;
     font-weight:500;
 }
 
 .new-price{
-    color:#fff;
-    font-size:36px;   /* 2× the old price */
+    color:var(--gold);
+    font-size:75px;   /* 2× the old price */
     font-weight:700;
     line-height:1;
 }
