@@ -1249,11 +1249,12 @@ PRODUCT PAGE
 .product-page{
     padding:170px 0 100px;
     background:#050505;
+    min-height:100vh;
 }
 
 .breadcrumb{
     margin-bottom:50px;
-    color:#999;
+    color:#888;
     font-size:15px;
 }
 
@@ -1276,12 +1277,16 @@ PRODUCT PAGE
 .product-image{
     background:#111;
     border-radius:25px;
-    padding:50px;
+    padding:60px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
     box-shadow:var(--shadow);
 }
 
 .product-image img{
     width:100%;
+    max-width:500px;
     transition:.5s;
 }
 
@@ -1300,8 +1305,9 @@ PRODUCT PAGE
 
 .product-details h1{
     font-family:'Cormorant Garamond',serif;
-    font-size:60px;
-    margin-bottom:25px;
+    font-size:64px;
+    margin-bottom:20px;
+    line-height:1.1;
 }
 
 .product-description{
@@ -1310,6 +1316,31 @@ PRODUCT PAGE
     line-height:1.9;
     margin:35px 0;
 }
+
+/* Price */
+
+.watch-price{
+    display:flex;
+    align-items:flex-end;
+    gap:18px;
+    margin:30px 0;
+}
+
+.old-price{
+    color:#777;
+    text-decoration:line-through;
+    font-size:24px;
+    font-weight:500;
+}
+
+.new-price{
+    color:var(--gold);
+    font-size:48px;
+    font-weight:700;
+    line-height:1;
+}
+
+/* Specifications */
 
 .specifications{
     margin:40px 0;
@@ -1329,13 +1360,110 @@ PRODUCT PAGE
     list-style:none;
     padding:14px 0;
     border-bottom:1px solid rgba(255,255,255,.08);
+    color:#ddd;
 }
 
 .specifications strong{
     color:var(--gold);
+    display:inline-block;
+    width:170px;
 }
 
 .product-details .watch-btn{
     display:inline-block;
     margin-top:20px;
+    padding:18px 45px;
+}
+
+/* Hover Card */
+
+.product-image:hover{
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.55),
+        0 0 35px rgba(200,169,106,.18);
+}
+
+/*=========================================
+PRODUCT RESPONSIVE
+=========================================*/
+
+@media(max-width:992px){
+
+.product-container{
+    grid-template-columns:1fr;
+    gap:60px;
+}
+
+.product-details{
+    text-align:center;
+}
+
+.product-details h1{
+    font-size:52px;
+}
+
+.watch-price{
+    justify-content:center;
+}
+
+.specifications{
+    text-align:left;
+}
+
+.product-image{
+    padding:40px;
+}
+
+}
+
+@media(max-width:768px){
+
+.product-page{
+    padding:130px 0 80px;
+}
+
+.product-details h1{
+    font-size:42px;
+}
+
+.new-price{
+    font-size:38px;
+}
+
+.old-price{
+    font-size:20px;
+}
+
+.product-image{
+    padding:30px;
+}
+
+.specifications strong{
+    width:120px;
+}
+
+}
+
+@media(max-width:480px){
+
+.product-details h1{
+    font-size:34px;
+}
+
+.product-description{
+    font-size:16px;
+}
+
+.new-price{
+    font-size:32px;
+}
+
+.old-price{
+    font-size:18px;
+}
+
+.product-image{
+    padding:20px;
+}
+
 }
