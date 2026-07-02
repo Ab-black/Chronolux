@@ -256,5 +256,16 @@ SMALL PHONES
 .brands-grid{
     grid-template-columns:1fr;
 }
+.product-container{
+    grid-template-columns:1fr;
+    gap:50px;
+}
 
+.product-details{
+    text-align:center;
+}
+
+.product-details .watch-btn{
+    width:100%;
+}
 }
