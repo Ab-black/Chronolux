@@ -162,3 +162,8 @@ Could you please let me know if it's still available?`;
     window.open(whatsappURL, "_blank");
 
 });
+window.open(whatsappURL, "_blank");
+
+});
+
+}
