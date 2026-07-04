@@ -40,6 +40,9 @@ const whatsappNumber = "2349039450751";
 
 document.querySelectorAll(".watch-btn").forEach(button => {
 
+    // Skip buttons that don't have data attributes
+    if (!button.dataset.brand) return;
+
     button.addEventListener("click", function(e){
 
         e.preventDefault();
