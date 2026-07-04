@@ -135,16 +135,30 @@ if (watchID && watches[watchID]) {
         specList.innerHTML += `<li><strong>${key}:</strong> ${watch.specs[key]}</li>`;
     }
 
-    // WhatsApp Button
-    const button = document.querySelector(".watch-btn");
+   // WhatsApp Button
+const button = document.querySelector("#whatsapp-btn");
 
-    button.href =
-        `https://wa.me/2349039450751?text=${encodeURIComponent(
+button.addEventListener("click", function (e) {
+
+    e.preventDefault();
+
+    const message =
 `Hello ChronoLux,
 
-I'm interested in the ${watch.brand} ${watch.model}.
+I'm interested in the following watch.
+
+Brand: ${watch.brand}
+Model: ${watch.model}
+Price: ${watch.newPrice}
 
 Product Link:
-https://ab-black.github.io/Chronolux/product.html?watch=${watchID}`
-        )}`;
-}
+https://ab-black.github.io/Chronolux/product.html?watch=${watchID}
+
+Could you please let me know if it's still available?`;
+
+    const whatsappURL =
+`https://wa.me/2349039450751?text=${encodeURIComponent(message)}`;
+
+    window.open(whatsappURL, "_blank");
+
+});
