@@ -1,1 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ChronoLux Admin</title>
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Admin CSS -->
+
+    <link rel="stylesheet" href="css/admin.css">
+
+</head>
+
+<body>
+
+<div class="admin-container">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+
+            <h2>Chrono<span>Lux</span></h2>
+
+            <p>Luxury Admin</p>
+
+        </div>
+
+        <ul class="sidebar-menu">
+
+            <li class="active" data-page="dashboard">
+                <i class="fas fa-chart-line"></i>
+                Dashboard
+            </li>
+
+            <li data-page="watches">
+                <i class="fas fa-clock"></i>
+                Watches
+            </li>
+
+            <li data-page="add-watch">
+                <i class="fas fa-plus-circle"></i>
+                Add Watch
+            </li>
+
+            <li data-page="messages">
+                <i class="fas fa-envelope"></i>
+                Messages
+            </li>
+
+            <li data-page="featured">
+                <i class="fas fa-star"></i>
+                Featured
+            </li>
+
+            <li data-page="settings">
+                <i class="fas fa-cog"></i>
+                Settings
+            </li>
+
+        </ul>
+
+        <div class="sidebar-footer">
+
+            <a href="admin-login.html">
+
+                <i class="fas fa-sign-out-alt"></i>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </aside>
+
+    <!-- Main Area -->
+
+    <main class="admin-main">
+
+        <!-- Header -->
+
+        <header class="admin-header">
+
+            <div>
+
+                <h1>Dashboard</h1>
+
+                <p>Welcome back, Administrator</p>
+
+            </div>
+
+            <div class="admin-user">
+
+                <i class="fas fa-user-circle"></i>
+
+                <span>Admin</span>
+
+            </div>
+
+        </header>
+
+        <!-- Dashboard Section -->
+
+        <section class="dashboard-section">
+
+            <div class="dashboard-cards">
+
+                <div class="card">
+
+                    <h3>Total Watches</h3>
+
+                    <h2>22</h2>
+
+                    <p>Inventory</p>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>Brands</h3>
+
+                    <h2>6</h2>
+
+                    <p>Luxury Brands</p>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>Featured</h3>
+
+                    <h2>3</h2>
+
+                    <p>Homepage</p>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>Requests</h3>
+
+                    <h2>0</h2>
+
+                    <p>Waiting</p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="js/admin.js"></script>
+
+</body>
+
+</html>
