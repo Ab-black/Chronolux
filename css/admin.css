@@ -1,1 +1,219 @@
+/* ==========================================
+   CHRONOLUX ADMIN
+========================================== */
 
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:'Inter',sans-serif;
+
+    background:#0b0b0b;
+
+    color:#fff;
+
+}
+
+/* Layout */
+
+.admin-container{
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+/* Sidebar */
+
+.sidebar{
+
+    width:270px;
+
+    background:#111;
+
+    border-right:1px solid rgba(212,175,55,.15);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    position:fixed;
+
+    left:0;
+
+    top:0;
+
+    bottom:0;
+
+}
+
+.sidebar-logo{
+
+    padding:35px 30px;
+
+    border-bottom:1px solid rgba(212,175,55,.15);
+
+}
+
+.sidebar-logo h2{
+
+    font-family:'Cormorant Garamond',serif;
+
+    font-size:34px;
+
+    color:#fff;
+
+}
+
+.sidebar-logo span{
+
+    color:#d4af37;
+
+}
+
+.sidebar-logo p{
+
+    color:#888;
+
+    margin-top:8px;
+
+    font-size:14px;
+
+}
+/* Menu */
+
+.sidebar-menu{
+
+    list-style:none;
+
+    padding:25px 0;
+
+}
+
+.sidebar-menu li{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:18px 30px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    font-size:15px;
+
+}
+
+.sidebar-menu li:hover{
+
+    background:#1d1d1d;
+
+    color:#d4af37;
+
+}
+
+.sidebar-menu li.active{
+
+    background:#d4af37;
+
+    color:#111;
+
+    font-weight:600;
+
+}
+
+.sidebar-footer{
+
+    padding:30px;
+
+    border-top:1px solid rgba(212,175,55,.15);
+
+}
+
+.sidebar-footer a{
+
+    color:#ccc;
+
+    text-decoration:none;
+
+}
+
+.sidebar-footer a:hover{
+
+    color:#d4af37;
+
+}
+/* Main */
+
+.admin-main{
+
+    margin-left:270px;
+
+    width:calc(100% - 270px);
+
+}
+
+/* Header */
+
+.admin-header{
+
+    height:90px;
+
+    padding:0 45px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:1px solid rgba(212,175,55,.15);
+
+    background:#111;
+
+}
+
+.admin-header h1{
+
+    font-size:32px;
+
+    font-family:'Cormorant Garamond',serif;
+
+}
+
+.admin-header p{
+
+    color:#999;
+
+    margin-top:6px;
+
+}
+
+.admin-user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.admin-user i{
+
+    font-size:30px;
+
+    color:#d4af37;
+
+}
