@@ -120,53 +120,130 @@
 
         <!-- Dashboard Section -->
 
-        <section class="dashboard-section">
+<section id="watches" class="page">
 
-            <div class="dashboard-cards">
+    <div class="page-header">
 
-                <div class="card">
+        <div>
 
-                    <h3>Total Watches</h3>
+            <h2>Watch Inventory</h2>
 
-                    <h2>22</h2>
+            <p>Manage every luxury watch in your collection.</p>
 
-                    <p>Inventory</p>
+        </div>
 
-                </div>
+        <button class="add-watch-btn">
 
-                <div class="card">
+            <i class="fas fa-plus"></i>
 
-                    <h3>Brands</h3>
+            Add Watch
 
-                    <h2>6</h2>
+        </button>
 
-                    <p>Luxury Brands</p>
+    </div>
 
-                </div>
+    <div class="inventory-toolbar">
 
-                <div class="card">
+        <input
+            type="text"
+            placeholder="Search watches..."
+            id="watch-search">
 
-                    <h3>Featured</h3>
+        <select id="brand-filter">
 
-                    <h2>3</h2>
+            <option>All Brands</option>
 
-                    <p>Homepage</p>
+            <option>Rolex</option>
 
-                </div>
+            <option>Patek Philippe</option>
 
-                <div class="card">
+            <option>Richard Mille</option>
 
-                    <h3>Requests</h3>
+            <option>Omega</option>
 
-                    <h2>0</h2>
+            <option>Cartier</option>
 
-                    <p>Waiting</p>
+            <option>Audemars Piguet</option>
 
-                </div>
+        </select>
 
-            </div>
+    </div>
 
-        </section>
+    <div class="table-wrapper">
+
+        <table class="watch-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Image</th>
+
+                    <th>Brand</th>
+
+                    <th>Model</th>
+
+                    <th>Price</th>
+
+                    <th>Status</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+
+                        <img src="images/watches/rolex/cosmograph-daytona.jpg">
+
+                    </td>
+
+                    <td>Rolex</td>
+
+                    <td>Cosmograph Daytona</td>
+
+                    <td>$18,500</td>
+
+                    <td>
+
+                        <span class="status featured">
+
+                            Featured
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <button class="table-btn edit">
+
+                            <i class="fas fa-edit"></i>
+
+                        </button>
+
+                        <button class="table-btn delete">
+
+                            <i class="fas fa-trash"></i>
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
 
     </main>
 
