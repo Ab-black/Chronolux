@@ -2,96 +2,7 @@
 WATCH DATABASE
 =========================================*/
 
-const watches = {
 
-    daytona: {
-
-        title: "Rolex Cosmograph Daytona",
-
-        brand: "Rolex",
-
-        model: "Cosmograph Daytona",
-
-        image: "images/watches/rolex/cosmograph-daytona.jpg",
-
-        oldPrice: "$19,500.00",
-
-        newPrice: "$18,500.00",
-
-        description:
-            "The Rolex Cosmograph Daytona is one of the world's most iconic luxury chronographs. Built for racing, admired by collectors, and celebrated for exceptional craftsmanship.",
-
-        specs: {
-            Brand: "Rolex",
-            Model: "Cosmograph Daytona",
-            Movement: "Automatic",
-            Case: "Oystersteel",
-            "Case Size": "40mm",
-            "Water Resistance": "100m",
-            Condition: "Brand New"
-        }
-
-    },
-
-    nautilus: {
-
-        title: "Patek Philippe Nautilus 5711",
-
-        brand: "Patek Philippe",
-
-        model: "Nautilus 5711",
-
-        image: "images/watches/patek-philippe/nautilus.jpg",
-
-        oldPrice: "$129,500.00",
-
-        newPrice: "$125,500.00",
-
-        description:
-            "The Patek Philippe Nautilus 5711 is one of the world's most sought-after luxury sports watches, admired for its iconic design and Swiss craftsmanship.",
-
-        specs: {
-            Brand: "Patek Philippe",
-            Model: "Nautilus 5711",
-            Movement: "Automatic",
-            Case: "Stainless Steel",
-            "Case Size": "40mm",
-            "Water Resistance": "120m",
-            Condition: "Brand New"
-        }
-
-    },
-
-    rm11: {
-
-        title: "Richard Mille RM 11-03",
-
-        brand: "Richard Mille",
-
-        model: "RM 11-03",
-
-        image: "images/watches/richard-mille/rm11-03.jpg",
-
-        oldPrice: "$302,000.00",
-
-        newPrice: "$299,000.00",
-
-        description:
-            "The Richard Mille RM 11-03 combines cutting-edge engineering with a bold modern design, making it one of the world's most recognizable luxury watches.",
-
-        specs: {
-            Brand: "Richard Mille",
-            Model: "RM 11-03",
-            Movement: "Automatic Flyback Chronograph",
-            Case: "Carbon TPT",
-            "Case Size": "50mm",
-            "Water Resistance": "50m",
-            Condition: "Brand New"
-        }
-
-    }
-
-};
 /*=========================================
 LOAD PRODUCT PAGE
 =========================================*/
@@ -99,12 +10,13 @@ LOAD PRODUCT PAGE
 const params = new URLSearchParams(window.location.search);
 const watchID = params.get("watch");
 
-if (watchID && watches[watchID]) {
+const watch = watchDatabase.find(item => item.id === watchID);
 
-    const watch = watches[watchID];
+if (watch) {
+
 
     // Page title
-    document.title = watch.title + " | ChronoLux";
+    document.title = watch.brand + " " + watch.model + " | ChronoLux";
 
     // Breadcrumb
     document.querySelector(".breadcrumb a:nth-of-type(2)").textContent = watch.brand;
