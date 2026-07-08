@@ -1,52 +1,47 @@
 /*=========================================
-ADMIN PANEL NAVIGATION
+CHRONOLUX ADMIN
 =========================================*/
 
-const menuItems = document.querySelectorAll(".sidebar-menu li");
+document.addEventListener("DOMContentLoaded", () => {
 
-const pages = document.querySelectorAll(".page");
+    const menuItems = document.querySelectorAll(".sidebar-menu li");
 
-const pageTitle = document.querySelector(".admin-header h1");
+    const pages = document.querySelectorAll(".page");
 
-menuItems.forEach(item => {
+    const pageTitle = document.getElementById("page-title");
 
-    item.addEventListener("click", () => {
+    menuItems.forEach(item => {
 
-        // Remove active menu
-        menuItems.forEach(menu => menu.classList.remove("active"));
+        item.addEventListener("click", () => {
 
-        item.classList.add("active");
+            // Remove active state
+            menuItems.forEach(menu => menu.classList.remove("active"));
 
-        // Hide all pages
-        pages.forEach(page => {
+            item.classList.add("active");
 
-            page.classList.remove("active-page");
+            // Hide all pages
+            pages.forEach(page => {
 
-            page.style.display = "none";
+                page.classList.remove("active-page");
+
+            });
+
+            // Show selected page
+            const pageID = item.dataset.page;
+
+            const selectedPage = document.getElementById(pageID);
+
+            if(selectedPage){
+
+                selectedPage.classList.add("active-page");
+
+            }
+
+            // Change page title
+            pageTitle.textContent = item.textContent.trim();
 
         });
-
-        // Show selected page
-        const target = item.dataset.page;
-
-        const activePage = document.getElementById(target);
-
-        if(activePage){
-
-            activePage.style.display = "block";
-
-            activePage.classList.add("active-page");
-
-        }
-
-        // Change header title
-        pageTitle.textContent = item.textContent.trim();
 
     });
 
 });
-
-// Hide all pages except Dashboard
-pages.forEach(page => page.style.display = "none");
-
-document.getElementById("dashboard").style.display = "block";
