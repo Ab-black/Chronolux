@@ -238,10 +238,142 @@
     </section>
 
     <!-- ================= ADD WATCH ================= -->
+<section id="add-watch" class="page">
 
-    <section id="add-watch" class="page">
+    <div class="page-header">
 
-    </section>
+        <div>
+
+            <h2>Add New Watch</h2>
+
+            <p>Add a luxury watch to your inventory.</p>
+
+        </div>
+
+    </div>
+
+    <form class="watch-form">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Brand</label>
+
+                <select id="brand">
+
+                    <option>Select Brand</option>
+
+                    <option>Rolex</option>
+
+                    <option>Patek Philippe</option>
+
+                    <option>Richard Mille</option>
+
+                    <option>Omega</option>
+
+                    <option>Audemars Piguet</option>
+
+                    <option>Cartier</option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Model</label>
+
+                <input
+                    type="text"
+                    id="model"
+                    placeholder="e.g. Cosmograph Daytona">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Old Price</label>
+
+                <input
+                    type="text"
+                    id="old-price"
+                    placeholder="$19,500">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>New Price</label>
+
+                <input
+                    type="text"
+                    id="new-price"
+                    placeholder="$18,500">
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Description</label>
+
+            <textarea
+                id="description"
+                rows="6"
+                placeholder="Watch description..."></textarea>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Main Image</label>
+
+            <input
+                type="file"
+                id="main-image"
+                accept="image/*">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Gallery Images</label>
+
+            <input
+                type="file"
+                id="gallery-images"
+                accept="image/*"
+                multiple>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    id="featured">
+
+                Featured Watch
+
+            </label>
+
+        </div>
+
+        <button type="submit" class="save-btn">
+
+            <i class="fas fa-save"></i>
+
+            Save Watch
+
+        </button>
+
+    </form>
+
+</section>
 
     <!-- ================= MESSAGES ================= -->
 
