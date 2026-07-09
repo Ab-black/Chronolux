@@ -45,3 +45,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+const watchForm = document.getElementById("watch-form");
+
+watchForm.addEventListener("submit", saveWatch);
+
+async function saveWatch(e) {
+
+    e.preventDefault();
+
+    alert("Supabase connected successfully!");
+
+}
