@@ -227,13 +227,13 @@
 
             <h2>Add New Watch</h2>
 
-            <p>Add a luxury watch to your inventory.</p>
+            <p>Create a new luxury watch listing.</p>
 
         </div>
 
     </div>
 
-    <form class="watch-form">
+    <form id="watch-form" class="watch-form">
 
         <div class="form-grid">
 
@@ -243,7 +243,7 @@
 
                 <select id="brand">
 
-                    <option>Select Brand</option>
+                    <option value="">Select Brand</option>
 
                     <option>Rolex</option>
 
@@ -278,7 +278,7 @@
 
                 <input
                     type="text"
-                    id="old-price"
+                    id="oldPrice"
                     placeholder="$19,500">
 
             </div>
@@ -289,7 +289,7 @@
 
                 <input
                     type="text"
-                    id="new-price"
+                    id="newPrice"
                     placeholder="$18,500">
 
             </div>
@@ -309,11 +309,11 @@
 
         <div class="form-group">
 
-            <label>Main Image</label>
+            <label>Main Watch Image</label>
 
             <input
                 type="file"
-                id="main-image"
+                id="mainImage"
                 accept="image/*">
 
         </div>
@@ -324,9 +324,20 @@
 
             <input
                 type="file"
-                id="gallery-images"
-                accept="image/*"
-                multiple>
+                id="galleryImages"
+                multiple
+                accept="image/*">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Specifications</label>
+
+            <textarea
+                id="specifications"
+                rows="7"
+                placeholder="Movement: Automatic&#10;Case: Oystersteel&#10;Water Resistance: 100m"></textarea>
 
         </div>
 
@@ -334,17 +345,15 @@
 
             <label>
 
-                <input
-                    type="checkbox"
-                    id="featured">
+                <input type="checkbox" id="featured">
 
-                Featured Watch
+                Feature this watch on Homepage
 
             </label>
 
         </div>
 
-        <button type="submit" class="save-btn">
+        <button type="submit" class="gold-btn">
 
             <i class="fas fa-save"></i>
 
