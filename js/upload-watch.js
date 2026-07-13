@@ -18,7 +18,6 @@ async function uploadImage(file) {
         .getPublicUrl(fileName);
 
     return data.publicUrl;
-
 }
 
 async function saveWatch(e) {
@@ -30,7 +29,13 @@ async function saveWatch(e) {
     const oldPrice = document.getElementById("oldPrice").value;
     const newPrice = document.getElementById("newPrice").value;
     const description = document.getElementById("description").value;
-    const specifications = document.getElementById("specifications").value;
+
+    const movement = document.getElementById("movement").value;
+    const caseMaterial = document.getElementById("caseMaterial").value;
+    const caseSize = document.getElementById("caseSize").value;
+    const waterResistance = document.getElementById("waterResistance").value;
+    const condition = document.getElementById("condition").value;
+
     const featured = document.getElementById("featured").checked;
 
     const imageFile = document.getElementById("mainImage").files[0];
@@ -44,18 +49,27 @@ async function saveWatch(e) {
 
     if (!imageUrl) return;
 
+    const slug = model
+        .toLowerCase()
+        .replace(/\s+/g, "-");
+
     const { error } = await supabaseClient
         .from("watches")
         .insert([
             {
                 brand: brand,
                 model: model,
+                slug: slug,
                 old_price: oldPrice,
                 new_price: newPrice,
                 description: description,
                 image: imageUrl,
-                specifications: specifications,
-                featured: featured
+                featured: featured,
+                movement: movement,
+                case_material: caseMaterial,
+                case_size: caseSize,
+                water_resistance: waterResistance,
+                condition: condition
             }
         ]);
 
@@ -67,5 +81,4 @@ async function saveWatch(e) {
     alert("Watch added successfully!");
 
     document.getElementById("watch-form").reset();
-
 }
