@@ -1,5 +1,5 @@
 // ======================================
-// LOAD WATCHES FROM SUPABASE
+// LOAD FEATURED WATCHES FROM SUPABASE
 // ======================================
 
 async function loadWatches() {
@@ -11,10 +11,18 @@ async function loadWatches() {
     const { data: watches, error } = await supabaseClient
         .from("watches")
         .select("*")
+        .eq("featured", true)
+        .limit(3)
         .order("id", { ascending: false });
 
     if (error) {
         console.error(error);
+        return;
+    }
+
+    // If no featured watches exist,
+    // keep the original homepage cards.
+    if (!watches || watches.length === 0) {
         return;
     }
 
@@ -23,40 +31,56 @@ async function loadWatches() {
     watches.forEach(watch => {
 
         grid.innerHTML += `
-            <div class="watch-card">
 
-                <div class="watch-image">
+        <div class="watch-card">
+
+            <div class="watch-image">
+
+                <a href="product.html?slug=${watch.slug}">
 
                     <img src="${watch.image}" alt="${watch.model}">
 
-                </div>
+                </a>
 
-                <div class="watch-details">
+            </div>
 
-                    <span>${watch.brand}</span>
+            <div class="watch-details">
 
-                    <h3>${watch.model}</h3>
+                <span>${watch.brand}</span>
 
-                    <h4 class="watch-price">
+                <h3>
 
-                        <span class="old-price">${watch.old_price}</span>
+                    <a href="product.html?slug=${watch.slug}">
 
-                        <span class="new-price">${watch.new_price}</span>
-
-                    </h4>
-
-                    <a
-                        href="https://wa.me/2349039450751?text=Hello,%20I'm%20interested%20in%20the%20${encodeURIComponent(watch.brand + " " + watch.model)}"
-                        target="_blank"
-                        class="watch-btn">
-
-                        Request Availability
+                        ${watch.model}
 
                     </a>
 
-                </div>
+                </h3>
+
+                <h4 class="watch-price">
+
+                    <span class="old-price">${watch.old_price}</span>
+
+                    <span class="new-price">${watch.new_price}</span>
+
+                </h4>
+
+                <a
+                    href="https://wa.me/2349039450751?text=${encodeURIComponent(
+                        `Hello, I'm interested in the ${watch.brand} ${watch.model}. ${window.location.origin}/product.html?slug=${watch.slug}`
+                    )}"
+                    target="_blank"
+                    class="watch-btn">
+
+                    Request Availability
+
+                </a>
 
             </div>
+
+        </div>
+
         `;
 
     });
