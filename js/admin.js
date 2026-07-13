@@ -31,23 +31,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const selectedPage = document.getElementById(pageID);
 
-            if(selectedPage){
+            if (selectedPage) {
 
                 selectedPage.classList.add("active-page");
 
             }
 
             // Change page title
-            pageTitle.textContent = item.textContent.trim();
+            if (pageTitle) {
+                pageTitle.textContent = item.textContent.trim();
+            }
 
         });
 
     });
 
-});
-const watchForm = document.getElementById("watch-form");
+    /*=========================================
+    WATCH FORM
+    =========================================*/
 
-watchForm.addEventListener("submit", saveWatch);
+    const watchForm = document.getElementById("watch-form");
+
+    if (watchForm) {
+
+        watchForm.addEventListener("submit", saveWatch);
+
+    }
+
+});
 
 async function saveWatch(e) {
 
