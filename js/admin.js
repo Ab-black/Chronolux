@@ -59,11 +59,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
-
-async function saveWatch(e) {
-
-    e.preventDefault();
-
-    alert("Supabase connected successfully!");
-
-}
