@@ -1,78 +1,137 @@
-/*=========================================
-WATCH DATABASE
-=========================================*/
+// ======================================
+// CHRONOLUX PRODUCT PAGE
+// ======================================
 
+document.addEventListener("DOMContentLoaded", loadProduct);
 
-/*=========================================
-LOAD PRODUCT PAGE
-=========================================*/
+async function loadProduct() {
 
-const params = new URLSearchParams(window.location.search);
-const watchID = params.get("watch");
+    const params = new URLSearchParams(window.location.search);
 
-const watch = watchDatabase.find(item => item.id === watchID);
+    const slug = params.get("slug");
 
-if (watch) {
+    if (!slug) {
 
+        alert("Product not found.");
 
-    // Page title
-    document.title = watch.brand + " " + watch.model + " | ChronoLux";
+        return;
 
-    // Breadcrumb
-    document.querySelector(".breadcrumb a:nth-of-type(2)").textContent = watch.brand;
-    document.querySelector(".breadcrumb span").textContent = watch.model;
-
-    // Image
-    document.querySelector(".product-image img").src = watch.image;
-    document.querySelector(".product-image img").alt = watch.title;
-
-    // Brand
-    document.querySelector(".product-brand").textContent = watch.brand;
-
-    // Heading
-    document.querySelector(".product-details h1").textContent = watch.model;
-
-    // Prices
-    document.querySelector(".old-price").textContent = watch.oldPrice;
-    document.querySelector(".new-price").textContent = watch.newPrice;
-
-    // Description
-    document.querySelector(".product-description").textContent = watch.description;
-
-    // Specifications
-    const specList = document.querySelector(".specifications ul");
-    specList.innerHTML = "";
-
-    for (const key in watch.specs) {
-        specList.innerHTML += `<li><strong>${key}:</strong> ${watch.specs[key]}</li>`;
     }
 
-   // WhatsApp Button
-const button = document.querySelector("#whatsapp-btn");
+    const { data: watch, error } = await supabaseClient
+        .from("watches")
+        .select("*")
+        .eq("slug", slug)
+        .single();
 
-button.addEventListener("click", function (e) {
+    if (error || !watch) {
 
-    e.preventDefault();
+        alert("Watch not found.");
 
-    const message =
-`Hello ChronoLux,
+        console.error(error);
 
-I'm interested in the following watch.
+        return;
+
+    }
+
+    // =============================
+    // PAGE TITLE
+    // =============================
+
+    document.title =
+        `${watch.brand} ${watch.model} | ChronoLux`;
+
+    // =============================
+    // IMAGE
+    // =============================
+
+    const image = document.getElementById("product-image");
+
+    image.src = watch.image;
+
+    image.alt = `${watch.brand} ${watch.model}`;
+
+    // =============================
+    // BRAND
+    // =============================
+
+    document.getElementById("product-brand").textContent =
+        watch.brand;
+
+    // =============================
+    // MODEL
+    // =============================
+
+    document.getElementById("product-name").textContent =
+        watch.model;
+
+    // =============================
+    // PRICES
+    // =============================
+
+    document.getElementById("old-price").textContent =
+        watch.old_price;
+
+    document.getElementById("new-price").textContent =
+        watch.new_price;
+
+    // =============================
+    // DESCRIPTION
+    // =============================
+
+    document.getElementById("product-description").textContent =
+        watch.description;
+
+    // =============================
+    // SPECIFICATIONS
+    // =============================
+
+    document.getElementById("product-specs").innerHTML = `
+
+        <li><strong>Brand:</strong> ${watch.brand}</li>
+
+        <li><strong>Model:</strong> ${watch.model}</li>
+
+        <li><strong>Movement:</strong> ${watch.movement}</li>
+
+        <li><strong>Case:</strong> ${watch.case_material}</li>
+
+        <li><strong>Case Size:</strong> ${watch.case_size}</li>
+
+        <li><strong>Water Resistance:</strong> ${watch.water_resistance}</li>
+
+        <li><strong>Condition:</strong> ${watch.condition}</li>
+
+    `;
+
+    // =============================
+    // WHATSAPP BUTTON
+    // =============================
+
+    const pageURL = window.location.href;
+
+    const message = `Hello ChronoLux,
+
+I'm interested in this luxury watch.
 
 Brand: ${watch.brand}
 Model: ${watch.model}
-Price: ${watch.newPrice}
 
-Product Link:
-https://ab-black.github.io/Chronolux/product.html?watch=${watchID}
+Price: ${watch.new_price}
 
-Could you please let me know if it's still available?`;
+Product Page:
+${pageURL}
 
-    const whatsappURL =
-`https://wa.me/2349039450751?text=${encodeURIComponent(message)}`;
+Could you please let me know:
 
-    window.open(whatsappURL, "_blank");
+• Is it still available?
+• What is the condition?
+• Shipping options
+• Payment procedure
 
-});
+Thank you.`;
+
+    document.getElementById("whatsapp-btn").href =
+        `https://wa.me/2349039450751?text=${encodeURIComponent(message)}`;
 
 }
