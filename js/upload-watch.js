@@ -22,6 +22,8 @@ async function uploadImage(file) {
 
 async function saveWatch(e) {
 
+    alert("Step 1");
+
     e.preventDefault();
 
     const brand = document.getElementById("brand").value;
