@@ -115,6 +115,11 @@ document.querySelectorAll(".edit-btn").forEach(button => {
 
     button.addEventListener("click", () => {
 
+        alert("Edit button clicked");
+
+    });
+
+});
         editingWatchId = button.dataset.id;
 
         document.getElementById("brand").value =
