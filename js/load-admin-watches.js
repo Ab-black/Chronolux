@@ -1,4 +1,9 @@
 // ======================================
+// EDIT MODE
+// ======================================
+
+let editingWatchId = null;
+// ======================================
 // LOAD WATCHES INTO ADMIN TABLE
 // ======================================
 
@@ -45,9 +50,15 @@ async function loadAdminWatches() {
 
             <td>
 
-                <button
+               <button
                     class="icon-btn edit-btn"
-                    data-id="${watch.id}">
+                    data-id="${watch.id}"
+                    data-brand="${watch.brand}"
+                    data-model="${watch.model}"
+                    data-old="${watch.old_price}"
+                    data-new="${watch.new_price}"
+                    data-description="${watch.description || ""}"
+                    data-featured="${watch.featured}">
                     <i class="fas fa-edit"></i>
                 </button>
 
@@ -96,3 +107,45 @@ async function loadAdminWatches() {
     });
 
 }
+// ======================================
+// EDIT WATCH
+// ======================================
+
+document.querySelectorAll(".edit-btn").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        editingWatchId = button.dataset.id;
+
+        document.getElementById("brand").value =
+            button.dataset.brand;
+
+        document.getElementById("model").value =
+            button.dataset.model;
+
+        document.getElementById("oldPrice").value =
+            button.dataset.old;
+
+        document.getElementById("newPrice").value =
+            button.dataset.new;
+
+        document.getElementById("description").value =
+            button.dataset.description;
+
+        document.getElementById("featured").checked =
+            button.dataset.featured === "true";
+
+        document.getElementById("save-watch-btn").innerHTML = `
+            <i class="fas fa-pen"></i>
+            Update Watch
+        `;
+
+        document
+            .getElementById("add-watch")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    });
+
+});
