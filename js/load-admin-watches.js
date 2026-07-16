@@ -1,11 +1,8 @@
 // ======================================
-// EDIT MODE
+// ADMIN WATCHES
 // ======================================
 
 let editingWatchId = null;
-// ======================================
-// LOAD WATCHES INTO ADMIN TABLE
-// ======================================
 
 document.addEventListener("DOMContentLoaded", loadAdminWatches);
 
@@ -30,10 +27,16 @@ async function loadAdminWatches() {
     watches.forEach(watch => {
 
         tbody.innerHTML += `
+
         <tr>
 
             <td>
-                <img src="${watch.image}" class="watch-thumb" alt="${watch.model}">
+
+                <img
+                    src="${watch.image}"
+                    class="watch-thumb"
+                    alt="${watch.model}">
+
             </td>
 
             <td>${watch.brand}</td>
@@ -43,43 +46,48 @@ async function loadAdminWatches() {
             <td>${watch.new_price}</td>
 
             <td>
+
                 <span class="status ${watch.featured ? "featured" : ""}">
+
                     ${watch.featured ? "Featured" : "Normal"}
+
                 </span>
+
             </td>
 
             <td>
 
-               <button
+                <button
                     class="icon-btn edit-btn"
-                    data-id="${watch.id}"
-                    data-brand="${watch.brand}"
-                    data-model="${watch.model}"
-                    data-old="${watch.old_price}"
-                    data-new="${watch.new_price}"
-                    data-description="${watch.description || ""}"
-                    data-featured="${watch.featured}">
+                    data-id="${watch.id}">
+
                     <i class="fas fa-edit"></i>
+
                 </button>
 
                 <button
                     class="icon-btn delete delete-btn"
                     data-id="${watch.id}">
+
                     <i class="fas fa-trash"></i>
+
                 </button>
 
             </td>
 
         </tr>
+
         `;
 
     });
 
-    // DELETE BUTTONS
+    // ==========================
+    // DELETE WATCH
+    // ==========================
 
     document.querySelectorAll(".delete-btn").forEach(button => {
 
-        button.addEventListener("click", async () => {
+        button.onclick = async () => {
 
             const id = button.dataset.id;
 
@@ -102,55 +110,74 @@ async function loadAdminWatches() {
 
             loadAdminWatches();
 
-        });
+        };
+
+    });
+
+    // ==========================
+    // EDIT WATCH
+    // ==========================
+
+    document.querySelectorAll(".edit-btn").forEach(button => {
+
+        button.onclick = async () => {
+
+            const id = button.dataset.id;
+
+            const { data: watch, error } = await supabaseClient
+                .from("watches")
+                .select("*")
+                .eq("id", id)
+                .single();
+
+            if (error) {
+
+                alert(error.message);
+
+                return;
+
+            }
+
+            editingWatchId = watch.id;
+
+            document.getElementById("brand").value = watch.brand || "";
+
+            document.getElementById("model").value = watch.model || "";
+
+            document.getElementById("oldPrice").value = watch.old_price || "";
+
+            document.getElementById("newPrice").value = watch.new_price || "";
+
+            document.getElementById("description").value = watch.description || "";
+
+            document.getElementById("movement").value = watch.movement || "";
+
+            document.getElementById("caseMaterial").value = watch.case_material || "";
+
+            document.getElementById("caseSize").value = watch.case_size || "";
+
+            document.getElementById("waterResistance").value = watch.water_resistance || "";
+
+            document.getElementById("condition").value = watch.condition || "";
+
+            document.getElementById("featured").checked = watch.featured;
+
+            document.getElementById("save-watch-btn").innerHTML = `
+
+                <i class="fas fa-pen"></i>
+
+                Update Watch
+
+            `;
+
+            document
+                .getElementById("add-watch")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        };
 
     });
 
 }
-// ======================================
-// EDIT WATCH
-// ======================================
-
-document.querySelectorAll(".edit-btn").forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        alert("Edit button clicked");
-
-    });
-
-});
-        editingWatchId = button.dataset.id;
-
-        document.getElementById("brand").value =
-            button.dataset.brand;
-
-        document.getElementById("model").value =
-            button.dataset.model;
-
-        document.getElementById("oldPrice").value =
-            button.dataset.old;
-
-        document.getElementById("newPrice").value =
-            button.dataset.new;
-
-        document.getElementById("description").value =
-            button.dataset.description;
-
-        document.getElementById("featured").checked =
-            button.dataset.featured === "true";
-
-        document.getElementById("save-watch-btn").innerHTML = `
-            <i class="fas fa-pen"></i>
-            Update Watch
-        `;
-
-        document
-            .getElementById("add-watch")
-            .scrollIntoView({
-                behavior: "smooth"
-            });
-
-    });
-
-});
