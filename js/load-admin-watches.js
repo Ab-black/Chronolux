@@ -92,6 +92,8 @@ function setupEditButtons() {
 
         button.addEventListener("click", () => {
 
+                alert("Edit clicked");
+            
             editingWatchId = button.dataset.id;
 
             document.getElementById("brand").value =
@@ -119,11 +121,35 @@ function setupEditButtons() {
                 Update Watch
             `;
 
-            document
-                .getElementById("add-watch")
-                .scrollIntoView({
-                    behavior: "smooth"
-                });
+            // Open the Add Watch page
+
+document.querySelectorAll(".page").forEach(page => {
+    page.classList.remove("active-page");
+});
+
+document.getElementById("add-watch").classList.add("active-page");
+
+// Highlight sidebar
+
+document.querySelectorAll(".sidebar-menu li").forEach(item => {
+    item.classList.remove("active");
+});
+
+document
+    .querySelector('[data-page="add-watch"]')
+    .classList.add("active");
+
+// Change page title
+
+document.getElementById("page-title").textContent = "Edit Watch";
+
+// Scroll to form
+
+document
+    .getElementById("watch-form")
+    .scrollIntoView({
+        behavior: "smooth"
+    });
 
         });
 
