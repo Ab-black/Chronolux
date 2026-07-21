@@ -40,15 +40,39 @@ async function saveWatch(e) {
 
     const imageFile = document.getElementById("mainImage").files[0];
 
-    let imageUrl = null;
+let imageUrl = null;
 
-    // Upload new image only if user selected one
-    if (imageFile) {
+// Upload a new image only if one was selected
+if (imageFile) {
 
-        imageUrl = await uploadImage(imageFile);
+    imageUrl = await uploadImage(imageFile);
 
-        if (!imageUrl) return;
+    if (!imageUrl) return;
 
+}
+
+// When editing and no new image is selected,
+// keep the existing image.
+if (editingWatchId && !imageUrl) {
+
+    const { data } = await supabaseClient
+        .from("watches")
+        .select("image")
+        .eq("id", editingWatchId)
+        .single();
+
+    imageUrl = data.image;
+
+}
+
+// When adding a new watch, an image is required.
+if (!editingWatchId && !imageUrl) {
+
+    alert("Please select a watch image.");
+
+    return;
+
+}
     }
 
     const slug = model
