@@ -39,7 +39,33 @@ async function saveWatch(e) {
     const condition = document.getElementById("condition").value;
 
     const featured = document.getElementById("featured").checked;
+    // ======================================
+// LIMIT FEATURED WATCHES TO 3
+// ======================================
 
+if (featured) {
+
+    const { count } = await supabaseClient
+        .from("watches")
+        .select("*", {
+            count: "exact",
+            head: true
+        })
+        .eq("featured", true);
+
+    // Allow editing an already-featured watch
+    if (
+        count >= 3 &&
+        !editingWatchId
+    ) {
+
+        alert("Maximum of 3 featured watches allowed.");
+
+        return;
+
+    }
+
+}
     const imageFile = document.getElementById("mainImage").files[0];
 
     let imageUrl = null;
