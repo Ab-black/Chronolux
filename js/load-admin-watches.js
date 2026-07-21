@@ -2,12 +2,14 @@
 // LOAD ADMIN WATCHES
 // ======================================
 
+console.log("✅ load-admin-watches.js loaded");
+
 let editingWatchId = null;
 
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("✅ DOM Loaded");
     loadAdminWatches();
 });
-
 async function loadAdminWatches() {
 
     const tbody = document.querySelector(".inventory-table tbody");
@@ -18,7 +20,8 @@ async function loadAdminWatches() {
         .from("watches")
         .select("*")
         .order("id", { ascending: false });
-
+console.log("Supabase data:", watches);
+console.log("Supabase error:", error);
     if (error) {
         console.error(error);
         return;
