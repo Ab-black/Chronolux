@@ -22,8 +22,6 @@ async function uploadImage(file) {
 
 async function saveWatch(e) {
 
-    alert("Step 1");
-
     e.preventDefault();
 
     const brand = document.getElementById("brand").value;
@@ -42,74 +40,84 @@ async function saveWatch(e) {
 
     const imageFile = document.getElementById("mainImage").files[0];
 
-    if (!imageFile) {
-        alert("Please select a watch image.");
-        return;
+    let imageUrl = null;
+
+    // Upload new image only if user selected one
+    if (imageFile) {
+
+        imageUrl = await uploadImage(imageFile);
+
+        if (!imageUrl) return;
+
     }
-
-    const imageUrl = await uploadImage(imageFile);
-
-    if (!imageUrl) return;
 
     const slug = model
         .toLowerCase()
         .replace(/\s+/g, "-");
 
-    const { error } = await supabaseClient
-        .from("watches")
-        .insert([
-            {
-                brand: brand,
-                model: model,
-                slug: slug,
-                old_price: oldPrice,
-                new_price: newPrice,
-                description: description,
-                image: imageUrl,
-                featured: featured,
-                movement: movement,
-                case_material: caseMaterial,
-                case_size: caseSize,
-                water_resistance: waterResistance,
-                condition: condition
-            }
-        ]);
+    const watchData = {
+        brand: brand,
+        model: model,
+        slug: slug,
+        old_price: oldPrice,
+        new_price: newPrice,
+        description: description,
+        featured: featured,
+        movement: movement,
+        case_material: caseMaterial,
+        case_size: caseSize,
+        water_resistance: waterResistance,
+        condition: condition
+    };
 
-  let result;
+    // Only update image if a new one was selected
+    if (imageUrl) {
+        watchData.image = imageUrl;
+    }
 
-if (editingWatchId) {
+    let result;
 
-    result = await supabaseClient
-        .from("watches")
-        .update(watchData)
-        .eq("id", editingWatchId);
+    if (editingWatchId) {
 
-} else {
+        result = await supabaseClient
+            .from("watches")
+            .update(watchData)
+            .eq("id", editingWatchId);
 
-    result = await supabaseClient
-        .from("watches")
-        .insert([watchData]);
+    } else {
 
-}
+        if (!imageUrl) {
+            alert("Please select a watch image.");
+            return;
+        }
 
-const { error } = result;
+        watchData.image = imageUrl;
 
-if (error) {
+        result = await supabaseClient
+            .from("watches")
+            .insert([watchData]);
 
-    alert(error.message);
+    }
 
-    return;
+    const { error } = result;
 
-}
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    alert(editingWatchId ? "Watch updated successfully!" : "Watch added successfully!");
+
     editingWatchId = null;
 
-document.getElementById("watch-form").reset();
+    document.getElementById("watch-form").reset();
 
-document.getElementById("save-watch-btn").innerHTML = `
-<i class="fas fa-save"></i>
-Save Watch
-`;
+    const saveBtn = document.querySelector("#watch-form button[type='submit']");
 
-loadAdminWatches();
+    saveBtn.innerHTML = `
+        <i class="fas fa-save"></i>
+        Save Watch
+    `;
 
-alert("Watch saved successfully.");
+    loadAdminWatches();
+}
