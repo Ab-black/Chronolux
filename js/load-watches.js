@@ -9,11 +9,11 @@ async function loadWatches() {
     if (!grid) return;
 
     const { data: watches, error } = await supabaseClient
-        .from("watches")
-        .select("*")
-        .eq("featured", true)
-        .limit(3)
-        .order("id", { ascending: false });
+    .from("watches")
+    .select("*")
+    .eq("featured", true)
+    .limit(3)
+    .order("id", { ascending: false });
 
     if (error) {
         console.error(error);
@@ -67,14 +67,15 @@ async function loadWatches() {
                 </h4>
 
                 <a
-                    href="https://wa.me/2349039450751?text=${encodeURIComponent(
-                        `Hello, I'm interested in the ${watch.brand} ${watch.model}. ${window.location.origin}/product.html?slug=${watch.slug}`
-                    )}"
-                    target="_blank"
-                    class="watch-btn">
-
+                    href="#"
+                    class="watch-btn"
+                    data-brand="${watch.brand}"
+                    data-model="${watch.model}"
+                    data-price="${watch.new_price}"
+                    data-link="https://ab-black.github.io/ChronoLux/product.html?slug=${watch.slug}">
+                
                     Request Availability
-
+                
                 </a>
 
             </div>
