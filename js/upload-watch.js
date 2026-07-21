@@ -24,6 +24,8 @@ async function saveWatch(e) {
 
     e.preventDefault();
 
+    alert("saveWatch started");
+
     const brand = document.getElementById("brand").value;
     const model = document.getElementById("model").value;
     const oldPrice = document.getElementById("oldPrice").value;
@@ -40,86 +42,70 @@ async function saveWatch(e) {
 
     const imageFile = document.getElementById("mainImage").files[0];
 
-let imageUrl = null;
+    let imageUrl = null;
 
-// Upload a new image only if one was selected
-if (imageFile) {
+    // Upload new image if selected
+    if (imageFile) {
 
-    imageUrl = await uploadImage(imageFile);
+        imageUrl = await uploadImage(imageFile);
 
-    if (!imageUrl) return;
+        if (!imageUrl) return;
 
-}
+    }
 
-// When editing and no new image is selected,
-// keep the existing image.
-if (editingWatchId && !imageUrl) {
+    // Editing and no new image selected
+    if (editingWatchId && !imageUrl) {
 
-    const { data } = await supabaseClient
-        .from("watches")
-        .select("image")
-        .eq("id", editingWatchId)
-        .single();
+        alert("editingWatchId = " + editingWatchId);
 
-    imageUrl = data.image;
+        const { data } = await supabaseClient
+            .from("watches")
+            .select("image")
+            .eq("id", editingWatchId)
+            .single();
 
-}
+        imageUrl = data.image;
 
-// When adding a new watch, an image is required.
-if (!editingWatchId && !imageUrl) {
+    }
 
-    alert("Please select a watch image.");
+    // Adding new watch requires image
+    if (!editingWatchId && !imageUrl) {
 
-    return;
+        alert("Please select a watch image.");
 
-}
+        return;
+
     }
 
     const slug = model
         .toLowerCase()
         .replace(/\s+/g, "-");
 
-  const watchData = {
-    brand: brand,
-    model: model,
-    slug: slug,
-    old_price: oldPrice,
-    new_price: newPrice,
-    description: description,
-    image: imageUrl,
-    featured: featured,
-    movement: movement,
-    case_material: caseMaterial,
-    case_size: caseSize,
-    water_resistance: waterResistance,
-    condition: condition
-};
+    const watchData = {
 
-let error;
+        brand: brand,
+        model: model,
+        slug: slug,
+        old_price: oldPrice,
+        new_price: newPrice,
+        description: description,
+        image: imageUrl,
+        featured: featured,
+        movement: movement,
+        case_material: caseMaterial,
+        case_size: caseSize,
+        water_resistance: waterResistance,
+        condition: condition
 
-if (editingWatchId) {
-
-    ({ error } = await supabaseClient
-        .from("watches")
-        .update(watchData)
-        .eq("id", editingWatchId));
-
-} else {
-
-    ({ error } = await supabaseClient
-        .from("watches")
-        .insert([watchData]));
-
-}
-
-    // Only update image if a new one was selected
-    if (imageUrl) {
-        watchData.image = imageUrl;
-    }
+    };
 
     let result;
 
+    alert("editingWatchId = " + editingWatchId);
+
     if (editingWatchId) {
+
+        alert("Updating watch...");
 
         result = await supabaseClient
             .from("watches")
@@ -128,12 +114,7 @@ if (editingWatchId) {
 
     } else {
 
-        if (!imageUrl) {
-            alert("Please select a watch image.");
-            return;
-        }
-
-        watchData.image = imageUrl;
+        alert("Adding new watch...");
 
         result = await supabaseClient
             .from("watches")
@@ -144,31 +125,28 @@ if (editingWatchId) {
     const { error } = result;
 
     if (error) {
+
         alert(error.message);
+
         return;
+
     }
 
-  alert(editingWatchId
-    ? "Watch updated successfully!"
-    : "Watch added successfully!");
+    alert(
+        editingWatchId
+            ? "Watch updated successfully!"
+            : "Watch added successfully!"
+    );
 
-document.getElementById("watch-form").reset();
+    document.getElementById("watch-form").reset();
 
-editingWatchId = null;
+    editingWatchId = null;
 
-document.getElementById("save-watch-btn").innerHTML = `
-<i class="fas fa-save"></i>
-Save Watch
-`;
-
-loadAdminWatches();
-
-    const saveBtn = document.querySelector("#watch-form button[type='submit']");
-
-    saveBtn.innerHTML = `
+    document.getElementById("save-watch-btn").innerHTML = `
         <i class="fas fa-save"></i>
         Save Watch
     `;
 
     loadAdminWatches();
+
 }
