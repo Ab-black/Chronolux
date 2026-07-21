@@ -39,29 +39,28 @@ async function saveWatch(e) {
     const condition = document.getElementById("condition").value;
 
     const featured = document.getElementById("featured").checked;
-    // ======================================
-// LIMIT FEATURED WATCHES TO 3
+// ======================================
+// AUTO MANAGE FEATURED WATCHES
 // ======================================
 
 if (featured) {
 
-    const { count } = await supabaseClient
+    const { data: featuredWatches } = await supabaseClient
         .from("watches")
-        .select("*", {
-            count: "exact",
-            head: true
-        })
-        .eq("featured", true);
+        .select("id")
+        .eq("featured", true)
+        .order("id", { ascending: true });
 
-    // Allow editing an already-featured watch
-    if (
-        count >= 3 &&
-        !editingWatchId
-    ) {
+    if (featuredWatches.length >= 3) {
 
-        alert("Maximum of 3 featured watches allowed.");
+        const oldestWatch = featuredWatches[0];
 
-        return;
+        await supabaseClient
+            .from("watches")
+            .update({
+                featured: false
+            })
+            .eq("id", oldestWatch.id);
 
     }
 
