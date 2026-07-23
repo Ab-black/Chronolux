@@ -66,10 +66,10 @@ if (featured) {
 
 }
     const imageFile = document.getElementById("mainImage").files[0];
-    const gallery2 = document.getElementById("galleryImage2").files[0];
-    const gallery3 = document.getElementById("galleryImage3").files[0];
-    const gallery4 = document.getElementById("galleryImage4").files[0];
-    const gallery5 = document.getElementById("galleryImage5").files[0];
+    const imageFile2 = document.getElementById("galleryImage2").files[0];
+    const imageFile3 = document.getElementById("galleryImage3").files[0];
+    const imageFile4 = document.getElementById("galleryImage4").files[0];
+    const imageFile5 = document.getElementById("galleryImage5").files[0];
     
     let imageUrl = null;
     let galleryUrls = [];
@@ -195,7 +195,7 @@ if (editingWatchId && galleryUrls.length === 0) {
         case_material: caseMaterial,
         case_size: caseSize,
         water_resistance: waterResistance,
-        condition: condition
+        condition: condition,
         gallery: galleryUrls,
     };
 
