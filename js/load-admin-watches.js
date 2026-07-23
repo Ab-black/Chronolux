@@ -55,13 +55,22 @@ console.log("Supabase error:", error);
 
                 <button
                     class="icon-btn edit-btn"
-
+                
                     data-id="${watch.id}"
                     data-brand="${watch.brand}"
                     data-model="${watch.model}"
                     data-old="${watch.old_price}"
                     data-new="${watch.new_price}"
                     data-description="${watch.description || ""}"
+                
+                    data-movement="${watch.movement || ""}"
+                    data-case-material="${watch.case_material || ""}"
+                    data-case-size="${watch.case_size || ""}"
+                    data-water-resistance="${watch.water_resistance || ""}"
+                    data-condition="${watch.condition || ""}"
+                
+                    data-image="${watch.image || ""}"
+                
                     data-featured="${watch.featured}">
 
                     <i class="fas fa-edit"></i>
@@ -114,6 +123,21 @@ function setupEditButtons() {
             document.getElementById("description").value =
                 button.dataset.description;
 
+            document.getElementById("movement").value =
+                button.dataset.movement;
+            
+            document.getElementById("caseMaterial").value =
+                button.dataset.caseMaterial;
+            
+            document.getElementById("caseSize").value =
+                button.dataset.caseSize;
+            
+            document.getElementById("waterResistance").value =
+                button.dataset.waterResistance;
+            
+            document.getElementById("condition").value =
+                button.dataset.condition;
+            
             document.getElementById("featured").checked =
                 button.dataset.featured === "true";
 
