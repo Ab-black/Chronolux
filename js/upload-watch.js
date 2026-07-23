@@ -155,15 +155,33 @@ if (featured) {
             : "Watch added successfully!"
     );
 
-    document.getElementById("watch-form").reset();
+    // Reset form
+document.getElementById("watch-form").reset();
 
-    editingWatchId = null;
+// Hide current image preview
+const preview = document.getElementById("currentImage");
 
-    document.getElementById("save-watch-btn").innerHTML = `
-        <i class="fas fa-save"></i>
-        Save Watch
-    `;
+if (preview) {
+    preview.src = "";
+    preview.style.display = "none";
+}
 
-    loadAdminWatches();
+// Clear stored image
+window.currentWatchImage = null;
+
+// Exit edit mode
+editingWatchId = null;
+
+// Restore button text
+document.getElementById("save-watch-btn").innerHTML = `
+    <i class="fas fa-save"></i>
+    Save Watch
+`;
+
+// Restore page title
+document.getElementById("page-title").textContent = "Add Watch";
+
+// Reload inventory
+loadAdminWatches();
 
 }
