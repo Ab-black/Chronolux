@@ -81,17 +81,9 @@ if (featured) {
     // Editing and no new image selected
     if (editingWatchId && !imageUrl) {
 
-        alert("editingWatchId = " + editingWatchId);
+    imageUrl = window.currentWatchImage;
 
-        const { data } = await supabaseClient
-            .from("watches")
-            .select("image")
-            .eq("id", editingWatchId)
-            .single();
-
-        imageUrl = data.image;
-
-    }
+}
 
     // Adding new watch requires image
     if (!editingWatchId && !imageUrl) {
