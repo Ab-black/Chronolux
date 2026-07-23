@@ -66,16 +66,60 @@ if (featured) {
 
 }
     const imageFile = document.getElementById("mainImage").files[0];
-
+    const imageFile2 = document.getElementById("image2").files[0];
+    const imageFile3 = document.getElementById("image3").files[0];
+    const imageFile4 = document.getElementById("image4").files[0];
+    const imageFile5 = document.getElementById("image5").files[0];
+    
     let imageUrl = null;
+    let imageUrl2 = null;
+    let imageUrl3 = null;
+    let imageUrl4 = null;
+    let imageUrl5 = null;
 
-    // Upload new image if selected
+    // Upload Main Image
     if (imageFile) {
-
+    
         imageUrl = await uploadImage(imageFile);
-
+    
         if (!imageUrl) return;
-
+    
+    }
+    
+    // Upload Gallery Image 2
+    if (imageFile2) {
+    
+        imageUrl2 = await uploadImage(imageFile2);
+    
+        if (!imageUrl2) return;
+    
+    }
+    
+    // Upload Gallery Image 3
+    if (imageFile3) {
+    
+        imageUrl3 = await uploadImage(imageFile3);
+    
+        if (!imageUrl3) return;
+    
+    }
+    
+    // Upload Gallery Image 4
+    if (imageFile4) {
+    
+        imageUrl4 = await uploadImage(imageFile4);
+    
+        if (!imageUrl4) return;
+    
+    }
+    
+    // Upload Gallery Image 5
+    if (imageFile5) {
+    
+        imageUrl5 = await uploadImage(imageFile5);
+    
+        if (!imageUrl5) return;
+    
     }
 
     // Editing and no new image selected
@@ -106,14 +150,22 @@ if (featured) {
         old_price: oldPrice,
         new_price: newPrice,
         description: description,
-        image: imageUrl,
+    
+        image: imageUrl || window.currentWatchImage,
+    
+        image2: imageUrl2 || window.currentWatchImage2 || null,
+        image3: imageUrl3 || window.currentWatchImage3 || null,
+        image4: imageUrl4 || window.currentWatchImage4 || null,
+        image5: imageUrl5 || window.currentWatchImage5 || null,
+    
         featured: featured,
+    
         movement: movement,
         case_material: caseMaterial,
         case_size: caseSize,
         water_resistance: waterResistance,
         condition: condition
-
+    
     };
 
     let result;
