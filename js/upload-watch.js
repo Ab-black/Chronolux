@@ -66,12 +66,13 @@ if (featured) {
 
 }
     const imageFile = document.getElementById("mainImage").files[0];
-    const imageFile2 = document.getElementById("image2").files[0];
-    const imageFile3 = document.getElementById("image3").files[0];
-    const imageFile4 = document.getElementById("image4").files[0];
-    const imageFile5 = document.getElementById("image5").files[0];
+    const gallery2 = document.getElementById("galleryImage2").files[0];
+    const gallery3 = document.getElementById("galleryImage3").files[0];
+    const gallery4 = document.getElementById("galleryImage4").files[0];
+    const gallery5 = document.getElementById("galleryImage5").files[0];
     
     let imageUrl = null;
+    let galleryUrls = [];
     let imageUrl2 = null;
     let imageUrl3 = null;
     let imageUrl4 = null;
@@ -83,6 +84,29 @@ if (featured) {
         imageUrl = await uploadImage(imageFile);
     
         if (!imageUrl) return;
+    
+    }
+
+    // Upload gallery images
+
+    const galleryFiles = [
+        gallery2,
+        gallery3,
+        gallery4,
+        gallery5
+    ];
+    
+    for (const file of galleryFiles) {
+    
+        if (!file) continue;
+    
+        const url = await uploadImage(file);
+    
+        if (url) {
+    
+            galleryUrls.push(url);
+    
+        }
     
     }
     
@@ -129,6 +153,13 @@ if (featured) {
 
 }
 
+    // Keep existing gallery images if no new ones were uploaded
+if (editingWatchId && galleryUrls.length === 0) {
+
+    galleryUrls = window.currentGallery || [];
+
+}
+    
     // Adding new watch requires image
     if (!editingWatchId && !imageUrl) {
 
@@ -165,7 +196,7 @@ if (featured) {
         case_size: caseSize,
         water_resistance: waterResistance,
         condition: condition
-    
+        gallery: galleryUrls,
     };
 
     let result;
