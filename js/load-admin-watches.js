@@ -71,7 +71,13 @@ console.log("Supabase error:", error);
                 
                     data-image="${watch.image || ""}"
                 
-                    data-featured="${watch.featured}">
+                    data-featured="${watch.featured}"
+                    data-image="${watch.image}"
+                    data-movement="${watch.movement || ""}"
+                    data-case-material="${watch.case_material || ""}"
+                    data-case-size="${watch.case_size || ""}"
+                    data-water-resistance="${watch.water_resistance || ""}"
+                    data-condition="${watch.condition || ""}">
 
                     <i class="fas fa-edit"></i>
 
@@ -141,6 +147,9 @@ function setupEditButtons() {
             document.getElementById("featured").checked =
                 button.dataset.featured === "true";
 
+            // Save current image while editing
+            window.currentWatchImage = button.dataset.image;
+            
             const saveBtn = document.querySelector("#watch-form button[type='submit']");
 
             saveBtn.innerHTML = `
