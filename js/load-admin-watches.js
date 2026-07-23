@@ -64,7 +64,8 @@ console.log("Supabase error:", error);
                     data-description="${watch.description || ""}"
                     data-featured="${watch.featured}"
                     
-                    data-image="${watch.image || ""}"
+                    data-image="${watch.image}"
+                    data-gallery='${JSON.stringify(watch.gallery || [])}'
                     data-image2="${watch.image2 || ""}"
                     data-image3="${watch.image3 || ""}"
                     data-image4="${watch.image4 || ""}"
@@ -146,6 +147,7 @@ function setupEditButtons() {
 
             // Save current image while editing
             window.currentWatchImage = button.dataset.image;
+            window.currentGallery = JSON.parse(button.dataset.gallery || "[]");
             window.currentWatchImage2 = button.dataset.image2;
             window.currentWatchImage3 = button.dataset.image3;
             window.currentWatchImage4 = button.dataset.image4;
