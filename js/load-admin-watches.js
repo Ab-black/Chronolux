@@ -142,6 +142,10 @@ function setupEditButtons() {
 
             // Save current image while editing
             window.currentWatchImage = button.dataset.image;
+            window.currentWatchImage2 = button.dataset.image2;
+            window.currentWatchImage3 = button.dataset.image3;
+            window.currentWatchImage4 = button.dataset.image4;
+            window.currentWatchImage5 = button.dataset.image5;
             
             const preview = document.getElementById("currentImage");
 
