@@ -65,7 +65,11 @@ console.log("Supabase error:", error);
                     data-featured="${watch.featured}"
                     
                     data-image="${watch.image || ""}"
-                    
+                    data-image2="${watch.image2 || ""}"
+                    data-image3="${watch.image3 || ""}"
+                    data-image4="${watch.image4 || ""}"
+                    data-image5="${watch.image5 || ""}"
+
                     data-movement="${watch.movement || ""}"
                     data-case-material="${watch.case_material || ""}"
                     data-case-size="${watch.case_size || ""}"
