@@ -62,17 +62,10 @@ console.log("Supabase error:", error);
                     data-old="${watch.old_price}"
                     data-new="${watch.new_price}"
                     data-description="${watch.description || ""}"
-                
-                    data-movement="${watch.movement || ""}"
-                    data-case-material="${watch.case_material || ""}"
-                    data-case-size="${watch.case_size || ""}"
-                    data-water-resistance="${watch.water_resistance || ""}"
-                    data-condition="${watch.condition || ""}"
-                
-                    data-image="${watch.image || ""}"
-                
                     data-featured="${watch.featured}"
-                    data-image="${watch.image}"
+                    
+                    data-image="${watch.image || ""}"
+                    
                     data-movement="${watch.movement || ""}"
                     data-case-material="${watch.case_material || ""}"
                     data-case-size="${watch.case_size || ""}"
@@ -149,6 +142,12 @@ function setupEditButtons() {
 
             // Save current image while editing
             window.currentWatchImage = button.dataset.image;
+            
+            const preview = document.getElementById("currentImage");
+
+            preview.src = button.dataset.image;
+            
+            preview.style.display = "block";
             
             const saveBtn = document.querySelector("#watch-form button[type='submit']");
 
