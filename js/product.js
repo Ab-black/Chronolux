@@ -24,6 +24,9 @@ async function loadProduct() {
         .eq("slug", slug)
         .single();
     
+    console.log("Slug:", slug);
+    console.log("Watch:", watch);
+    
     if (error) {
     
         console.log(error);
