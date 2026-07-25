@@ -53,40 +53,79 @@ async function loadProduct() {
         `${watch.brand} ${watch.model} | ChronoLux`;
 
     // =============================
-    // IMAGE
-    // =============================
+// IMAGE
+// =============================
 
-    const image = document.getElementById("product-image");
+const image = document.getElementById("product-image");
 
-    image.src = watch.image;
+const gallery = document.getElementById("gallery-thumbnails");
 
-    const thumbContainer = document.getElementById("gallery-thumbnails");
+gallery.innerHTML = "";
 
-    thumbContainer.innerHTML = "";
-    
-    // Main image first
-    const allImages = [
-        watch.image,
-        ...(galleryImages || []).map(img => img.image_url)
-    ];
-    
-    allImages.forEach(url => {
-    
-        const thumb = document.createElement("img");
-    
-        thumb.src = url;
-    
-        thumb.onclick = () => {
-    
-            image.src = url;
-    
-        };
-    
-        thumbContainer.appendChild(thumb);
-    
-    });
-    
-    image.alt = `${watch.brand} ${watch.model}`;
+// Build image array
+const allImages = [
+
+    watch.image,
+
+    ...(galleryImages || []).map(img => img.image_url)
+
+];
+
+// Set first image
+
+image.src = allImages[0];
+
+image.alt = `${watch.brand} ${watch.model}`;
+
+// Detect mobile
+
+const mobile = window.innerWidth <= 768;
+
+// Create gallery
+
+allImages.forEach((url,index)=>{
+
+    const item=document.createElement("div");
+
+    item.className="gallery-dot";
+
+    if(mobile){
+
+        item.innerHTML=`<img src="${url}" alt="">`;
+
+    }
+
+    if(index===0){
+
+        item.classList.add("active");
+
+    }
+
+    item.onclick=()=>{
+
+        image.style.opacity="0";
+
+        setTimeout(()=>{
+
+            image.src=url;
+
+            image.style.opacity="1";
+
+        },180);
+
+        document
+
+            .querySelectorAll(".gallery-dot")
+
+            .forEach(el=>el.classList.remove("active"));
+
+        item.classList.add("active");
+
+    };
+
+    gallery.appendChild(item);
+
+});ok
 
     
     // =============================
