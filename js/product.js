@@ -215,9 +215,6 @@ Thank you.`;
     document.getElementById("whatsapp-btn").href =
     `https://wa.me/2349039450751?text=${encodeURIComponent(message)}`;
 
-// Show the product after everything has loaded
-document.querySelector(".product-container").style.visibility = "visible";
-
 }
 
 
