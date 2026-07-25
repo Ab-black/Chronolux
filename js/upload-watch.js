@@ -161,29 +161,46 @@ if (editingWatchId && galleryUrls.length === 0) {
     
     };
     let result;
+let watchId;
 
-    alert("editingWatchId = " + editingWatchId);
+alert("editingWatchId = " + editingWatchId);
 
-    if (editingWatchId) {
+if (editingWatchId) {
 
-        alert("Updating watch...");
+    alert("Updating watch...");
 
-        result = await supabaseClient
-            .from("watches")
-            .update(watchData)
-            .eq("id", editingWatchId);
+    result = await supabaseClient
+        .from("watches")
+        .update(watchData)
+        .eq("id", editingWatchId)
+        .select()
+        .single();
 
-    } else {
+    watchId = editingWatchId;
 
-        alert("Adding new watch...");
+} else {
 
-        result = await supabaseClient
-            .from("watches")
-            .insert([watchData]);
+    alert("Adding new watch...");
 
-    }
+    result = await supabaseClient
+        .from("watches")
+        .insert([watchData])
+        .select()
+        .single();
 
-    const { error } = result;
+    watchId = result.data.id;
+
+}
+
+const { error } = result;
+
+if (error) {
+
+    alert(error.message);
+
+    return;
+
+}
 
     if (error) {
 
@@ -193,11 +210,34 @@ if (editingWatchId && galleryUrls.length === 0) {
 
     }
 
-    alert(
-        editingWatchId
-            ? "Watch updated successfully!"
-            : "Watch added successfully!"
-    );
+    // ======================================
+// SAVE GALLERY IMAGES
+// ======================================
+
+// Remove existing gallery images when editing
+if (editingWatchId) {
+
+    await supabaseClient
+        .from("watch_images")
+        .delete()
+        .eq("watch_id", watchId);
+
+}
+
+// Save newly uploaded gallery images
+for (let i = 0; i < galleryUrls.length; i++) {
+
+    await supabaseClient
+        .from("watch_images")
+        .insert({
+
+            watch_id: watchId,
+            image_url: galleryUrls[i],
+            sort_order: i + 1
+
+        });
+
+}
 
     // Reset form
 document.getElementById("watch-form").reset();
