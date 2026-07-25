@@ -1216,6 +1216,7 @@ MOBILE MENU
     color:var(--gold);
     line-height:1;
 }
+
 /*=========================================
 PRODUCT PAGE
 =========================================*/
@@ -1225,6 +1226,8 @@ PRODUCT PAGE
     background:#050505;
     min-height:100vh;
 }
+
+/* ---------- Breadcrumb ---------- */
 
 .breadcrumb{
     margin-bottom:50px;
@@ -1241,271 +1244,370 @@ PRODUCT PAGE
     color:var(--gold);
 }
 
+/* ---------- Layout ---------- */
+
 .product-container{
+
     display:grid;
+
     grid-template-columns:1fr 1fr;
+
     gap:80px;
-    align-items:center;
+
+    align-items:flex-start;
+
 }
+
+/* =================================
+LEFT SIDE
+================================= */
 
 .product-image{
 
-    background:#111;
-    padding:60px;
     display:flex;
+
     flex-direction:column;
-    justify-content:center;
+
     align-items:center;
-    border-radius:25px;
+
+}
+
+/* Main Image */
+
+.main-image{
+
+    width:100%;
+
+    max-width:560px;
+
+    aspect-ratio:1/1;
+
+    background:#111;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    padding:35px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
     box-shadow:var(--shadow);
 
 }
 
-.product-image img{
-    width:100%;
-    max-width:500px;
-    transition:.5s;
-}
-
-.product-image:hover img{
-    transform:scale(1.05);
-}
-
-.product-brand{
-    display:inline-block;
-    color:var(--gold);
-    letter-spacing:3px;
-    text-transform:uppercase;
-    font-size:14px;
-    margin-bottom:15px;
-}
-
-.product-details h1{
-    font-family:'Cormorant Garamond',serif;
-    font-size:64px;
-    margin-bottom:20px;
-    line-height:1.1;
-}
-
-.product-description{
-    color:var(--gray);
-    font-size:17px;
-    line-height:1.9;
-    margin:35px 0;
-}
-/* ==========================================
-   PRODUCT GALLERY
-========================================== */
-
-.main-image{
-    width:100%;
-    max-width:520px;
-    aspect-ratio:1/1;
-    background:#111;
-    border-radius:18px;
-    overflow:hidden;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
 .main-image img{
+
     width:100%;
+
     height:100%;
+
     object-fit:contain;
+
     transition:.35s;
+
 }
 
 .main-image:hover img{
-    transform:scale(1.08);
+
+    transform:scale(1.04);
+
 }
 
-/*=========================================
-PRODUCT RESPONSIVE
-=========================================*/
+/* Gallery */
+
+.gallery-thumbnails{
+
+    margin-top:22px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:14px;
+
+    flex-wrap:wrap;
+
+}
+
+.gallery-thumb{
+
+    width:80px;
+
+    height:80px;
+
+    object-fit:cover;
+
+    border-radius:12px;
+
+    border:2px solid transparent;
+
+    cursor:pointer;
+
+    opacity:.75;
+
+    transition:.3s;
+
+}
+
+.gallery-thumb:hover{
+
+    transform:translateY(-5px);
+
+    opacity:1;
+
+    border-color:var(--gold);
+
+}
+
+.active-thumb{
+
+    opacity:1;
+
+    border-color:var(--gold);
+
+    box-shadow:0 0 15px rgba(200,169,106,.45);
+
+}
+
+/* =================================
+RIGHT SIDE
+================================= */
+
+.product-brand{
+
+    display:inline-block;
+
+    color:var(--gold);
+
+    text-transform:uppercase;
+
+    letter-spacing:3px;
+
+    font-size:14px;
+
+    margin-bottom:12px;
+
+}
+
+.product-details h1{
+
+    font-family:'Cormorant Garamond',serif;
+
+    font-size:64px;
+
+    line-height:1.1;
+
+    margin-bottom:18px;
+
+}
+
+/* Price */
+
+.watch-price{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    gap:14px;
+
+    margin:25px 0;
+
+}
+
+.old-price{
+
+    font-size:20px;
+
+    color:#777;
+
+    text-decoration:line-through;
+
+}
+
+.new-price{
+
+    font-size:40px;
+
+    color:var(--gold);
+
+    font-weight:700;
+
+}
+
+/* Description */
+
+.product-description{
+
+    color:var(--gray);
+
+    line-height:1.9;
+
+    margin:35px 0;
+
+}
+
+/* Specifications */
+
+.specifications{
+
+    background:#111;
+
+    padding:28px;
+
+    border-radius:18px;
+
+    margin-bottom:35px;
+
+}
+
+.specifications h3{
+
+    font-family:'Cormorant Garamond',serif;
+
+    font-size:30px;
+
+    margin-bottom:20px;
+
+}
+
+.specifications li{
+
+    margin-bottom:14px;
+
+}
+
+.specifications strong{
+
+    width:160px;
+
+    display:inline-block;
+
+    color:#fff;
+
+}
+
+/* Button */
+
+.watch-btn{
+
+    margin-top:10px;
+
+}
+
+/* =================================
+TABLET
+================================= */
 
 @media(max-width:992px){
 
 .product-container{
+
     grid-template-columns:1fr;
+
     gap:60px;
+
 }
 
 .product-details{
-    text-align:center;
-}
 
-.product-details h1{
-    font-size:52px;
+    text-align:center;
+
 }
 
 .watch-price{
+
     justify-content:center;
+
 }
 
 .specifications{
+
     text-align:left;
-}
 
-.product-image{
-    padding:40px;
 }
 
 }
+
+/* =================================
+PHONE
+================================= */
 
 @media(max-width:768px){
 
 .product-page{
+
     padding:130px 0 80px;
+
 }
 
 .product-details h1{
-    font-size:42px;
+
+    font-size:44px;
+
 }
 
 .new-price{
-    font-size:38px;
+
+    font-size:34px;
+
 }
 
 .old-price{
-    font-size:20px;
-}
 
-.product-image{
-    padding:30px;
-}
-
-.specifications strong{
-    width:120px;
-}
+    font-size:18px;
 
 }
 
-@media(max-width:768px){
+.gallery-thumb{
 
-    .main-image{
-        max-width:100%;
-    }
+    width:65px;
 
-    .gallery-thumb{
-        width:60px;
-        height:60px;
-    }
+    height:65px;
 
 }
+
+}
+
+/* =================================
+SMALL PHONE
+================================= */
 
 @media(max-width:480px){
 
 .product-details h1{
+
     font-size:34px;
-}
-
-.product-description{
-    font-size:16px;
-}
-
-.new-price{
-    font-size:32px;
-}
-
-.old-price{
-    font-size:18px;
-}
-
-.product-image{
-    padding:20px;
-}
-
-.main-image img{
-
-    height:420px;
 
 }
 
-.thumbnail-gallery{
+.main-image{
 
-    width:100%;
-    flex-direction:row;
+    padding:18px;
+
+}
+
+.gallery-thumbnails{
+
+    flex-wrap:nowrap;
+
+    justify-content:flex-start;
+
     overflow-x:auto;
-    gap:10px;
+
+    padding-bottom:8px;
 
 }
 
-.thumbnail-gallery img{
+.gallery-thumb{
 
-    width:90px;
-    height:90px;
     flex-shrink:0;
 
 }
 
-}
-
-@media (max-width:768px){
-
-.product-gallery{
-
-    flex-direction:column;
-
-}
-/* ======================================
-   PRODUCT GALLERY
-====================================== */
-
-.product-gallery{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:20px;
-}
-
-.product-main-image{
-    width:100%;
-    max-width:520px;
-    aspect-ratio:1/1;
-    background:#111;
-    border-radius:18px;
-    overflow:hidden;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.product-main-image img{
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    transition:.35s;
-}
-
-.gallery-thumbnails{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:12px;
-    flex-wrap:wrap;
-}
-
-.gallery-thumb{
-    width:75px;
-    height:75px;
-    object-fit:cover;
-    border-radius:10px;
-    border:2px solid transparent;
-    cursor:pointer;
-    transition:.3s;
-    opacity:.75;
-}
-
-.gallery-thumb:hover{
-    transform:translateY(-4px);
-    border-color:#d4af37;
-    opacity:1;
-} border-color:#d4af37;
-
-.active-thumb{
-    border-color:#d4af37;
-    opacity:1;
-    box-shadow:0 0 12px rgba(212,175,55,.45);
-}
 }
