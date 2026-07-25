@@ -125,7 +125,7 @@ allImages.forEach((url,index)=>{
 
     gallery.appendChild(item);
 
-});ok
+});
 
     
     // =============================
