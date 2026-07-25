@@ -1320,116 +1320,57 @@ PRODUCT PAGE
    PRODUCT GALLERY
 ========================================== */
 
-.product-gallery{
+.product-image{
     display:flex;
-    gap:20px;
-    align-items:flex-start;
+    flex-direction:column;
+    align-items:center;
 }
 
-/* Main Image */
-
 .main-image{
-    flex:1;
+    width:100%;
+    max-width:520px;
+    aspect-ratio:1/1;
+    background:#111;
+    border-radius:18px;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
 .main-image img{
     width:100%;
-    height:650px;
-    object-fit:cover;
-    border-radius:15px;
-    display:block;
+    height:100%;
+    object-fit:contain;
+    transition:.35s;
 }
 
-/* Thumbnails */
-
-.thumbnail-gallery{
-    width:120px;
+.gallery-thumbnails{
+    margin-top:20px;
     display:flex;
-    flex-direction:column;
-    gap:15px;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
 }
 
-.thumbnail-gallery img{
-    width:120px;
-    height:120px;
+.gallery-thumb{
+    width:75px;
+    height:75px;
     object-fit:cover;
     border-radius:10px;
+    border:2px solid transparent;
     cursor:pointer;
     transition:.3s;
-    border:2px solid transparent;
 }
 
-.thumbnail-gallery img:hover{
-    transform:scale(1.05);
+.gallery-thumb:hover{
+    transform:translateY(-4px);
     border-color:#d4af37;
 }
 
-/* Price */
-
-.watch-price{
-    display:flex;
-    align-items:flex-end;
-    gap:18px;
-    margin:30px 0;
+.active-thumb{
+    border-color:#d4af37;
 }
-
-.old-price{
-    color:#777;
-    text-decoration:line-through;
-    font-size:24px;
-    font-weight:500;
-}
-
-.new-price{
-    color:var(--gold);
-    font-size:48px;
-    font-weight:700;
-    line-height:1;
-}
-
-/* Specifications */
-
-.specifications{
-    margin:40px 0;
-}
-
-.specifications h3{
-    font-family:'Cormorant Garamond',serif;
-    font-size:34px;
-    margin-bottom:20px;
-}
-
-.specifications ul{
-    padding:0;
-}
-
-.specifications li{
-    list-style:none;
-    padding:14px 0;
-    border-bottom:1px solid rgba(255,255,255,.08);
-    color:#ddd;
-}
-
-.specifications strong{
-    color:var(--gold);
-    display:inline-block;
-    width:170px;
-}
-
-.product-details .watch-btn{
-    display:inline-block;
-    margin-top:20px;
-    padding:18px 45px;
-}
-
-/* Hover Card */
-
-.product-image:hover{
-    box-shadow:
-        0 20px 60px rgba(0,0,0,.55),
-        0 0 35px rgba(200,169,106,.18);
-}
-
 /*=========================================
 PRODUCT RESPONSIVE
 =========================================*/
@@ -1488,6 +1429,19 @@ PRODUCT RESPONSIVE
 .specifications strong{
     width:120px;
 }
+
+}
+
+@media(max-width:768px){
+
+    .main-image{
+        max-width:100%;
+    }
+
+    .gallery-thumb{
+        width:60px;
+        height:60px;
+    }
 
 }
 
