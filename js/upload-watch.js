@@ -143,8 +143,10 @@ if (editingWatchId && galleryUrls.length === 0) {
         brand: brand,
         model: model,
         slug: slug,
+    
         old_price: oldPrice,
         new_price: newPrice,
+    
         description: description,
     
         image: imageUrl || window.currentWatchImage,
@@ -155,10 +157,9 @@ if (editingWatchId && galleryUrls.length === 0) {
         case_material: caseMaterial,
         case_size: caseSize,
         water_resistance: waterResistance,
-        condition: condition,
-        gallery: galleryUrls,
+        condition: condition
+    
     };
-
     let result;
 
     alert("editingWatchId = " + editingWatchId);
