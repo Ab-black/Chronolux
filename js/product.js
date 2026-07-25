@@ -60,7 +60,7 @@ async function loadProduct() {
 
     image.src = watch.image;
 
-    const thumbContainer = document.getElementById("thumbnail-gallery");
+    const thumbContainer = document.getElementById("gallery-thumbnails");
 
     thumbContainer.innerHTML = "";
     
@@ -88,52 +88,6 @@ async function loadProduct() {
     
     image.alt = `${watch.brand} ${watch.model}`;
 
-    // =============================
-    // GALLERY
-    // =============================
-    
-    const galleryContainer =
-        document.getElementById("gallery-thumbnails");
-    
-    galleryContainer.innerHTML = "";
-
-    if (galleryImages && galleryImages.length > 0) {
-
-    galleryImages.forEach((item, index) => {
-
-        const thumb = document.createElement("img");
-
-        thumb.src = item.image_url;
-
-        thumb.className = "gallery-thumb";
-
-        if (index === 0) {
-
-            thumb.classList.add("active-thumb");
-
-        }
-
-        thumb.onclick = () => {
-
-            image.src = item.image_url;
-
-            document
-                .querySelectorAll(".gallery-thumb")
-                .forEach(img => {
-
-                    img.classList.remove("active-thumb");
-
-                });
-
-            thumb.classList.add("active-thumb");
-
-        };
-
-        galleryContainer.appendChild(thumb);
-
-    });
-
-}
     
     // =============================
     // BRAND
