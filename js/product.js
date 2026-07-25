@@ -42,6 +42,7 @@ async function loadProduct() {
         .select("*")
         .eq("watch_id", watch.id)
         .order("sort_order", { ascending: true });
+    console.log("Gallery Images:", galleryImages);
     
     if (galleryError) {
     
