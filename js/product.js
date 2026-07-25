@@ -26,6 +26,7 @@ async function loadProduct() {
     
     console.log("Slug:", slug);
     console.log("Watch:", watch);
+    console.log("Description:", watch.description);
     
     if (error) {
     
