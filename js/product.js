@@ -146,7 +146,12 @@ allImages.forEach((url,index)=>{
 
     document.getElementById("product-name").textContent =
         watch.model;
+    
+    document.getElementById("breadcrumb-brand").textContent =
+    watch.brand;
 
+    document.getElementById("breadcrumb-model").textContent =
+    watch.model;
     // =============================
     // PRICES
     // =============================
