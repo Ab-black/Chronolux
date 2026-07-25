@@ -60,6 +60,32 @@ async function loadProduct() {
 
     image.src = watch.image;
 
+    const thumbContainer = document.getElementById("thumbnail-gallery");
+
+    thumbContainer.innerHTML = "";
+    
+    // Main image first
+    const allImages = [
+        watch.image,
+        ...(galleryImages || []).map(img => img.image_url)
+    ];
+    
+    allImages.forEach(url => {
+    
+        const thumb = document.createElement("img");
+    
+        thumb.src = url;
+    
+        thumb.onclick = () => {
+    
+            image.src = url;
+    
+        };
+    
+        thumbContainer.appendChild(thumb);
+    
+    });
+    
     image.alt = `${watch.brand} ${watch.model}`;
 
     // =============================
