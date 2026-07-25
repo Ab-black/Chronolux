@@ -1256,6 +1256,8 @@ PRODUCT PAGE
 
     align-items:flex-start;
 
+    visibility:hidden;
+
 }
 
 /* =================================
