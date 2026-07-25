@@ -212,10 +212,7 @@ Could you please let me know:
 
 Thank you.`;
 
-    document.getElementById("whatsapp-btn").href =
-    `https://wa.me/2349039450751?text=${encodeURIComponent(message)}`;
-
-}
-
+   document.getElementById("whatsapp-btn").href =
+`https://wa.me/2349039450751?text=${encodeURIComponent(message)}`;
 
 }
