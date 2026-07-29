@@ -1299,6 +1299,8 @@ Main Image
 
     overflow:hidden;
 
+    cursor:zoom-in;
+
     padding:35px;
 
     display:flex;
