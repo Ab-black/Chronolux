@@ -244,16 +244,16 @@ lightboxClose.onclick = () => {
 // CLICK OUTSIDE TO CLOSE
 // =============================
 
-lightbox.onclick = (e) => {
+lightbox.addEventListener("click", function (e) {
 
-    if(e.target === lightbox){
+    if (!e.target.closest(".lightbox-content")) {
 
         lightbox.classList.remove("show");
 
     }
 
-};
-
+});
+    
 // =============================
 // ESC KEY
 // =============================
