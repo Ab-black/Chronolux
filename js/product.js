@@ -71,6 +71,21 @@ const prevBtn = document.getElementById("gallery-prev");
 
 const nextBtn = document.getElementById("gallery-next");
 
+// =============================
+// LIGHTBOX ELEMENTS
+// =============================
+
+const lightbox = document.getElementById("lightbox");
+
+const lightboxImage = document.getElementById("lightbox-image");
+
+const lightboxDots = document.getElementById("lightbox-dots");
+
+const lightboxPrev = document.getElementById("lightbox-prev");
+
+const lightboxNext = document.getElementById("lightbox-next");
+
+const lightboxClose = document.getElementById("lightbox-close");
 // Build gallery
 
 const allImages = [
@@ -96,6 +111,8 @@ function showImage(index){
     setTimeout(()=>{
 
         image.src = allImages[currentIndex];
+
+        lightboxImage.src = allImages[currentIndex];
 
         image.style.opacity = "1";
 
@@ -201,6 +218,18 @@ nextBtn.onclick = ()=>{
 
 showImage(0);
 
+    // =============================
+// OPEN LIGHTBOX
+// =============================
+
+image.onclick = () => {
+
+    lightbox.classList.add("show");
+
+    lightboxImage.src = allImages[currentIndex];
+
+};
+    
     // =============================
 // Keyboard Navigation
 // =============================
