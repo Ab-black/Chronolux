@@ -184,13 +184,27 @@ allImages.forEach((url,index)=>{
 
 // Previous button
 
-prevBtn.onclick = ()=>{
+prevBtn.onclick = () => {
 
     currentIndex--;
 
-    if(currentIndex<0){
+    if(currentIndex < 0){
 
-        currentIndex = allImages.length-1;
+        currentIndex = allImages.length - 1;
+
+    }
+
+    showImage(currentIndex);
+
+};
+
+nextBtn.onclick = () => {
+
+    currentIndex++;
+
+    if(currentIndex >= allImages.length){
+
+        currentIndex = 0;
 
     }
 
@@ -244,15 +258,21 @@ lightboxClose.onclick = () => {
 // CLICK OUTSIDE TO CLOSE
 // =============================
 
-lightbox.addEventListener("click", function (e) {
+lightbox.onclick = (e) => {
 
-    if (!e.target.closest(".lightbox-content")) {
+    if(
+
+        e.target === lightbox ||
+
+        e.target.classList.contains("lightbox")
+
+    ){
 
         lightbox.classList.remove("show");
 
     }
 
-});
+};
     
 // =============================
 // ESC KEY
@@ -272,15 +292,31 @@ document.addEventListener("keydown",(e)=>{
 // LIGHTBOX ARROWS
 // =============================
 
-lightboxNext.onclick = () => {
+lightboxPrev.onclick = () => {
 
-    nextBtn.click();
+    currentIndex--;
+
+    if(currentIndex < 0){
+
+        currentIndex = allImages.length - 1;
+
+    }
+
+    showImage(currentIndex);
 
 };
 
-lightboxPrev.onclick = () => {
+lightboxNext.onclick = () => {
 
-    prevBtn.click();
+    currentIndex++;
+
+    if(currentIndex >= allImages.length){
+
+        currentIndex = 0;
+
+    }
+
+    showImage(currentIndex);
 
 };
     // =============================
