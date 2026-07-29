@@ -57,17 +57,22 @@ async function loadProduct() {
     document.title =
         `${watch.brand} ${watch.model} | ChronoLux`;
 
-    // =============================
-// IMAGE
+// =============================
+// IMAGE GALLERY
 // =============================
 
 const image = document.getElementById("product-image");
 
-const gallery = document.getElementById("gallery-thumbnails");
+const dotsContainer = document.getElementById("gallery-dots");
 
-gallery.innerHTML = "";
+const thumbContainer = document.getElementById("gallery-thumbnails");
 
-// Build image array
+const prevBtn = document.getElementById("gallery-prev");
+
+const nextBtn = document.getElementById("gallery-next");
+
+// Build gallery
+
 const allImages = [
 
     watch.image,
@@ -76,62 +81,125 @@ const allImages = [
 
 ];
 
-// Set first image
+// Current image index
 
-image.src = allImages[0];
+let currentIndex = 0;
 
-image.alt = `${watch.brand} ${watch.model}`;
+// Show image
 
-// Detect mobile
+function showImage(index){
 
-const mobile = window.innerWidth <= 768;
+    currentIndex = index;
 
-// Create gallery
+    image.style.opacity = "0";
+
+    setTimeout(()=>{
+
+        image.src = allImages[currentIndex];
+
+        image.style.opacity = "1";
+
+    },180);
+
+    // Active dot
+
+    document.querySelectorAll(".gallery-dot").forEach((dot,i)=>{
+
+        dot.classList.toggle("active", i===currentIndex);
+
+    });
+
+    // Active thumbnail
+
+    document.querySelectorAll(".gallery-thumb").forEach((thumb,i)=>{
+
+        thumb.classList.toggle("active", i===currentIndex);
+
+    });
+
+}
+
+// Clear old content
+
+dotsContainer.innerHTML = "";
+
+thumbContainer.innerHTML = "";
+
+// Build gallery controls
 
 allImages.forEach((url,index)=>{
 
-    const item=document.createElement("div");
+    // Desktop dots
 
-    item.className="gallery-dot";
+    const dot = document.createElement("div");
 
-    if(mobile){
-
-        item.innerHTML=`<img src="${url}" alt="">`;
-
-    }
+    dot.className = "gallery-dot";
 
     if(index===0){
 
-        item.classList.add("active");
+        dot.classList.add("active");
 
     }
 
-    item.onclick=()=>{
+    dot.onclick = ()=>showImage(index);
 
-        image.style.opacity="0";
+    dotsContainer.appendChild(dot);
 
-        setTimeout(()=>{
+    // Mobile thumbnail
 
-            image.src=url;
+    const thumb = document.createElement("img");
 
-            image.style.opacity="1";
+    thumb.src = url;
 
-        },180);
+    thumb.className = "gallery-thumb";
 
-        document
+    if(index===0){
 
-            .querySelectorAll(".gallery-dot")
+        thumb.classList.add("active");
 
-            .forEach(el=>el.classList.remove("active"));
+    }
 
-        item.classList.add("active");
+    thumb.onclick = ()=>showImage(index);
 
-    };
-
-    gallery.appendChild(item);
+    thumbContainer.appendChild(thumb);
 
 });
 
+// Previous button
+
+prevBtn.onclick = ()=>{
+
+    currentIndex--;
+
+    if(currentIndex<0){
+
+        currentIndex = allImages.length-1;
+
+    }
+
+    showImage(currentIndex);
+
+};
+
+// Next button
+
+nextBtn.onclick = ()=>{
+
+    currentIndex++;
+
+    if(currentIndex>=allImages.length){
+
+        currentIndex = 0;
+
+    }
+
+    showImage(currentIndex);
+
+};
+
+// Initial image
+
+showImage(0);
     
     // =============================
     // BRAND
