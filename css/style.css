@@ -1874,3 +1874,234 @@ SMALL PHONE
 }
 
 }
+
+/*=========================================
+FULLSCREEN GALLERY
+=========================================*/
+
+.lightbox{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.95);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.35s;
+
+    z-index:99999;
+
+}
+
+.lightbox.show{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+.lightbox-content{
+
+    position:relative;
+
+    width:90%;
+
+    max-width:900px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+}
+
+.lightbox-image{
+
+    width:100%;
+
+    max-height:82vh;
+
+    object-fit:contain;
+
+    transition:.3s;
+
+}
+
+.lightbox-content img{
+
+    width:100%;
+
+    max-height:82vh;
+
+    object-fit:contain;
+
+}
+
+.lightbox-close{
+
+    position:absolute;
+
+    top:30px;
+
+    right:40px;
+
+    width:52px;
+
+    height:52px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.08);
+
+    color:#fff;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.lightbox-close:hover{
+
+    background:var(--gold);
+
+    color:#000;
+
+}
+
+.lightbox-arrow{
+
+    position:absolute;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:60px;
+
+    height:60px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.08);
+
+    color:#fff;
+
+    font-size:24px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.lightbox-arrow:hover{
+
+    background:var(--gold);
+
+    color:#000;
+
+}
+
+.lightbox-left{
+
+    left:40px;
+
+}
+
+.lightbox-right{
+
+    right:40px;
+
+}
+
+.lightbox-dots{
+
+    display:flex;
+
+    gap:12px;
+
+    margin-top:35px;
+
+}
+
+.lightbox-dot{
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+    background:#666;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.lightbox-dot.active{
+
+    background:var(--gold);
+
+    transform:scale(1.25);
+
+}
+
+/*==============================
+MOBILE
+==============================*/
+
+@media(max-width:768px){
+
+.lightbox-arrow{
+
+    width:48px;
+
+    height:48px;
+
+    font-size:20px;
+
+}
+
+.lightbox-left{
+
+    left:15px;
+
+}
+
+.lightbox-right{
+
+    right:15px;
+
+}
+
+.lightbox-close{
+
+    top:20px;
+
+    right:20px;
+
+}
+
+}
+
