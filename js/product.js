@@ -229,7 +229,60 @@ image.onclick = () => {
     lightboxImage.src = allImages[currentIndex];
 
 };
-    
+
+// =============================
+// CLOSE LIGHTBOX
+// =============================
+
+lightboxClose.onclick = () => {
+
+    lightbox.classList.remove("show");
+
+};
+
+// =============================
+// CLICK OUTSIDE TO CLOSE
+// =============================
+
+lightbox.onclick = (e) => {
+
+    if(e.target === lightbox){
+
+        lightbox.classList.remove("show");
+
+    }
+
+};
+
+// =============================
+// ESC KEY
+// =============================
+
+document.addEventListener("keydown",(e)=>{
+
+    if(e.key==="Escape"){
+
+        lightbox.classList.remove("show");
+
+    }
+
+});
+
+// =============================
+// LIGHTBOX ARROWS
+// =============================
+
+lightboxNext.onclick = () => {
+
+    nextBtn.click();
+
+};
+
+lightboxPrev.onclick = () => {
+
+    prevBtn.click();
+
+};
     // =============================
 // Keyboard Navigation
 // =============================
