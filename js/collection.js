@@ -2,6 +2,10 @@
 // CHRONOLUX COLLECTION
 // ==========================================
 
+let allWatches = [];
+
+document.addEventListener("DOMContentLoaded", loadCollection);
+
 async function loadCollection() {
 
     const grid = document.getElementById("watch-grid");
@@ -25,19 +29,35 @@ async function loadCollection() {
 
     }
 
-    if (watches.length === 0) {
+    allWatches = watches;
 
-        grid.innerHTML = "<p>No watches available.</p>";
+    populateBrandFilter(watches);
+
+    renderWatches(watches);
+
+}
+
+// ==========================================
+// RENDER WATCHES
+// ==========================================
+
+function renderWatches(watches){
+
+    const grid = document.getElementById("watch-grid");
+
+    if(watches.length===0){
+
+        grid.innerHTML="<p>No watches available.</p>";
 
         return;
 
     }
 
-    grid.innerHTML = "";
+    grid.innerHTML="";
 
-    watches.forEach(watch => {
+    watches.forEach(watch=>{
 
-        grid.innerHTML += `
+        grid.innerHTML+=`
 
         <div class="watch-card">
 
@@ -62,13 +82,10 @@ async function loadCollection() {
                 </h4>
 
                 <a
-                    href="https://wa.me/2349039450751?text=${encodeURIComponent(
-                        `Hello, I'm interested in the ${watch.brand} ${watch.model}.`
-                    )}"
-                    target="_blank"
+                    href="product.html?slug=${watch.slug}"
                     class="watch-btn">
 
-                    Request Availability
+                    View Details
 
                 </a>
 
@@ -82,4 +99,22 @@ async function loadCollection() {
 
 }
 
-document.addEventListener("DOMContentLoaded", loadCollection);
+// ==========================================
+// POPULATE BRAND FILTER
+// ==========================================
+
+function populateBrandFilter(watches){
+
+    const brandFilter = document.getElementById("brand-filter");
+
+    const brands = [...new Set(watches.map(w => w.brand))];
+
+    brands.sort();
+
+    brands.forEach(brand=>{
+
+        brandFilter.innerHTML += `<option value="${brand}">${brand}</option>`;
+
+    });
+
+}
