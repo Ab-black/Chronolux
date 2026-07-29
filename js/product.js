@@ -200,7 +200,32 @@ nextBtn.onclick = ()=>{
 // Initial image
 
 showImage(0);
-    
+
+    // =============================
+// Keyboard Navigation
+// =============================
+
+document.addEventListener("keydown", (e) => {
+
+    // Ignore key presses while typing
+    if (
+        document.activeElement.tagName === "INPUT" ||
+        document.activeElement.tagName === "TEXTAREA"
+    ) return;
+
+    if (e.key === "ArrowRight") {
+
+        nextBtn.click();
+
+    }
+
+    if (e.key === "ArrowLeft") {
+
+        prevBtn.click();
+
+    }
+
+});
     // =============================
     // BRAND
     // =============================
