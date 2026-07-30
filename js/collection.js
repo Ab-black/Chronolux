@@ -42,7 +42,14 @@ async function loadCollection() {
 // ==========================================
 
 function renderWatches(watches){
+document
+    .getElementById("watch-search")
+    .addEventListener("input", filterWatches);
 
+document
+    .getElementById("brand-filter")
+    .addEventListener("change", filterWatches);
+    
     const grid = document.getElementById("watch-grid");
 
     if(watches.length===0){
@@ -116,5 +123,42 @@ function populateBrandFilter(watches){
         brandFilter.innerHTML += `<option value="${brand}">${brand}</option>`;
 
     });
+
+}
+
+// ==========================================
+// FILTER WATCHES
+// ==========================================
+
+function filterWatches(){
+
+    const search = document
+        .getElementById("watch-search")
+        .value
+        .toLowerCase();
+
+    const brand = document
+        .getElementById("brand-filter")
+        .value;
+
+    let filtered = allWatches.filter(watch => {
+
+        const matchesSearch =
+
+            watch.model.toLowerCase().includes(search) ||
+
+            watch.brand.toLowerCase().includes(search);
+
+        const matchesBrand =
+
+            brand === "all" ||
+
+            watch.brand === brand;
+
+        return matchesSearch && matchesBrand;
+
+    });
+
+    renderWatches(filtered);
 
 }
