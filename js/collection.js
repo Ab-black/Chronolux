@@ -31,24 +31,25 @@ async function loadCollection() {
 
     allWatches = watches;
 
-    populateBrandFilter(watches);
+populateBrandFilter(watches);
 
-    renderWatches(watches);
+renderWatches(watches);
 
-}
+// Search
+document
+    .getElementById("watch-search")
+    .addEventListener("input", filterWatches);
+
+// Brand
+document
+    .getElementById("brand-filter")
+    .addEventListener("change", filterWatches);
 
 // ==========================================
 // RENDER WATCHES
 // ==========================================
 
 function renderWatches(watches){
-document
-    .getElementById("watch-search")
-    .addEventListener("input", filterWatches);
-
-document
-    .getElementById("brand-filter")
-    .addEventListener("change", filterWatches);
     
     const grid = document.getElementById("watch-grid");
 
