@@ -2384,3 +2384,86 @@ ABOUT PAGE
 }
 
 }
+/*=========================================
+CONTACT HERO
+=========================================*/
+
+.contact-hero{
+
+    min-height:90vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    padding:140px 20px;
+
+    background:
+    linear-gradient(rgba(0,0,0,.78), rgba(0,0,0,.85)),
+    url("../images/hero/contact-hero.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+}
+
+.contact-hero .container{
+
+    max-width:850px;
+
+}
+
+.contact-hero h1{
+
+    font-family:"Cormorant Garamond", serif;
+
+    font-size:72px;
+
+    margin-bottom:25px;
+
+}
+
+.contact-hero p{
+
+    color:#b9b9b9;
+
+    font-size:18px;
+
+    line-height:1.9;
+
+    max-width:700px;
+
+    margin:auto;
+
+}
+
+@media(max-width:768px){
+
+.contact-hero{
+
+    min-height:75vh;
+
+    padding:120px 25px 80px;
+
+}
+
+.contact-hero h1{
+
+    font-size:46px;
+
+}
+
+.contact-hero p{
+
+    font-size:16px;
+
+}
+
+}
