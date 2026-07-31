@@ -2390,17 +2390,17 @@ CONTACT HERO
 
 .contact-hero{
 
-    min-height:90vh;
+    height:100vh;
+
+    min-height:700px;
 
     display:flex;
 
-    justify-content:center;
-
     align-items:center;
 
-    text-align:center;
+    padding-top:82px;
 
-    padding:140px 20px;
+    text-align:left;
 
     background:
     linear-gradient(rgba(0,0,0,.78), rgba(0,0,0,.85)),
@@ -2413,10 +2413,11 @@ CONTACT HERO
     background-repeat:no-repeat;
 
 }
-
 .contact-hero .container{
 
-    max-width:850px;
+    width:90%;
+
+    max-width:1280px;
 
 }
 
