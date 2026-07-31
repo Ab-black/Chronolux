@@ -74,7 +74,9 @@ function renderWatches(watches) {
 
         grid.innerHTML += `
 
-        <div class="watch-card">
+        <div
+    class="watch-card"
+    onclick="window.location.href='product.html?slug=${watch.slug}'">
 
             <div class="watch-image">
 
