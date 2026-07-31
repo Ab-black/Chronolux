@@ -2249,8 +2249,8 @@ ABOUT PAGE
     padding:140px 20px;
 
     background:
-        linear-gradient(rgba(0,0,0,.75), rgba(0,0,0,.85)),
-        url("../images/about-hero.jpg");
+    linear-gradient(rgba(0,0,0,.75), rgba(0,0,0,.85)),
+    url("../images/hero/about-hero.jpg");
 
     background-size:cover;
 
