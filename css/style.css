@@ -519,6 +519,57 @@ transform:translateY(0);
 
 }
 /*=========================================
+PAGE HERO BACKGROUNDS
+=========================================*/
+
+/* Home Hero */
+
+.hero{
+
+    background:
+    linear-gradient(rgba(0,0,0,.70), rgba(0,0,0,.80)),
+    url("../images/hero/home-hero.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+}
+
+/* Collection Hero */
+
+.page-hero{
+
+    background:
+    linear-gradient(rgba(0,0,0,.72), rgba(0,0,0,.82)),
+    url("../images/hero/collection-hero.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+}
+
+/* Contact Hero */
+
+.contact-hero{
+
+    background:
+    linear-gradient(rgba(0,0,0,.75), rgba(0,0,0,.85)),
+    url("../images/hero/contact-hero.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+}
+/*=========================================
 COLLECTION SECTION
 =========================================*/
 
