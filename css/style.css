@@ -2230,3 +2230,106 @@ width:100%;
 }
 
 }
+/*=========================================
+ABOUT PAGE
+=========================================*/
+
+.about-hero{
+
+    min-height:90vh;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    padding:140px 20px;
+
+    background:
+        linear-gradient(rgba(0,0,0,.75), rgba(0,0,0,.85)),
+        url("../images/about-hero.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+}
+
+.about-hero .container{
+
+    max-width:850px;
+
+}
+
+.hero-subtitle{
+
+    display:inline-block;
+
+    color:var(--gold);
+
+    font-size:14px;
+
+    letter-spacing:5px;
+
+    text-transform:uppercase;
+
+    margin-bottom:20px;
+
+}
+
+.about-hero h1{
+
+    font-family:"Cormorant Garamond", serif;
+
+    font-size:72px;
+
+    line-height:1.1;
+
+    color:#fff;
+
+    margin-bottom:30px;
+
+}
+
+.about-hero p{
+
+    color:#b9b9b9;
+
+    font-size:18px;
+
+    line-height:1.9;
+
+    max-width:700px;
+
+    margin:0 auto 40px;
+
+}
+
+@media(max-width:768px){
+
+.about-hero{
+
+    min-height:75vh;
+
+    padding:120px 25px 80px;
+
+}
+
+.about-hero h1{
+
+    font-size:46px;
+
+}
+
+.about-hero p{
+
+    font-size:16px;
+
+}
+
+}
