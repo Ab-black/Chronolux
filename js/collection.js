@@ -31,41 +31,48 @@ async function loadCollection() {
 
     allWatches = watches;
 
-populateBrandFilter(watches);
+    populateBrandFilter(watches);
 
-renderWatches(watches);
+    renderWatches(watches);
 
-// Search
-document
-    .getElementById("watch-search")
-    .addEventListener("input", filterWatches);
+    // Search
+    document
+        .getElementById("watch-search")
+        .addEventListener("input", filterWatches);
 
-// Brand
-document
-    .getElementById("brand-filter")
-    .addEventListener("change", filterWatches);
+    // Brand
+    document
+        .getElementById("brand-filter")
+        .addEventListener("change", filterWatches);
+
+    // Sort
+    document
+        .getElementById("sort-filter")
+        .addEventListener("change", filterWatches);
+
 }
+
 // ==========================================
 // RENDER WATCHES
 // ==========================================
 
-function renderWatches(watches){
-    
+function renderWatches(watches) {
+
     const grid = document.getElementById("watch-grid");
 
-    if(watches.length===0){
+    if (watches.length === 0) {
 
-        grid.innerHTML="<p>No watches available.</p>";
+        grid.innerHTML = "<p>No watches found.</p>";
 
         return;
 
     }
 
-    grid.innerHTML="";
+    grid.innerHTML = "";
 
-    watches.forEach(watch=>{
+    watches.forEach(watch => {
 
-        grid.innerHTML+=`
+        grid.innerHTML += `
 
         <div class="watch-card">
 
@@ -108,30 +115,34 @@ function renderWatches(watches){
 }
 
 // ==========================================
-// POPULATE BRAND FILTER
+// BRAND FILTER
 // ==========================================
 
-function populateBrandFilter(watches){
+function populateBrandFilter(watches) {
 
     const brandFilter = document.getElementById("brand-filter");
+
+    brandFilter.innerHTML =
+        `<option value="all">All Brands</option>`;
 
     const brands = [...new Set(watches.map(w => w.brand))];
 
     brands.sort();
 
-    brands.forEach(brand=>{
+    brands.forEach(brand => {
 
-        brandFilter.innerHTML += `<option value="${brand}">${brand}</option>`;
+        brandFilter.innerHTML +=
+            `<option value="${brand}">${brand}</option>`;
 
     });
 
 }
 
 // ==========================================
-// FILTER WATCHES
+// FILTER + SORT
 // ==========================================
 
-function filterWatches(){
+function filterWatches() {
 
     const search = document
         .getElementById("watch-search")
@@ -142,13 +153,17 @@ function filterWatches(){
         .getElementById("brand-filter")
         .value;
 
+    const sort = document
+        .getElementById("sort-filter")
+        .value;
+
     let filtered = allWatches.filter(watch => {
 
         const matchesSearch =
 
-            watch.model.toLowerCase().includes(search) ||
+            watch.brand.toLowerCase().includes(search) ||
 
-            watch.brand.toLowerCase().includes(search);
+            watch.model.toLowerCase().includes(search);
 
         const matchesBrand =
 
@@ -159,6 +174,58 @@ function filterWatches(){
         return matchesSearch && matchesBrand;
 
     });
+
+    switch (sort) {
+
+        case "oldest":
+
+            filtered.sort((a, b) => a.id - b.id);
+
+            break;
+
+        case "az":
+
+            filtered.sort((a, b) =>
+                a.brand.localeCompare(b.brand));
+
+            break;
+
+        case "za":
+
+            filtered.sort((a, b) =>
+                b.brand.localeCompare(a.brand));
+
+            break;
+
+        case "low":
+
+            filtered.sort((a, b) =>
+
+                parseFloat(a.new_price.replace(/[^0-9.]/g, "")) -
+
+                parseFloat(b.new_price.replace(/[^0-9.]/g, ""))
+
+            );
+
+            break;
+
+        case "high":
+
+            filtered.sort((a, b) =>
+
+                parseFloat(b.new_price.replace(/[^0-9.]/g, "")) -
+
+                parseFloat(a.new_price.replace(/[^0-9.]/g, ""))
+
+            );
+
+            break;
+
+        default:
+
+            filtered.sort((a, b) => b.id - a.id);
+
+    }
 
     renderWatches(filtered);
 
