@@ -44,7 +44,7 @@ document
 document
     .getElementById("brand-filter")
     .addEventListener("change", filterWatches);
-
+}
 // ==========================================
 // RENDER WATCHES
 // ==========================================
