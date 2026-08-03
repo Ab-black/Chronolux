@@ -2385,6 +2385,125 @@ ABOUT PAGE
 
 }
 /*=========================================
+ABOUT STORY
+=========================================*/
+
+.about-story{
+
+    background:#050505;
+
+    padding:120px 0;
+
+}
+
+.story-grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:80px;
+
+    align-items:center;
+
+}
+
+.story-image{
+
+    overflow:hidden;
+
+    border-radius:24px;
+
+}
+
+.story-image img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    transition:.5s;
+
+}
+
+.story-image:hover img{
+
+    transform:scale(1.05);
+
+}
+
+.section-tag{
+
+    color:var(--gold);
+
+    text-transform:uppercase;
+
+    letter-spacing:4px;
+
+    font-size:14px;
+
+    display:inline-block;
+
+    margin-bottom:18px;
+
+}
+
+.story-content h2{
+
+    font-family:"Cormorant Garamond",serif;
+
+    font-size:56px;
+
+    line-height:1.1;
+
+    margin-bottom:25px;
+
+}
+
+.story-content p{
+
+    color:#bdbdbd;
+
+    margin-bottom:22px;
+
+    line-height:1.9;
+
+}
+
+.story-features{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:18px;
+
+    margin:40px 0;
+
+}
+
+.story-features div{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    font-weight:500;
+
+}
+
+.story-features i{
+
+    color:var(--gold);
+
+    font-size:18px;
+
+}
+/*=========================================
 CONTACT HERO
 =========================================*/
 
