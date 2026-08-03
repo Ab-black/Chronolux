@@ -269,3 +269,30 @@ SMALL PHONES
     width:100%;
 }
 }
+/* ABOUT STORY */
+
+.story-grid{
+
+    grid-template-columns:1fr;
+
+    gap:50px;
+
+}
+
+.story-content{
+
+    text-align:center;
+
+}
+
+.story-features{
+
+    grid-template-columns:1fr;
+
+}
+
+.story-content h2{
+
+    font-size:42px;
+
+}
