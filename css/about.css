@@ -182,3 +182,166 @@ Responsive
 
 }
 
+/*=========================================
+WORLDWIDE SHIPPING
+=========================================*/
+
+.shipping-section{
+
+    padding:120px 0;
+
+    background:#080808;
+
+}
+
+.shipping-grid{
+
+    display:grid;
+
+    grid-template-columns:1.1fr .9fr;
+
+    gap:80px;
+
+    align-items:center;
+
+}
+
+.shipping-content h2{
+
+    font-family:'Cormorant Garamond',serif;
+
+    font-size:58px;
+
+    line-height:1.1;
+
+    margin:20px 0 30px;
+
+}
+
+.shipping-content>p{
+
+    color:#bdbdbd;
+
+    line-height:1.9;
+
+    margin-bottom:45px;
+
+}
+
+.shipping-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:28px;
+
+}
+
+.shipping-item{
+
+    display:flex;
+
+    gap:20px;
+
+    align-items:flex-start;
+
+}
+
+.shipping-item i{
+
+    width:65px;
+
+    height:65px;
+
+    background:rgba(200,169,106,.08);
+
+    border:1px solid rgba(200,169,106,.25);
+
+    color:var(--gold);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border-radius:16px;
+
+    font-size:24px;
+
+    flex-shrink:0;
+
+}
+
+.shipping-item h4{
+
+    font-size:24px;
+
+    margin-bottom:8px;
+
+    font-family:'Cormorant Garamond',serif;
+
+}
+
+.shipping-item p{
+
+    color:#a9a9a9;
+
+    line-height:1.8;
+
+}
+
+.shipping-image{
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+.shipping-image img{
+
+    width:100%;
+
+    max-width:520px;
+
+    border-radius:22px;
+
+    box-shadow:0 30px 70px rgba(0,0,0,.45);
+
+}
+
+.shipping-image img:hover{
+
+    transform:scale(1.03);
+
+}
+
+@media(max-width:992px){
+
+.shipping-grid{
+
+    grid-template-columns:1fr;
+
+}
+
+.shipping-content{
+
+    order:2;
+
+}
+
+.shipping-image{
+
+    order:1;
+
+}
+
+.shipping-content h2{
+
+    font-size:44px;
+
+}
+
+}
