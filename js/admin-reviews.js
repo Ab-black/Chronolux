@@ -1,20 +1,16 @@
 // ==========================================
-// LOAD REVIEWS
+// CHRONOLUX ADMIN REVIEWS
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", loadReviews);
 
 async function loadReviews() {
 
-    const table = document.getElementById("reviews-table");
+    const container = document.getElementById("reviews-container");
 
-    if (!table) return;
+    if (!container) return;
 
-    table.innerHTML = `
-        <tr>
-            <td colspan="5">Loading reviews...</td>
-        </tr>
-    `;
+    container.innerHTML = "<p>Loading reviews...</p>";
 
     const { data: reviews, error } = await supabaseClient
         .from("reviews")
@@ -25,85 +21,105 @@ async function loadReviews() {
 
         console.error(error);
 
-        table.innerHTML = `
-            <tr>
-                <td colspan="5">
-                    Unable to load reviews.
-                </td>
-            </tr>
-        `;
+        container.innerHTML = "<p>Unable to load reviews.</p>";
 
         return;
 
     }
 
-    table.innerHTML = "";
+    if (reviews.length === 0) {
+
+        container.innerHTML = "<p>No reviews found.</p>";
+
+        return;
+
+    }
+
+    container.innerHTML = "";
 
     reviews.forEach(review => {
 
-        table.innerHTML += `
+        const date = new Date(review.created_at);
 
-        <tr>
+        container.innerHTML += `
 
-            <td>${review.name}</td>
+        <div class="review-card">
 
-            <td>${review.country}</td>
+            <div class="review-top">
 
-            <td>${"⭐".repeat(review.rating)}</td>
+                <div class="review-stars">
 
-            <td>
+                    ${"⭐".repeat(review.rating)}
 
-                <span class="status ${review.status}">
+                </div>
+
+                <div class="review-status ${review.status}">
+
                     ${review.status}
+
+                </div>
+
+            </div>
+
+            <div class="review-user">
+
+                <h3>${review.name}</h3>
+
+                <span>
+
+                    <i class="fas fa-globe"></i>
+
+                    ${review.country}
+
                 </span>
 
-            </td>
+            </div>
 
-            <td>
+            <div class="review-message">
+
+                "${review.message}"
+
+            </div>
+
+            <div class="review-date">
+
+                <i class="fas fa-calendar"></i>
+
+                ${date.toDateString()}
+
+            </div>
+
+            <div class="review-actions">
 
                 <button
-                    class="icon-btn approve-btn"
-                    data-id="${review.id}">
+                    class="approve-btn"
+                    onclick="approveReview('${review.id}')">
 
-                    <i class="fas fa-check"></i>
+                    ✔ Approve
 
                 </button>
 
                 <button
-                    class="icon-btn delete delete-btn"
-                    data-id="${review.id}">
+                    class="edit-btn"
+                    onclick="editReview('${review.id}')">
 
-                    <i class="fas fa-trash"></i>
+                    ✏ Edit
 
                 </button>
 
-            </td>
+                <button
+                    class="delete-btn"
+                    onclick="deleteReview('${review.id}')">
 
-        </tr>
+                    🗑 Delete
+
+                </button>
+
+            </div>
+
+        </div>
 
         `;
-
-    });
-
-    activateButtons();
-
-}
-
-// ==========================================
-// BUTTON EVENTS
-// ==========================================
-
-function activateButtons(){
-
-    document.querySelectorAll(".approve-btn").forEach(btn=>{
-
-        btn.onclick=()=>approveReview(btn.dataset.id);
-
-    });
-
-    document.querySelectorAll(".delete-btn").forEach(btn=>{
-
-        btn.onclick=()=>deleteReview(btn.dataset.id);
 
     });
 
@@ -128,8 +144,6 @@ async function approveReview(id){
         .eq("id",id);
 
     if(error){
-
-        console.error(error);
 
         alert("Unable to approve review.");
 
@@ -159,8 +173,6 @@ async function deleteReview(id){
 
     if(error){
 
-        console.error(error);
-
         alert("Unable to delete review.");
 
         return;
@@ -168,5 +180,15 @@ async function deleteReview(id){
     }
 
     loadReviews();
+
+}
+
+// ==========================================
+// EDIT REVIEW
+// ==========================================
+
+function editReview(id){
+
+    alert("Edit Review feature will be added next.");
 
 }
