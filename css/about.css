@@ -345,3 +345,233 @@ WORLDWIDE SHIPPING
 }
 
 }
+
+/*=========================================
+CUSTOMER REVIEWS
+=========================================*/
+
+.reviews-section{
+
+    padding:120px 0;
+
+    background:#050505;
+
+}
+
+.reviews-summary{
+
+    display:grid;
+
+    grid-template-columns:320px 1fr;
+
+    gap:60px;
+
+    align-items:center;
+
+    margin:70px 0;
+
+}
+
+.overall-rating{
+
+    text-align:center;
+
+    background:#111;
+
+    padding:45px;
+
+    border-radius:24px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+}
+
+.overall-rating h1{
+
+    font-size:90px;
+
+    font-family:'Cormorant Garamond',serif;
+
+    color:var(--gold);
+
+    line-height:1;
+
+}
+
+.stars{
+
+    color:var(--gold);
+
+    font-size:24px;
+
+    margin:18px 0;
+
+    letter-spacing:4px;
+
+}
+
+.overall-rating p{
+
+    color:#b9b9b9;
+
+}
+
+.rating-bars{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.rating-row{
+
+    display:grid;
+
+    grid-template-columns:60px 1fr 40px;
+
+    gap:18px;
+
+    align-items:center;
+
+}
+
+.bar{
+
+    height:10px;
+
+    background:#222;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+}
+
+.fill{
+
+    height:100%;
+
+    background:var(--gold);
+
+    border-radius:30px;
+
+}
+
+.fill-5{width:92%;}
+.fill-4{width:62%;}
+.fill-3{width:35%;}
+.fill-2{width:18%;}
+.fill-1{width:10%;}
+
+.reviews-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:30px;
+
+    margin-top:70px;
+
+}
+
+.review-card{
+
+    background:#111;
+
+    padding:35px;
+
+    border-radius:20px;
+
+    border:1px solid rgba(255,255,255,.06);
+
+    transition:.35s;
+
+}
+
+.review-card:hover{
+
+    transform:translateY(-10px);
+
+    border-color:rgba(200,169,106,.35);
+
+    box-shadow:0 20px 45px rgba(0,0,0,.45);
+
+}
+
+.review-stars{
+
+    color:var(--gold);
+
+    font-size:18px;
+
+    letter-spacing:3px;
+
+    margin-bottom:18px;
+
+}
+
+.review-card p{
+
+    color:#bdbdbd;
+
+    line-height:1.9;
+
+    margin-bottom:28px;
+
+}
+
+.review-card h4{
+
+    font-family:'Cormorant Garamond',serif;
+
+    font-size:28px;
+
+    margin-bottom:6px;
+
+}
+
+.review-card span{
+
+    color:#888;
+
+    font-size:14px;
+
+}
+
+.reviews-btn{
+
+    text-align:center;
+
+    margin-top:70px;
+
+}
+
+.reviews-btn .watch-btn{
+
+    display:inline-flex;
+
+    width:auto;
+
+    padding:18px 45px;
+
+}
+
+@media(max-width:992px){
+
+.reviews-summary{
+
+    grid-template-columns:1fr;
+
+}
+
+.reviews-grid{
+
+    grid-template-columns:1fr;
+
+}
+
+}
