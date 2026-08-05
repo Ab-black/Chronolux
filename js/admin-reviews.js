@@ -132,24 +132,21 @@ async function loadReviews() {
 async function approveReview(id){
 
     const { error } = await supabaseClient
-
         .from("reviews")
-
         .update({
-
-            status:"approved"
-
+            status: "approved"
         })
-
-        .eq("id",id);
+        .eq("id", id);
 
     if(error){
 
+        console.error(error);
         alert("Unable to approve review.");
-
         return;
 
     }
+
+    alert("Review approved successfully.");
 
     loadReviews();
 
@@ -161,23 +158,26 @@ async function approveReview(id){
 
 async function deleteReview(id){
 
-    if(!confirm("Delete this review permanently?")) return;
+    const confirmDelete = confirm(
+        "Are you sure you want to permanently delete this review?"
+    );
+
+    if(!confirmDelete) return;
 
     const { error } = await supabaseClient
-
         .from("reviews")
-
         .delete()
-
-        .eq("id",id);
+        .eq("id", id);
 
     if(error){
 
+        console.error(error);
         alert("Unable to delete review.");
-
         return;
 
     }
+
+    alert("Review deleted successfully.");
 
     loadReviews();
 
@@ -187,8 +187,59 @@ async function deleteReview(id){
 // EDIT REVIEW
 // ==========================================
 
-function editReview(id){
+async function editReview(id){
 
-    alert("Edit Review feature will be added next.");
+    const { data, error } = await supabaseClient
+        .from("reviews")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+    if(error){
+
+        alert("Unable to load review.");
+
+        return;
+
+    }
+
+    const newMessage = prompt(
+        "Edit Review:",
+        data.message
+    );
+
+    if(newMessage === null) return;
+
+    const newRating = prompt(
+        "Rating (1-5):",
+        data.rating
+    );
+
+    if(newRating === null) return;
+
+    const { error:updateError } = await supabaseClient
+        .from("reviews")
+        .update({
+
+            message:newMessage,
+
+            rating:Number(newRating)
+
+        })
+        .eq("id",id);
+
+    if(updateError){
+
+        console.error(updateError);
+
+        alert("Unable to update review.");
+
+        return;
+
+    }
+
+    alert("Review updated successfully.");
+
+    loadReviews();
 
 }
