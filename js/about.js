@@ -105,15 +105,17 @@ async function loadFeaturedReviews() {
 
         container.innerHTML += `
 
-        <div class="review-card">
+<div class="review-card">
 
-            <div class="review-stars">
+    <div class="review-header">
 
-                ${"★".repeat(review.rating)}${"☆".repeat(5-review.rating)}
+        <div class="review-avatar">
 
-            </div>
+            ${review.name.charAt(0).toUpperCase()}
 
-            <p>${review.message}</p>
+        </div>
+
+        <div class="review-user">
 
             <h4>${review.name}</h4>
 
@@ -121,11 +123,45 @@ async function loadFeaturedReviews() {
 
         </div>
 
-        `;
+    </div>
 
-    });
+    <div class="review-stars">
 
-}
+        ${"★".repeat(review.rating)}${"☆".repeat(5-review.rating)}
+
+    </div>
+
+    <h3 class="review-title">
+
+        ${review.review_title || "Excellent Experience"}
+
+    </h3>
+
+    <p class="review-text">
+
+        ${review.message}
+
+    </p>
+
+    <div class="review-footer">
+
+        <span class="review-date">
+
+            ${new Date(review.created_at).toLocaleDateString()}
+
+        </span>
+
+        <span class="verified">
+
+            Verified Review
+
+        </span>
+
+    </div>
+
+</div>
+
+`;
 /* =========================================
 LOAD ALL REVIEWS PAGE
 ========================================= */
