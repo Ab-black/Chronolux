@@ -6,8 +6,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 });
 
-
-
 /* =========================================
 LOAD REVIEW SUMMARY
 ========================================= */
@@ -98,6 +96,67 @@ async function loadFeaturedReviews() {
     }
 
     const container = document.getElementById("reviews-grid");
+
+    container.innerHTML = "";
+
+    reviews.forEach(review => {
+
+        container.innerHTML += `
+
+        <div class="review-card">
+
+            <div class="review-stars">
+
+                ${"★".repeat(review.rating)}${"☆".repeat(5-review.rating)}
+
+            </div>
+
+            <p>${review.message}</p>
+
+            <h4>${review.name}</h4>
+
+            <span>${review.country}</span>
+
+        </div>
+
+        `;
+
+    });
+
+}
+/* =========================================
+LOAD ALL REVIEWS PAGE
+========================================= */
+
+async function loadAllReviews() {
+
+    const container = document.getElementById("all-reviews-grid");
+
+    if (!container) return;
+
+    const { data: reviews, error } = await supabaseClient
+        .from("reviews")
+        .select("*")
+        .eq("status", "Approved")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML = "<p>Unable to load reviews.</p>";
+
+        return;
+
+    }
+
+    if (!reviews.length) {
+
+        container.innerHTML = "<p>No reviews available.</p>";
+
+        return;
+
+    }
 
     container.innerHTML = "";
 
