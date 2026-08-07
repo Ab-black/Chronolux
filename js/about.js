@@ -1,8 +1,10 @@
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
 
     loadReviewSummary();
 
     loadFeaturedReviews();
+
+    loadAllReviews();
 
 });
 
