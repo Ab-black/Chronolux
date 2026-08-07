@@ -334,92 +334,51 @@ LOAD FEATURED REVIEWS
 
 async function loadFeaturedReviews() {
 
+    const container = document.getElementById("reviews-grid");
+
+    if (!container) return;
+
     const { data: reviews, error } = await supabaseClient
-
         .from("reviews")
-
         .select("*")
-
         .eq("status", "Approved")
-
         .order("created_at", { ascending: false })
-
         .limit(8);
 
     if (error) {
 
-        console.error(error);
+        console.error("Error loading featured reviews:", error);
+
+        container.innerHTML =
+            "<p>Unable to load reviews.</p>";
 
         return;
 
     }
 
-    const container = document.getElementById("reviews-grid");
-        
-        if (!container) return;
-        
-        container.innerHTML = "";
+    if (!reviews || !reviews.length) {
 
-    reviews.forEach(review => {
+        container.innerHTML =
+            "<p>No reviews available.</p>";
 
-        container.innerHTML += `
+        return;
 
-<div class="review-card">
+    }
 
-    <div class="review-header">
+    container.innerHTML = "";
 
-        <div class="review-avatar">
-            ${review.name.charAt(0).toUpperCase()}
-        </div>
+    reviews.forEach((review, index) => {
 
-        <div class="review-user">
+        const preparedReview =
+            prepareReview(review, index);
 
-            <h4>${review.name}</h4>
+        container.innerHTML +=
+            createReviewCard(preparedReview);
 
-            <span>${review.country}</span>
-
-        </div>
-
-    </div>
-
-    <div class="review-stars">
-
-        ${"★".repeat(review.rating)}${"☆".repeat(5-review.rating)}
-
-    </div>
-
-    <h3 class="review-title">
-
-        ${review.review_title}
-
-    </h3>
-
-    <p class="review-text">
-
-        ${review.message}
-
-    </p>
-
-    <div class="review-footer">
-    
-        <span class="review-date">
-    
-            ${new Date(review.created_at).toLocaleDateString("en-US",{
-                day:"numeric",
-                month:"long",
-                year:"numeric"
-            })}
-    
-        </span>
-    
-    </div>
-</div>
-
-`;
-        
-});
+    });
 
 }
+
 /* =========================================
 LOAD ALL REVIEWS PAGE
 ========================================= */
