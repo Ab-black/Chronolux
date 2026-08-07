@@ -9,6 +9,125 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* =========================================
+CREATE REVIEW CARD
+========================================= */
+
+function createReviewCard(review) {
+
+    const avatarColors = [
+        "#D4AF37",
+        "#0F4C81",
+        "#006A4E",
+        "#7B1E3A",
+        "#5B4B8A",
+        "#8B5A2B",
+        "#2E4053",
+        "#556B2F"
+    ];
+
+    const color =
+        avatarColors[
+            review.name.length % avatarColors.length
+        ];
+
+    const initials = review.name
+        .split(" ")
+        .map(n => n[0])
+        .join("")
+        .substring(0,2)
+        .toUpperCase();
+
+    return `
+
+<div class="review-card">
+
+    <div class="review-header">
+
+        <div
+            class="review-avatar"
+            style="background:${color};">
+
+            ${initials}
+
+        </div>
+
+        <div class="review-user">
+
+            <h4>${review.name}</h4>
+
+        </div>
+
+    </div>
+
+    <div class="review-stars">
+
+        ${"★".repeat(review.rating)}
+        ${"☆".repeat(5-review.rating)}
+
+    </div>
+
+    <h3 class="review-title">
+
+        ${review.review_title || "Excellent Experience"}
+
+    </h3>
+
+    <p class="review-text">
+
+        ${review.message}
+
+    </p>
+
+    <div class="review-footer">
+
+        <span class="review-country">
+
+            ${review.country}
+
+        </span>
+
+        <span class="review-date">
+
+            ${review.displayDate}
+
+        </span>
+
+    </div>
+
+    <button
+        class="helpful-btn">
+
+        ❤️ Helpful
+        (<span class="helpful-count">
+
+            ${review.helpful}
+
+        </span>)
+
+    </button>
+
+    <div class="chronolux-reply">
+
+        <strong>
+
+            💬 Reply from ChronoLux
+
+        </strong>
+
+        <p>
+
+            ${review.reply}
+
+        </p>
+
+    </div>
+
+</div>
+
+`;
+
+}
+/* =========================================
 LOAD REVIEW SUMMARY
 ========================================= */
 
