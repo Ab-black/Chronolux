@@ -178,3 +178,22 @@
     font-weight:600;
 
 }
+.review-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:20px;
+    padding-top:15px;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+.review-country{
+    color:#D4AF37;
+    font-size:14px;
+    font-weight:600;
+}
+
+.review-date{
+    color:#888;
+    font-size:13px;
+}
