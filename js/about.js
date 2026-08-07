@@ -98,8 +98,10 @@ async function loadFeaturedReviews() {
     }
 
     const container = document.getElementById("reviews-grid");
-
-    container.innerHTML = "";
+        
+        if (!container) return;
+        
+        container.innerHTML = "";
 
     reviews.forEach(review => {
 
@@ -178,21 +180,14 @@ async function loadAllReviews() {
         .order("created_at", { ascending: false });
 
     if (error) {
-
         console.error(error);
-
         container.innerHTML = "<p>Unable to load reviews.</p>";
-
         return;
-
     }
 
     if (!reviews.length) {
-
         container.innerHTML = "<p>No reviews available.</p>";
-
         return;
-
     }
 
     container.innerHTML = "";
@@ -201,23 +196,51 @@ async function loadAllReviews() {
 
         container.innerHTML += `
 
-        <div class="review-card">
+<div class="review-card">
 
-            <div class="review-stars">
+    <div class="review-header">
 
-                ${"★".repeat(review.rating)}${"☆".repeat(5-review.rating)}
-
-            </div>
-
-            <p>${review.message}</p>
-
-            <h4>${review.name}</h4>
-
-            <span>${review.country}</span>
-
+        <div class="review-avatar">
+            ${review.name.split(" ").map(n => n[0]).join("").substring(0,2).toUpperCase()}
         </div>
 
-        `;
+        <div class="review-user">
+            <h4>${review.name}</h4>
+        </div>
+
+    </div>
+
+    <div class="review-stars">
+        ${"★".repeat(review.rating)}${"☆".repeat(5-review.rating)}
+    </div>
+
+    <h3 class="review-title">
+        ${review.review_title || "Excellent Experience"}
+    </h3>
+
+    <p class="review-text">
+        ${review.message}
+    </p>
+
+    <div class="review-footer">
+
+        <span class="review-country">
+            ${review.country}
+        </span>
+
+        <span class="review-date">
+            ${new Date(review.created_at).toLocaleDateString("en-US", {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            })}
+        </span>
+
+    </div>
+
+</div>
+
+`;
 
     });
 
