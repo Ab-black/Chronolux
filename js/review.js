@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     country,
                     rating,
                     message,
-                    status: "pending"
+                    status: "Pending"
                 }
             ]);
 
