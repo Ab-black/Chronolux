@@ -142,25 +142,18 @@ async function loadFeaturedReviews() {
     </p>
 
     <div class="review-footer">
-
+    
         <span class="review-date">
-
+    
             ${new Date(review.created_at).toLocaleDateString("en-US",{
                 day:"numeric",
                 month:"long",
                 year:"numeric"
             })}
-
+    
         </span>
-
-        <span class="verified">
-
-            ✓ Verified Review
-
-        </span>
-
+    
     </div>
-
 </div>
 
 `;
