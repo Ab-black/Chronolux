@@ -110,9 +110,7 @@ async function loadFeaturedReviews() {
     <div class="review-header">
 
         <div class="review-avatar">
-
             ${review.name.charAt(0).toUpperCase()}
-
         </div>
 
         <div class="review-user">
@@ -133,7 +131,7 @@ async function loadFeaturedReviews() {
 
     <h3 class="review-title">
 
-        ${review.review_title || "Excellent Experience"}
+        ${review.review_title}
 
     </h3>
 
@@ -147,13 +145,17 @@ async function loadFeaturedReviews() {
 
         <span class="review-date">
 
-            ${new Date(review.created_at).toLocaleDateString()}
+            ${new Date(review.created_at).toLocaleDateString("en-US",{
+                day:"numeric",
+                month:"long",
+                year:"numeric"
+            })}
 
         </span>
 
         <span class="verified">
 
-            Verified Review
+            ✓ Verified Review
 
         </span>
 
