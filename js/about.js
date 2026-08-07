@@ -157,6 +157,10 @@ async function loadFeaturedReviews() {
 </div>
 
 `;
+        
+});
+
+}
 /* =========================================
 LOAD ALL REVIEWS PAGE
 ========================================= */
