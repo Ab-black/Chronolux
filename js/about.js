@@ -127,6 +127,144 @@ function createReviewCard(review) {
 `;
 
 }
+
+/* =========================================
+REVIEW DISPLAY DATA
+========================================= */
+
+const reviewDates = [
+
+    // 2026 — 6 reviews
+    "January 14, 2026",
+    "March 27, 2026",
+    "May 9, 2026",
+    "June 18, 2026",
+    "July 6, 2026",
+    "August 2, 2026",
+
+    // 2025 — 11 reviews
+    "January 22, 2025",
+    "February 16, 2025",
+    "April 8, 2025",
+    "May 21, 2025",
+    "June 13, 2025",
+    "July 29, 2025",
+    "September 5, 2025",
+    "October 17, 2025",
+    "November 3, 2025",
+    "November 24, 2025",
+    "December 15, 2025",
+
+    // 2024 — 8 reviews
+    "January 11, 2024",
+    "March 4, 2024",
+    "April 19, 2024",
+    "June 7, 2024",
+    "July 23, 2024",
+    "September 14, 2024",
+    "October 28, 2024",
+    "December 9, 2024",
+
+    // 2023 — 9 reviews
+    "February 3, 2023",
+    "March 18, 2023",
+    "May 6, 2023",
+    "June 24, 2023",
+    "August 12, 2023",
+    "September 29, 2023",
+    "October 16, 2023",
+    "November 8, 2023",
+    "December 21, 2023",
+
+    // 2022 — 7 reviews
+    "January 26, 2022",
+    "April 13, 2022",
+    "May 30, 2022",
+    "July 17, 2022",
+    "September 6, 2022",
+    "October 22, 2022",
+    "December 4, 2022",
+
+    // 2021 — 6 reviews
+    "February 9, 2021",
+    "April 25, 2021",
+    "June 11, 2021",
+    "August 28, 2021",
+    "October 15, 2021",
+    "December 19, 2021"
+
+];
+
+
+/* =========================================
+HELPFUL COUNTS
+========================================= */
+
+const helpfulCounts = [
+    12, 8, 17, 6, 21, 9, 14, 5,
+    18, 7, 11, 24, 15, 4, 19, 10,
+    13, 8, 16, 22, 6, 14, 9, 17,
+    5, 12, 20, 7, 15, 11, 18, 4,
+    9, 16, 23, 6, 13, 8, 19, 10,
+    14, 5, 21, 7, 12, 17, 9
+];
+
+
+/* =========================================
+CHRONOLUX REPLIES
+========================================= */
+
+const chronoluxReplies = [
+
+    "Thank you for choosing ChronoLux. We are delighted to have been part of your luxury watch experience.",
+
+    "Thank you for your kind words and for trusting ChronoLux with your purchase.",
+
+    "We truly appreciate your feedback. It was our pleasure assisting you throughout your purchase.",
+
+    "Thank you for being part of the ChronoLux family. We are delighted that you enjoyed your experience.",
+
+    "Your trust means a great deal to us. Thank you for taking the time to share your experience.",
+
+    "We are pleased to hear that your experience met your expectations. Thank you for choosing ChronoLux.",
+
+    "Thank you for sharing your experience with fellow collectors. We sincerely appreciate your trust.",
+
+    "It was a pleasure serving you. We hope you continue to enjoy your exceptional timepiece.",
+
+    "Thank you for your confidence in ChronoLux. We look forward to serving you again in the future.",
+
+    "We appreciate your review and are delighted that you had a smooth and enjoyable experience with ChronoLux.",
+
+    "Thank you for allowing ChronoLux to be part of your collection. We truly value your support.",
+
+    "We are delighted to hear that you were satisfied with your ChronoLux experience. Thank you for your trust."
+
+];
+
+
+/* =========================================
+PREPARE REVIEW FOR DISPLAY
+========================================= */
+
+function prepareReview(review, index) {
+
+    return {
+
+        ...review,
+
+        displayDate:
+            reviewDates[index % reviewDates.length],
+
+        helpful:
+            helpfulCounts[index % helpfulCounts.length],
+
+        reply:
+            chronoluxReplies[index % chronoluxReplies.length]
+
+    };
+
+}
 /* =========================================
 LOAD REVIEW SUMMARY
 ========================================= */
