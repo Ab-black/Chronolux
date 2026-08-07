@@ -14,10 +14,10 @@ LOAD REVIEW SUMMARY
 
 async function loadReviewSummary() {
 
-    const { data: reviews, error } = await supabase
+    const { data: reviews, error } = await supabaseClient
         .from("reviews")
         .select("*")
-        .eq("approved", true);
+        .eq("status", "Approved");
 
     if (error) {
         console.error(error);
@@ -77,13 +77,13 @@ LOAD FEATURED REVIEWS
 
 async function loadFeaturedReviews() {
 
-    const { data: reviews, error } = await supabase
+    const { data: reviews, error } = await supabaseClient
 
         .from("reviews")
 
         .select("*")
 
-        .eq("approved", true)
+        .eq("status", "Approved")
 
         .order("created_at", { ascending: false })
 
@@ -113,7 +113,7 @@ async function loadFeaturedReviews() {
 
             </div>
 
-            <p>${review.review}</p>
+            <p>${review.message}</p>
 
             <h4>${review.name}</h4>
 
