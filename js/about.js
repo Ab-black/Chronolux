@@ -75,15 +75,6 @@ function createReviewCard(review) {
 </div>
 
 
-    <!-- REVIEW TITLE -->
-
-    <h3 class="review-title">
-
-        ${review.review_title || "Excellent Experience"}
-
-    </h3>
-
-
     <!-- REVIEW MESSAGE -->
 
     <p class="review-text">
