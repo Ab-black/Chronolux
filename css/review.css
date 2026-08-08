@@ -107,8 +107,10 @@
     display: flex;
     align-items: center;
     gap: 4px;
+
     margin-top: 14px;
     margin-bottom: 22px;
+
     height: 20px;
 }
 
@@ -126,10 +128,16 @@
     flex-shrink: 0;
 }
 
-/* SELECTED / RATED STARS */
+/* SELECTED RATING */
 
-.review-stars .star:not(:empty) {
+.review-stars .star-selected {
     color: #D4AF37;
+}
+
+/* UNSELECTED RATING */
+
+.review-stars .star-empty {
+    color: #555;
 }
 
 /* title */
