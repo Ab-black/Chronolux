@@ -66,10 +66,13 @@ function createReviewCard(review) {
 
     <div class="review-stars">
 
-        ${"★".repeat(review.rating)}
-        ${"☆".repeat(5 - review.rating)}
+    ${Array.from({ length: 5 }, (_, i) => `
+        <span class="star">
+            ${i < review.rating ? "★" : "☆"}
+        </span>
+    `).join("")}
 
-    </div>
+</div>
 
 
     <!-- REVIEW TITLE -->
