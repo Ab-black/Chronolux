@@ -16,13 +16,13 @@ function createReviewCard(review) {
 
     const avatarColors = [
         "#D4AF37",
-        "#0F4C81",
-        "#006A4E",
-        "#7B1E3A",
         "#5B4B8A",
-        "#8B5A2B",
         "#2E4053",
-        "#556B2F"
+        "#7B1E3A",
+        "#006A4E",
+        "#8B5A2B",
+        "#556B2F",
+        "#6B4F8A"
     ];
 
     const color =
@@ -34,12 +34,14 @@ function createReviewCard(review) {
         .split(" ")
         .map(n => n[0])
         .join("")
-        .substring(0,2)
+        .substring(0, 2)
         .toUpperCase();
 
     return `
 
 <div class="review-card">
+
+    <!-- REVIEW HEADER -->
 
     <div class="review-header">
 
@@ -59,12 +61,18 @@ function createReviewCard(review) {
 
     </div>
 
+
+    <!-- STARS -->
+
     <div class="review-stars">
 
         ${"★".repeat(review.rating)}
-        ${"☆".repeat(5-review.rating)}
+        ${"☆".repeat(5 - review.rating)}
 
     </div>
+
+
+    <!-- REVIEW TITLE -->
 
     <h3 class="review-title">
 
@@ -72,11 +80,43 @@ function createReviewCard(review) {
 
     </h3>
 
+
+    <!-- REVIEW MESSAGE -->
+
     <p class="review-text">
 
         ${review.message}
 
     </p>
+
+
+    <!-- HELPFUL -->
+
+    <div class="helpful-wrapper">
+
+        <button
+            type="button"
+            class="helpful-btn"
+            data-review-id="${review.id}">
+
+            <span class="helpful-heart">♥</span>
+
+            <span class="helpful-count">
+                ${review.helpful}
+            </span>
+
+            <span class="helpful-label">
+                ${review.helpful === 1
+                    ? "person found this helpful"
+                    : "persons found this helpful"}
+            </span>
+
+        </button>
+
+    </div>
+
+
+    <!-- COUNTRY + DATE -->
 
     <div class="review-footer">
 
@@ -94,17 +134,8 @@ function createReviewCard(review) {
 
     </div>
 
-    <button
-        class="helpful-btn">
 
-        ❤️ Helpful
-        (<span class="helpful-count">
-
-            ${review.helpful}
-
-        </span>)
-
-    </button>
+    <!-- CHRONOLUX REPLY -->
 
     <div class="chronolux-reply">
 
@@ -127,7 +158,6 @@ function createReviewCard(review) {
 `;
 
 }
-
 /* =========================================
 REVIEW DISPLAY DATA
 ========================================= */
@@ -461,3 +491,63 @@ async function loadAllReviews() {
     });
 
 }
+
+/* =========================================
+HELPFUL BUTTON
+========================================= */
+
+document.addEventListener("click", (event) => {
+
+    const button =
+        event.target.closest(".helpful-btn");
+
+    if (!button) return;
+
+    const reviewId =
+        button.dataset.reviewId;
+
+    if (!reviewId) return;
+
+    const storageKey =
+        `chronolux-helpful-${reviewId}`;
+
+    /*
+     * Prevent the same visitor from
+     * repeatedly increasing the count.
+     */
+
+    if (localStorage.getItem(storageKey)) {
+
+        return;
+
+    }
+
+    const countElement =
+        button.querySelector(".helpful-count");
+
+    const labelElement =
+        button.querySelector(".helpful-label");
+
+    if (!countElement) return;
+
+    let currentCount =
+        parseInt(countElement.textContent, 10) || 4;
+
+    currentCount++;
+
+    countElement.textContent =
+        currentCount;
+
+    labelElement.textContent =
+        currentCount === 1
+            ? "person found this helpful"
+            : "persons found this helpful";
+
+    localStorage.setItem(
+        storageKey,
+        "true"
+    );
+
+    button.classList.add("helpful-active");
+
+});
