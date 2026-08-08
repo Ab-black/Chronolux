@@ -93,7 +93,7 @@ function createReviewCard(review) {
             class="helpful-btn"
             data-review-id="${review.id}">
 
-            <span class="helpful-heart">♥</span>
+            <span class="helpful-heart">♡</span>
 
             <span class="helpful-count">
                 ${review.helpful}
@@ -152,7 +152,7 @@ function createReviewCard(review) {
 `;
 
 }
-```javascript
+
 /* =========================================
 PREPARE REVIEW FOR DISPLAY
 ========================================= */
@@ -676,4 +676,4 @@ document.addEventListener(
 
     }
 );
-```
+
