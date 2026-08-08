@@ -208,40 +208,32 @@
 }
 
 /* =========================================
-HELPFUL BUTTON
+   HELPFUL BUTTON
 ========================================= */
 
 .helpful-wrapper {
-
     margin-top: 18px;
-
     margin-bottom: 4px;
-
 }
 
-
 .helpful-btn {
-
     display: inline-flex;
-
     align-items: center;
+    gap: 7px;
 
-    gap: 6px;
+    padding: 9px 14px;
 
-    padding: 8px 13px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
 
-    border: 1px solid rgba(212, 175, 55, 0.25);
+    border-radius: 24px;
 
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.04);
 
-    background: rgba(212, 175, 55, 0.06);
-
-    color: #d4af37;
+    color: #cfcfcf;
 
     font-family: inherit;
 
     font-size: 12px;
-
     font-weight: 500;
 
     cursor: pointer;
@@ -251,71 +243,59 @@ HELPFUL BUTTON
         border-color 0.25s ease,
         transform 0.2s ease,
         box-shadow 0.25s ease;
-
 }
-
 
 .helpful-heart {
-
-    font-size: 15px;
-
+    font-size: 17px;
     line-height: 1;
 
+    color: #aaa;
+
     transition:
+        color 0.25s ease,
         transform 0.2s ease;
-
 }
-
 
 .helpful-count {
-
     font-weight: 700;
-
+    color: #fff;
 }
-
 
 .helpful-label {
-
-    color: #bcbcbc;
-
+    color: #aaa;
 }
 
+/* HOVER */
 
 .helpful-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
 
-    background: rgba(212, 175, 55, 0.13);
-
-    border-color: rgba(212, 175, 55, 0.55);
+    border-color: rgba(212, 175, 55, 0.45);
 
     box-shadow:
-        0 4px 15px rgba(0, 0, 0, 0.25);
+        0 5px 18px rgba(0, 0, 0, 0.25);
 
     transform: translateY(-1px);
-
 }
-
 
 .helpful-btn:hover .helpful-heart {
-
-    transform: scale(1.15);
-
+    transform: scale(1.12);
 }
 
+/* ACTIVE / CLICKED */
 
 .helpful-btn.helpful-active {
+    background: rgba(220, 38, 38, 0.08);
 
-    background: rgba(212, 175, 55, 0.16);
-
-    border-color: #d4af37;
-
-    box-shadow:
-        0 0 0 1px rgba(212, 175, 55, 0.12);
-
+    border-color: rgba(220, 38, 38, 0.35);
 }
 
-
 .helpful-btn.helpful-active .helpful-heart {
+    color: #ef4444;
 
     transform: scale(1.12);
+}
 
+.helpful-btn.helpful-active .helpful-count {
+    color: #fff;
 }
