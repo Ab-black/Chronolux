@@ -157,15 +157,36 @@ function createReviewCard(review) {
 PREPARE REVIEW FOR DISPLAY
 ========================================= */
 
-function prepareReview(review) {
+function prepareReview(review, index) {
+
+    const replies = [
+        "Thank you for choosing ChronoLux. We are delighted to have been part of your luxury watch experience.",
+
+        "Thank you for your kind words and for trusting ChronoLux with your purchase.",
+
+        "We truly appreciate your feedback. It was our pleasure assisting you throughout your purchase.",
+
+        "Thank you for being part of the ChronoLux family. We are delighted that you enjoyed your experience.",
+
+        "Your trust means a great deal to us. Thank you for taking the time to share your experience.",
+
+        "We are pleased to hear that your experience met your expectations. Thank you for choosing ChronoLux.",
+
+        "Thank you for sharing your experience with fellow collectors. We sincerely appreciate your trust.",
+
+        "It was a pleasure serving you. We hope you continue to enjoy your exceptional timepiece.",
+
+        "Thank you for your confidence in ChronoLux. We look forward to serving you again in the future.",
+
+        "We appreciate your review and are delighted that you had a smooth and enjoyable experience with ChronoLux.",
+
+        "Thank you for allowing ChronoLux to be part of your collection. We truly value your support.",
+
+        "We are delighted to hear that you were satisfied with your ChronoLux experience. Thank you for your trust."
+    ];
 
     return {
         ...review,
-
-        /*
-         * Use the REAL values stored in Supabase.
-         * Do not replace them with display arrays.
-         */
 
         displayDate: review.created_at
             ? new Date(review.created_at).toLocaleDateString("en-US", {
@@ -180,12 +201,9 @@ function prepareReview(review) {
             4
         ),
 
-        /*
-         * ChronoLux replies are currently display content.
-         * They intentionally have NO reply date.
-         */
-
-        reply: review.chronolux_reply || ""
+        reply:
+            review.chronolux_reply ||
+            replies[index % replies.length]
     };
 
 }
@@ -414,7 +432,7 @@ async function loadFeaturedReviews() {
     for (const review of reviews) {
 
         const preparedReview =
-            prepareReview(review);
+        prepareReview(review, reviews.indexOf(review));
 
         container.innerHTML +=
             createReviewCard(
@@ -481,8 +499,8 @@ async function loadAllReviews() {
     for (const review of reviews) {
 
         const preparedReview =
-            prepareReview(review);
-
+        prepareReview(review, reviews.indexOf(review));
+        
         container.innerHTML +=
             createReviewCard(
                 preparedReview
