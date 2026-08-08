@@ -100,22 +100,16 @@
 }
 
 /* =========================================
-REVIEW STARS
+   REVIEW STARS
 ========================================= */
 
 .review-stars {
     display: flex;
     align-items: center;
-    gap: 3px;
-
+    gap: 4px;
     margin-top: 14px;
     margin-bottom: 22px;
-
-    height: 18px;
-
-    font-size: 14px;
-    line-height: 1;
-    letter-spacing: 0;
+    height: 20px;
 }
 
 .review-stars .star {
@@ -123,11 +117,19 @@ REVIEW STARS
     align-items: center;
     justify-content: center;
 
-    width: 15px;
-    height: 18px;
+    width: 16px;
+    height: 20px;
 
-    font-size: 14px;
+    font-size: 17px;
     line-height: 1;
+
+    flex-shrink: 0;
+}
+
+/* SELECTED / RATED STARS */
+
+.review-stars .star:not(:empty) {
+    color: #D4AF37;
 }
 
 /* title */
