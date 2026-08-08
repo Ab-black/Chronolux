@@ -178,22 +178,164 @@
     font-weight:600;
 
 }
-.review-footer{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-top:20px;
-    padding-top:15px;
-    border-top:1px solid rgba(255,255,255,.08);
+/* =========================================
+REVIEW FOOTER
+========================================= */
+
+.review-footer {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-top: 12px;
+
+    padding-top: 15px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+
 }
 
-.review-country{
-    color:#D4AF37;
-    font-size:14px;
-    font-weight:600;
+
+/* COUNTRY */
+
+.review-country {
+
+    color: #d4af37;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
 }
 
-.review-date{
-    color:#888;
-    font-size:13px;
+
+/* DATE */
+
+.review-date {
+
+    color: #888;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+
+}
+
+
+/* =========================================
+HELPFUL BUTTON
+========================================= */
+
+.helpful-wrapper {
+
+    margin-top: 18px;
+
+    margin-bottom: 4px;
+
+}
+
+
+.helpful-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 8px 13px;
+
+    border: 1px solid rgba(212, 175, 55, 0.25);
+
+    border-radius: 20px;
+
+    background: rgba(212, 175, 55, 0.06);
+
+    color: #d4af37;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
+
+}
+
+
+.helpful-heart {
+
+    font-size: 15px;
+
+    line-height: 1;
+
+    transition:
+        transform 0.2s ease;
+
+}
+
+
+.helpful-count {
+
+    font-weight: 700;
+
+}
+
+
+.helpful-label {
+
+    color: #bcbcbc;
+
+}
+
+
+.helpful-btn:hover {
+
+    background: rgba(212, 175, 55, 0.13);
+
+    border-color: rgba(212, 175, 55, 0.55);
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.25);
+
+    transform: translateY(-1px);
+
+}
+
+
+.helpful-btn:hover .helpful-heart {
+
+    transform: scale(1.15);
+
+}
+
+
+.helpful-btn.helpful-active {
+
+    background: rgba(212, 175, 55, 0.16);
+
+    border-color: #d4af37;
+
+    box-shadow:
+        0 0 0 1px rgba(212, 175, 55, 0.12);
+
+}
+
+
+.helpful-btn.helpful-active .helpful-heart {
+
+    transform: scale(1.12);
+
 }
