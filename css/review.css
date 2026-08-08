@@ -99,16 +99,35 @@
 
 }
 
-/* stars */
+/* =========================================
+REVIEW STARS
+========================================= */
 
-.review-stars{
+.review-stars {
+    display: flex;
+    align-items: center;
+    gap: 3px;
 
-    color:#D4AF37;
+    margin-top: 14px;
+    margin-bottom: 22px;
 
-    font-size:18px;
+    height: 18px;
 
-    letter-spacing:2px;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: 0;
+}
 
+.review-stars .star {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 15px;
+    height: 18px;
+
+    font-size: 14px;
+    line-height: 1;
 }
 
 /* title */
