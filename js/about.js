@@ -675,7 +675,7 @@ document.addEventListener(
                     helpful
                         ? "♥"
                         : "♡";
-
+button.classList.add("helpful-active");
             }
 
         } catch (error) {
