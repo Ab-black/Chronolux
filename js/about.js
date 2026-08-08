@@ -418,78 +418,50 @@ LOAD ALL REVIEWS PAGE
 
 async function loadAllReviews() {
 
-    const container = document.getElementById("all-reviews-grid");
+    const container =
+        document.getElementById("all-reviews-grid");
 
     if (!container) return;
 
-    const { data: reviews, error } = await supabaseClient
-        .from("reviews")
-        .select("*")
-        .eq("status", "Approved")
-        .order("created_at", { ascending: false });
+    const { data: reviews, error } =
+        await supabaseClient
+            .from("reviews")
+            .select("*")
+            .eq("status", "Approved")
+            .order("created_at", {
+                ascending: false
+            });
 
     if (error) {
-        console.error(error);
-        container.innerHTML = "<p>Unable to load reviews.</p>";
+
+        console.error(
+            "Error loading all reviews:",
+            error
+        );
+
+        container.innerHTML =
+            "<p>Unable to load reviews.</p>";
+
         return;
     }
 
-    if (!reviews.length) {
-        container.innerHTML = "<p>No reviews available.</p>";
+    if (!reviews || !reviews.length) {
+
+        container.innerHTML =
+            "<p>No reviews available.</p>";
+
         return;
     }
 
     container.innerHTML = "";
 
-    reviews.forEach(review => {
+    reviews.forEach((review, index) => {
 
-        container.innerHTML += `
+        const preparedReview =
+            prepareReview(review, index);
 
-<div class="review-card">
-
-    <div class="review-header">
-
-        <div class="review-avatar">
-            ${review.name.split(" ").map(n => n[0]).join("").substring(0,2).toUpperCase()}
-        </div>
-
-        <div class="review-user">
-            <h4>${review.name}</h4>
-        </div>
-
-    </div>
-
-    <div class="review-stars">
-        ${"★".repeat(review.rating)}${"☆".repeat(5-review.rating)}
-    </div>
-
-    <h3 class="review-title">
-        ${review.review_title || "Excellent Experience"}
-    </h3>
-
-    <p class="review-text">
-        ${review.message}
-    </p>
-
-    <div class="review-footer">
-
-        <span class="review-country">
-            ${review.country}
-        </span>
-
-        <span class="review-date">
-            ${new Date(review.created_at).toLocaleDateString("en-US", {
-                day: "numeric",
-                month: "long",
-                year: "numeric"
-            })}
-        </span>
-
-    </div>
-
-</div>
-
-`;
+        container.innerHTML +=
+            createReviewCard(preparedReview);
 
     });
 
