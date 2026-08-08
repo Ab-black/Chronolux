@@ -67,10 +67,10 @@ function createReviewCard(review) {
     <div class="review-stars">
 
     ${Array.from({ length: 5 }, (_, i) => `
-        <span class="star">
-            ${i < review.rating ? "★" : "☆"}
-        </span>
-    `).join("")}
+    <span class="star ${i < review.rating ? "star-selected" : "star-empty"}">
+        ${i < review.rating ? "★" : "☆"}
+    </span>
+`).join("")}
 
 </div>
 
