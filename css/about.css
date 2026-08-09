@@ -705,131 +705,245 @@ padding:30px;
 }
 
 }
-/*=========================================
-CUSTOMER REVIEWS
-=========================================*/
+/* =========================================
+   REVIEW SUMMARY
+========================================= */
 
-.customer-reviews{
-    background:#050505;
-    padding:120px 0;
+.review-summary-section {
+    width: 100%;
+    margin: 50px auto 70px;
+    padding: 0 20px;
 }
 
-.review-summary{
+.review-summary-container {
+    max-width: 1050px;
+    margin: 0 auto;
 
-    display:grid;
-    grid-template-columns:320px 1fr;
-    gap:60px;
-    align-items:center;
-    margin:70px 0;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 55px;
 
+    align-items: center;
+
+    padding: 35px;
+
+    background: linear-gradient(
+        145deg,
+        #171717,
+        #101010
+    );
+
+    border: 1px solid rgba(212, 175, 55, 0.16);
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.35);
 }
 
-.overall-rating{
 
-    text-align:center;
-    background:#111;
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:24px;
-    padding:45px 30px;
+/* =========================================
+   OVERALL RATING
+========================================= */
 
+.overall-rating-card {
+    text-align: center;
+
+    padding: 28px 20px;
+
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, 0.025);
+
+    border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.overall-rating h1{
+.overall-rating-number {
+    color: #d4af37;
 
-    font-size:90px;
-    font-family:"Cormorant Garamond",serif;
-    color:var(--gold);
-    line-height:1;
+    font-family: Georgia, serif;
 
+    font-size: 64px;
+
+    line-height: 1;
+
+    font-weight: 500;
+
+    letter-spacing: -2px;
 }
 
-.overall-rating .stars{
+.overall-stars {
+    display: flex;
 
-    color:var(--gold);
-    font-size:24px;
-    margin:18px 0;
+    justify-content: center;
 
+    gap: 5px;
+
+    margin-top: 15px;
+
+    color: #d4af37;
+
+    font-size: 20px;
+
+    line-height: 1;
 }
 
-.overall-rating p{
+.overall-rating-card p {
+    margin: 17px 0 0;
 
-    color:#bbb;
+    color: #a7a7a7;
 
+    font-size: 14px;
 }
 
-.rating-bars{
+.overall-rating-card strong {
+    color: #ffffff;
 
-    display:flex;
-    flex-direction:column;
-    gap:22px;
-
+    font-weight: 600;
 }
 
-.rating-row{
 
-    display:grid;
-    grid-template-columns:90px 1fr;
-    gap:20px;
-    align-items:center;
+/* =========================================
+   RATING BREAKDOWN
+========================================= */
 
+.rating-breakdown {
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
 }
 
-.rating-row span{
+.rating-row {
+    display: grid;
 
-    color:#ddd;
+    grid-template-columns: 45px 1fr 45px;
 
+    align-items: center;
+
+    gap: 12px;
 }
 
-.bar{
+.rating-label {
+    color: #d4af37;
 
-    width:100%;
-    height:10px;
-    background:#1b1b1b;
-    border-radius:30px;
-    overflow:hidden;
+    font-size: 14px;
 
+    font-weight: 600;
+
+    white-space: nowrap;
 }
 
-.fill{
-
-    height:100%;
-    background:linear-gradient(90deg,var(--gold),#f5d18d);
-    border-radius:30px;
-
+.rating-label span {
+    color: #ffffff;
 }
 
-/* Demo percentages */
+.rating-bar {
+    height: 9px;
 
-.five-star{
+    width: 100%;
 
-    width:86%;
+    overflow: hidden;
 
+    background: #292929;
+
+    border-radius: 20px;
 }
 
-.four-star{
+.rating-bar-fill {
+    height: 100%;
 
-    width:60%;
+    width: 0%;
 
+    background: linear-gradient(
+        90deg,
+        #b9922e,
+        #f1d078
+    );
+
+    border-radius: 20px;
+
+    transition:
+        width 0.8s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
 }
 
-.three-star{
+.rating-count {
+    color: #999;
 
-    width:30%;
+    font-size: 13px;
 
+    text-align: right;
+
+    min-width: 30px;
 }
 
-.two-star{
 
-    width:12%;
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .review-summary-section {
+        margin: 35px auto 50px;
+
+        padding: 0 14px;
+    }
+
+    .review-summary-container {
+        grid-template-columns: 1fr;
+
+        gap: 30px;
+
+        padding: 22px 18px;
+
+        border-radius: 20px;
+    }
+
+    .overall-rating-card {
+        padding: 24px 15px;
+    }
+
+    .overall-rating-number {
+        font-size: 54px;
+    }
+
+    .overall-stars {
+        font-size: 18px;
+
+        gap: 4px;
+    }
+
+    .rating-breakdown {
+        gap: 14px;
+    }
+
+    .rating-row {
+        grid-template-columns:
+            42px
+            1fr
+            35px;
+
+        gap: 9px;
+    }
+
+    .rating-bar {
+        height: 8px;
+    }
+
+    .rating-count {
+        font-size: 12px;
+    }
 
 }
-
-.one-star{
-
-    width:8%;
-
-}
-
 /*=========================================
 REVIEWS GRID
 =========================================*/
