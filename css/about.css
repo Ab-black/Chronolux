@@ -476,556 +476,372 @@ padding:30px;
 
 }
 /* =========================================================
-PREMIUM CUSTOMER REVIEW SUMMARY
-ABOUT PAGE
+   CHRONOLUX — PREMIUM CUSTOMER REVIEW SUMMARY
+   ABOUT PAGE
 ========================================================= */
 
 .customer-reviews {
-width: 100%;
-padding: 110px 0;
-background:
-radial-gradient(
-circle at 15% 20%,
-rgba(212, 175, 55, 0.045),
-transparent 35%
-),
-#050505;
+    width: 100%;
+    padding: 100px 0;
+    background: #050505;
 }
 
-/* =========================================================
-MAIN REVIEW SUMMARY
-========================================================= */
+/* Main summary container */
 
 .customer-reviews .review-summary {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto 70px;
 
-```
-width: 100%;
-max-width: 1100px;
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    align-items: center;
+    gap: 70px;
 
-margin: 0 auto 70px;
+    padding: 42px;
 
-padding: 42px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.045),
+            rgba(255,255,255,0.012)
+        );
 
-display: grid;
+    border: 1px solid rgba(212,175,55,0.20);
+    border-radius: 26px;
 
-grid-template-columns: 280px minmax(0, 1fr);
+    box-shadow:
+        0 25px 70px rgba(0,0,0,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.04);
 
-gap: 65px;
-
-align-items: center;
-
-background:
-    linear-gradient(
-        145deg,
-        rgba(255,255,255,0.045),
-        rgba(255,255,255,0.012)
-    );
-
-border: 1px solid rgba(212,175,55,0.18);
-
-border-radius: 28px;
-
-box-shadow:
-    0 25px 70px rgba(0,0,0,0.45),
-    inset 0 1px 0 rgba(255,255,255,0.035);
-
-box-sizing: border-box;
-```
-
+    box-sizing: border-box;
 }
 
+
 /* =========================================================
-OVERALL RATING CARD
+   OVERALL RATING
 ========================================================= */
 
 .customer-reviews .overall-rating {
 
-```
-width: 100%;
-min-height: 215px;
+    width: 100%;
+    min-height: 210px;
 
-display: flex;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-flex-direction: column;
+    text-align: center;
 
-justify-content: center;
+    padding: 30px 20px;
 
-align-items: center;
+    box-sizing: border-box;
 
-text-align: center;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.045),
+            rgba(255,255,255,0.015)
+        );
 
-padding: 30px 20px;
-
-box-sizing: border-box;
-
-background:
-    linear-gradient(
-        145deg,
-        rgba(255,255,255,0.045),
-        rgba(255,255,255,0.015)
-    );
-
-border: 1px solid rgba(255,255,255,0.08);
-
-border-radius: 22px;
-
-box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.035);
-```
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
 
 }
 
-/* RATING NUMBER */
+
+/* Rating number */
 
 .customer-reviews .overall-rating h1 {
 
-```
-margin: 0;
+    margin: 0;
 
-font-family: "Cormorant Garamond", serif;
+    font-family: "Cormorant Garamond", serif;
 
-font-size: 76px;
+    font-size: 72px;
+    line-height: 1;
 
-line-height: 0.9;
+    font-weight: 500;
 
-font-weight: 500;
-
-color: #d4af37;
-
-letter-spacing: -2px;
-```
+    color: #d4af37;
 
 }
 
-/* OVERALL STARS */
+
+/* Overall stars */
 
 .customer-reviews .overall-rating .stars {
 
-```
-margin: 18px 0 12px;
+    margin: 16px 0 12px;
 
-color: #d4af37;
+    color: #d4af37;
 
-font-size: 19px;
+    font-size: 18px;
 
-letter-spacing: 5px;
+    letter-spacing: 4px;
 
-line-height: 1;
-```
+    line-height: 1;
 
 }
 
-/* REVIEW COUNT */
+
+/* Review count */
 
 .customer-reviews .overall-rating p {
 
-```
-margin: 0;
+    margin: 0;
 
-color: #9d9d9d;
+    color: #999;
 
-font-size: 13px;
-
-letter-spacing: 0.2px;
-```
+    font-size: 13px;
 
 }
 
 .customer-reviews .overall-rating p span {
 
-```
-color: #ffffff;
+    color: #fff;
 
-font-weight: 600;
-```
+    font-weight: 600;
 
 }
 
+
 /* =========================================================
-RATING BREAKDOWN
+   RATING BARS AREA
 ========================================================= */
 
 .customer-reviews .rating-bars {
 
-```
-width: 100%;
+    width: 100%;
 
-display: flex;
+    display: flex;
+    flex-direction: column;
 
-flex-direction: column;
+    gap: 18px;
 
-gap: 18px;
-
-min-width: 0;
-```
+    box-sizing: border-box;
 
 }
 
+
 /* =========================================================
-EACH RATING ROW
+   EACH RATING ROW
 ========================================================= */
 
 .customer-reviews .rating-bars .rating-row {
 
-```
-width: 100%;
+    width: 100%;
 
-display: grid;
+    display: flex !important;
 
-grid-template-columns: 70px minmax(0, 1fr);
+    align-items: center;
 
-align-items: center;
+    gap: 18px;
 
-gap: 16px;
+    margin: 0;
 
-min-width: 0;
-```
+    padding: 0;
 
-}
-
-/* STAR LABEL */
-
-.customer-reviews .rating-bars .rating-row > span {
-
-```
-display: block;
-
-width: 70px;
-
-color: #d4af37;
-
-font-size: 14px;
-
-font-weight: 600;
-
-line-height: 1;
-
-letter-spacing: 0.5px;
-
-white-space: nowrap;
-```
+    box-sizing: border-box;
 
 }
+
 
 /* =========================================================
-HORIZONTAL BAR
+   STAR LABEL
 ========================================================= */
-
-.customer-reviews .rating-bars .rating-row .bar {
-
-```
-position: relative;
-
-display: block;
-
-width: 100%;
-
-height: 9px;
-
-margin: 0;
-
-padding: 0;
-
-background: #242424;
-
-border-radius: 50px;
-
-overflow: hidden;
-
-box-sizing: border-box;
-```
-
-}
-
-/* =========================================================
-GOLD BAR FILL
-========================================================= */
-
-.customer-reviews .rating-bars .rating-row .fill {
-
-```
-position: absolute;
-
-left: 0;
-
-top: 0;
-
-display: block;
-
-height: 100%;
-
-width: 0%;
-
-margin: 0;
-
-padding: 0;
-
-background:
-    linear-gradient(
-        90deg,
-        #a47d22,
-        #d4af37,
-        #f1d078
-    );
-
-border-radius: 50px;
-
-box-shadow:
-    0 0 12px rgba(212,175,55,0.18);
-
-transition:
-    width 0.8s cubic-bezier(
-        0.22,
-        1,
-        0.36,
-        1
-    );
-
-box-sizing: border-box;
-```
-
-}
-
-/* =========================================================
-MOBILE
-========================================================= */
-
-@media (max-width: 800px) {
-
-```
-.customer-reviews {
-    padding: 80px 0;
-}
-
-.customer-reviews .review-summary {
-
-    grid-template-columns: 1fr;
-
-    gap: 35px;
-
-    padding: 25px;
-
-    border-radius: 22px;
-}
-
-.customer-reviews .overall-rating {
-
-    min-height: 190px;
-}
-
-.customer-reviews .overall-rating h1 {
-
-    font-size: 64px;
-}
-
-.customer-reviews .rating-bars {
-
-    gap: 16px;
-}
-
-.customer-reviews .rating-bars .rating-row {
-
-    grid-template-columns:
-        65px
-        minmax(0, 1fr);
-
-    gap: 12px;
-}
 
 .customer-reviews .rating-bars .rating-row > span {
 
     width: 65px;
 
-    font-size: 12px;
+    min-width: 65px;
+
+    flex-shrink: 0;
+
+    display: block;
+
+    color: #d4af37;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    line-height: 1;
+
+    white-space: nowrap;
+
 }
+
+
+/* =========================================================
+   HORIZONTAL BAR
+========================================================= */
 
 .customer-reviews .rating-bars .rating-row .bar {
 
-    height: 8px;
-}
-```
+    position: relative;
+
+    display: block !important;
+
+    flex: 1 1 auto;
+
+    width: auto !important;
+
+    min-width: 0;
+
+    height: 9px;
+
+    margin: 0;
+
+    padding: 0;
+
+    overflow: hidden;
+
+    box-sizing: border-box;
+
+    background: #252525;
+
+    border-radius: 50px;
 
 }
+
 
 /* =========================================================
-SMALL MOBILE
+   GOLD FILL
 ========================================================= */
-
-@media (max-width: 480px) {
-
-```
-.customer-reviews .review-summary {
-
-    padding: 18px;
-}
-
-.customer-reviews .overall-rating {
-
-    min-height: 175px;
-}
-
-.customer-reviews .overall-rating h1 {
-
-    font-size: 58px;
-}
-
-.customer-reviews .overall-rating .stars {
-
-    font-size: 17px;
-
-    letter-spacing: 4px;
-}
-```
-
-}
-
-/* =========================================================
-FINAL PREMIUM REVIEW SUMMARY OVERRIDE
-Fixes rating bars + prevents old CSS conflicts
-========================================================= */
-
-.customer-reviews .review-summary {
-display: grid !important;
-grid-template-columns: 280px minmax(0, 1fr) !important;
-align-items: center !important;
-gap: 60px !important;
-}
-
-/* Rating breakdown */
-
-.customer-reviews .rating-bars {
-display: flex !important;
-flex-direction: column !important;
-width: 100% !important;
-gap: 18px !important;
-}
-
-/* Individual rating row */
-
-.customer-reviews .rating-bars .rating-row {
-display: grid !important;
-grid-template-columns: 70px minmax(0, 1fr) !important;
-align-items: center !important;
-width: 100% !important;
-gap: 16px !important;
-}
-
-/* Star label */
-
-.customer-reviews .rating-bars .rating-row > span {
-display: block !important;
-width: auto !important;
-color: #d4af37 !important;
-font-size: 14px !important;
-line-height: 1 !important;
-white-space: nowrap !important;
-}
-
-/* Horizontal bar */
-
-.customer-reviews .rating-bars .rating-row .bar {
-display: block !important;
-position: relative !important;
-
-```
-width: 100% !important;
-height: 9px !important;
-
-background: #242424 !important;
-
-border-radius: 50px !important;
-overflow: hidden !important;
-
-margin: 0 !important;
-padding: 0 !important;
-```
-
-}
-
-/* Gold fill */
 
 .customer-reviews .rating-bars .rating-row .fill {
-display: block !important;
-position: absolute !important;
 
-```
-left: 0 !important;
-top: 0 !important;
+    position: absolute;
 
-height: 100% !important;
+    top: 0;
+    left: 0;
 
-width: 0%;
+    display: block;
 
-background: linear-gradient(
-    90deg,
-    #a47d22,
-    #d4af37,
-    #f1d078
-) !important;
+    height: 100%;
 
-border-radius: 50px !important;
+    width: 0%;
 
-transition: width 0.8s ease !important;
-```
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+    background:
+        linear-gradient(
+            90deg,
+            #a47d22,
+            #d4af37,
+            #f1d078
+        );
+
+    border-radius: 50px;
+
+    transition:
+        width 0.8s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
 
 }
+
 
 /* =========================================================
-DESKTOP
-========================================================= */
-
-@media (min-width: 901px) {
-
-```
-.customer-reviews .review-summary {
-    grid-template-columns: 280px minmax(0, 1fr) !important;
-}
-```
-
-}
-
-/* =========================================================
-TABLET / MOBILE
+   MOBILE
 ========================================================= */
 
 @media (max-width: 900px) {
 
-```
-.customer-reviews .review-summary {
-    grid-template-columns: 1fr !important;
-    gap: 35px !important;
+    .customer-reviews {
+        padding: 80px 0;
+    }
+
+    .customer-reviews .review-summary {
+
+        grid-template-columns: 1fr;
+
+        gap: 35px;
+
+        padding: 30px;
+
+    }
+
+    .customer-reviews .overall-rating {
+
+        max-width: 320px;
+
+        margin: 0 auto;
+
+    }
+
+    .customer-reviews .rating-bars {
+
+        width: 100%;
+
+    }
+
 }
 
-.customer-reviews .rating-bars {
-    width: 100% !important;
-}
-
-.customer-reviews .rating-bars .rating-row {
-    grid-template-columns: 65px minmax(0, 1fr) !important;
-}
-```
-
-}
 
 /* =========================================================
-SMALL MOBILE
+   SMALL MOBILE
 ========================================================= */
 
 @media (max-width: 480px) {
 
-```
-.customer-reviews .review-summary {
-    padding: 22px !important;
-}
+    .customer-reviews .review-summary {
 
-.customer-reviews .rating-bars .rating-row {
-    grid-template-columns: 60px minmax(0, 1fr) !important;
-    gap: 12px !important;
-}
+        padding: 20px;
 
-.customer-reviews .rating-bars .rating-row .bar {
-    height: 8px !important;
-}
-```
+        border-radius: 20px;
+
+    }
+
+    .customer-reviews .overall-rating {
+
+        min-height: 180px;
+
+    }
+
+    .customer-reviews .overall-rating h1 {
+
+        font-size: 60px;
+
+    }
+
+    .customer-reviews .overall-rating .stars {
+
+        font-size: 16px;
+
+        letter-spacing: 3px;
+
+    }
+
+    .customer-reviews .rating-bars .rating-row {
+
+        gap: 12px;
+
+    }
+
+    .customer-reviews .rating-bars .rating-row > span {
+
+        width: 55px;
+
+        min-width: 55px;
+
+        font-size: 12px;
+
+    }
+
+    .customer-reviews .rating-bars .rating-row .bar {
+
+        height: 8px;
+
+    }
 
 }
