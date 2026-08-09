@@ -185,29 +185,72 @@ function prepareReview(review, index) {
         "We are delighted to hear that you were satisfied with your ChronoLux experience. Thank you for your trust."
     ];
 
+    const reviewDate = review.created_at
+        ? new Date(review.created_at)
+        : null;
+
+    const year = reviewDate
+        ? reviewDate.getFullYear()
+        : null;
+
+    const month = reviewDate
+        ? reviewDate.getMonth()
+        : null;
+
+    /*
+     * GET THE CURRENT HELPFUL COUNT
+     */
+    let helpfulCount =
+        Number(review.helpful_count) || 0;
+
+    /*
+     * 2026 REVIEWS
+     * Maximum starting count = 7
+     */
+    if (year === 2026) {
+
+        helpfulCount =
+            Math.min(helpfulCount, 7);
+
+        /*
+         * AUGUST 2026
+         * Starting count can only be 0 or 1
+         */
+        if (month === 7) {
+
+            helpfulCount =
+                helpfulCount > 0 ? 1 : 0;
+
+        }
+
+    }
+
     return {
+
         ...review,
 
-        displayDate: review.created_at
-            ? new Date(review.created_at).toLocaleDateString("en-US", {
-                day: "numeric",
-                month: "long",
-                year: "numeric"
-            })
-            : "",
+        displayDate:
+            reviewDate
+                ? reviewDate.toLocaleDateString(
+                    "en-US",
+                    {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric"
+                    }
+                )
+                : "",
 
-        helpful: Math.max(
-            Number(review.helpful_count) || 4,
-            4
-        ),
+        helpful:
+            helpfulCount,
 
         reply:
             review.chronolux_reply ||
             replies[index % replies.length]
+
     };
 
 }
-
 
 /* =========================================
 GET VISITOR ID
@@ -632,13 +675,8 @@ document.addEventListener(
                 Boolean(data.helpful);
 
             const newCount =
-                Math.max(
-                    Number(
-                        data.helpful_count
-                    ) || 4,
-                    4
-                );
-
+                Number(data.helpful_count) || 0;
+            
             if (countElement) {
 
                 countElement.textContent =
@@ -671,12 +709,26 @@ document.addEventListener(
 
             if (heartElement) {
 
-                heartElement.textContent =
-                    helpful
-                        ? "♥"
-                        : "♡";
-button.classList.add("helpful-active");
-            }
+    heartElement.textContent =
+        helpful
+            ? "♥"
+            : "♡";
+
+}
+
+if (helpful) {
+
+    button.classList.add(
+        "helpful-active"
+    );
+
+} else {
+
+    button.classList.remove(
+        "helpful-active"
+    );
+
+}
 
         } catch (error) {
 
