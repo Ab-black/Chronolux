@@ -1,3 +1,298 @@
+/* =========================================
+   CHRONOLUX REVIEW SUMMARY
+========================================= */
+
+.review-summary {
+    width: 100%;
+    max-width: 1100px;
+
+    margin: 70px auto 60px;
+
+    display: grid;
+
+    grid-template-columns: 300px 1fr;
+
+    gap: 55px;
+
+    align-items: center;
+
+    padding: 38px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #171717 0%,
+            #0e0e0e 100%
+        );
+
+    border: 1px solid rgba(212, 175, 55, 0.16);
+
+    border-radius: 26px;
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.38);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+.review-summary::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 260px;
+    height: 260px;
+
+    top: -140px;
+    left: -100px;
+
+    background: rgba(212, 175, 55, 0.07);
+
+    filter: blur(70px);
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   OVERALL RATING
+========================================= */
+
+.review-summary .overall-rating {
+
+    position: relative;
+
+    text-align: center;
+
+    padding: 30px 20px;
+
+    background: rgba(255,255,255,.025);
+
+    border: 1px solid rgba(255,255,255,.07);
+
+    border-radius: 22px;
+}
+
+
+.review-summary .overall-rating h1 {
+
+    margin: 0;
+
+    color: #d4af37;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 78px;
+
+    font-weight: 500;
+
+    line-height: 1;
+
+    letter-spacing: -2px;
+}
+
+
+.review-summary .overall-rating .stars {
+
+    margin: 15px 0 12px;
+
+    color: #d4af37;
+
+    font-size: 21px;
+
+    letter-spacing: 4px;
+
+    line-height: 1;
+}
+
+
+.review-summary .overall-rating p {
+
+    margin: 14px 0 0;
+
+    color: #9e9e9e;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+.review-summary .overall-rating p span {
+
+    color: #ffffff;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   RATING BREAKDOWN
+========================================= */
+
+.review-summary .rating-bars {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 17px;
+}
+
+
+.review-summary .rating-row {
+
+    display: grid;
+
+    grid-template-columns: 72px 1fr;
+
+    align-items: center;
+
+    gap: 16px;
+}
+
+
+.review-summary .rating-row > span {
+
+    color: #d4af37;
+
+    font-size: 14px;
+
+    letter-spacing: 2px;
+
+    white-space: nowrap;
+}
+
+
+.review-summary .bar {
+
+    width: 100%;
+
+    height: 9px;
+
+    background: #242424;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+
+.review-summary .fill {
+
+    width: 0%;
+
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #a98228,
+            #d4af37,
+            #f1d078
+        );
+
+    border-radius: 20px;
+
+    transition:
+        width .8s cubic-bezier(
+            .22,
+            1,
+            .36,
+            1
+        );
+}
+
+
+/* =========================================
+   SUMMARY RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .review-summary {
+
+        grid-template-columns: 1fr;
+
+        gap: 35px;
+
+        margin: 50px auto;
+
+        padding: 25px;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .review-summary {
+
+        margin: 35px auto 45px;
+
+        padding: 20px 16px;
+
+        border-radius: 20px;
+
+    }
+
+
+    .review-summary .overall-rating {
+
+        padding: 25px 15px;
+
+    }
+
+
+    .review-summary .overall-rating h1 {
+
+        font-size: 62px;
+
+    }
+
+
+    .review-summary .overall-rating .stars {
+
+        font-size: 18px;
+
+        letter-spacing: 3px;
+
+    }
+
+
+    .review-summary .rating-bars {
+
+        gap: 14px;
+
+    }
+
+
+    .review-summary .rating-row {
+
+        grid-template-columns: 65px 1fr;
+
+        gap: 12px;
+
+    }
+
+
+    .review-summary .rating-row > span {
+
+        font-size: 12px;
+
+        letter-spacing: 1px;
+
+    }
+
+}
+
 /* ===========================
    REVIEW GRID
 =========================== */
