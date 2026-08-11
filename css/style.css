@@ -3376,3 +3376,64 @@ CONTACT MAP
     }
 
 }
+
+/* =========================================================
+   HOME PAGE — FEATURED WATCHES ONLY
+   3 WATCHES CENTERED ON DESKTOP
+   DOES NOT AFFECT COLLECTION / PRODUCT GRID
+   ========================================================= */
+
+.featured-watches .watch-grid {
+    display: grid !important;
+
+    grid-template-columns: repeat(3, minmax(0, 280px)) !important;
+
+    justify-content: center !important;
+
+    align-items: stretch !important;
+
+    gap: 24px;
+
+    width: 100%;
+
+    max-width: 100%;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+
+/* =========================================================
+   MOBILE — ONE WATCH PER ROW
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .featured-watches .watch-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+
+        justify-content: center !important;
+
+        gap: 18px;
+
+        width: 100%;
+
+        max-width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .featured-watches .watch-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+
+        gap: 16px;
+    }
+
+}
