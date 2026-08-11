@@ -2,25 +2,6 @@
 // CHRONOLUX WATCH UPLOAD / EDIT
 // ======================================
 
-(function ensureCollectionField() {
-    const description = document.getElementById("description");
-    if (!description || document.getElementById("collection")) return;
-
-    const group = document.createElement("div");
-    group.className = "form-group";
-    group.innerHTML = `
-        <label for="collection">Collection</label>
-        <select id="collection" required>
-            <option value="">Select Collection</option>
-            <option value="classic-icons">Classic Icons</option>
-            <option value="limited-edition">Limited Edition</option>
-            <option value="modern-luxury">Modern Luxury</option>
-        </select>
-    `;
-
-    description.closest(".form-group")?.before(group);
-})();
-
 async function uploadImage(file) {
 
     const fileName = `${Date.now()}-${file.name}`;
@@ -54,17 +35,21 @@ async function saveWatch(e) {
     const collection = document.getElementById("collection")?.value || "";
     const description = document.getElementById("description").value;
 
-    if (!collection && !editingWatchId) {
-        alert("Please select a collection.");
-        return;
-    }
-
     const movement = document.getElementById("movement").value;
     const caseMaterial = document.getElementById("caseMaterial").value;
     const caseSize = document.getElementById("caseSize").value;
     const waterResistance = document.getElementById("waterResistance").value;
     const condition = document.getElementById("condition").value;
     const featured = document.getElementById("featured").checked;
+
+    if (!collection && !editingWatchId) {
+        alert("Please select a collection.");
+        return;
+    }
+
+    // ======================================
+    // AUTO MANAGE FEATURED WATCHES
+    // ======================================
 
     if (featured) {
 
@@ -107,7 +92,12 @@ async function saveWatch(e) {
         document.getElementById("image5").files[0]
     ];
 
-    // Main image: keep the existing image unless a new one is selected.
+    // ======================================
+    // MAIN IMAGE
+    // ======================================
+
+    // If no new main image is selected while editing,
+    // the existing main image remains unchanged.
     let imageUrl = null;
 
     if (imageFile) {
@@ -124,7 +114,12 @@ async function saveWatch(e) {
         return;
     }
 
-    // Gallery: a blank file input means KEEP that existing image.
+    // ======================================
+    // GALLERY IMAGES
+    // ======================================
+
+    // Existing gallery images are loaded when Edit is clicked.
+    // A blank file input means KEEP the existing image in that position.
     const existingGallery = Array.isArray(window.currentGallery)
         ? [...window.currentGallery]
             .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
@@ -142,6 +137,7 @@ async function saveWatch(e) {
         const url = await uploadImage(file);
         if (!url) return;
 
+        // image2 = position 0, image3 = position 1, etc.
         mergedGallery[i] = url;
         galleryChanged = true;
     }
@@ -202,8 +198,14 @@ async function saveWatch(e) {
         return;
     }
 
-    // Only rebuild gallery rows when adding a watch or when a gallery image
-    // was actually changed. Editing text/details alone leaves gallery rows untouched.
+    // ======================================
+    // SAVE GALLERY WITHOUT LOSING EXISTING IMAGES
+    // ======================================
+
+    // If editing without selecting any gallery file, the existing
+    // watch_images rows are left completely untouched.
+    // If a gallery image was changed/added, rebuild the rows using the
+    // merged list so untouched images are retained too.
     if (!editingWatchId || galleryChanged) {
 
         const { error: deleteGalleryError } = await supabaseClient
@@ -234,6 +236,10 @@ async function saveWatch(e) {
             }
         }
     }
+
+    // ======================================
+    // RESET FORM
+    // ======================================
 
     document.getElementById("watch-form").reset();
 
