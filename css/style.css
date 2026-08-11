@@ -3304,30 +3304,6 @@ CONTACT MAP
    ========================================================= */
 
 
-/* =========================================================
-   FEATURED WATCHES
-   DESKTOP — 3 CARDS CENTERED
-   ========================================================= */
-
-.featured-grid {
-    display: grid !important;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 280px)) !important;
-
-    justify-content: center !important;
-
-    align-items: stretch !important;
-
-    gap: 24px;
-
-    width: 100% !important;
-
-    max-width: 100% !important;
-
-    margin-left: auto !important;
-    margin-right: auto !important;
-}
 
 
 /* =========================================================
@@ -3391,7 +3367,6 @@ CONTACT MAP
 
 @media (max-width: 480px) {
 
-    .featured-grid,
     .collection-grid {
 
         grid-template-columns: minmax(0, 1fr) !important;
