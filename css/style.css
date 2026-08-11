@@ -3297,3 +3297,107 @@ CONTACT MAP
     }
 
 }
+
+/* =========================================================
+   FINAL GRID ALIGNMENT
+   FEATURED WATCHES + COLLECTIONS
+   ========================================================= */
+
+
+/* =========================================================
+   FEATURED WATCHES
+   DESKTOP — 3 CARDS CENTERED
+   ========================================================= */
+
+.featured-grid {
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 280px)) !important;
+
+    justify-content: center !important;
+
+    align-items: stretch !important;
+
+    gap: 24px;
+
+    width: 100% !important;
+
+    max-width: 100% !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+
+/* =========================================================
+   COLLECTIONS
+   DESKTOP — 3 CARDS CENTERED
+   ========================================================= */
+
+.collection-grid {
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 280px)) !important;
+
+    justify-content: center !important;
+
+    align-items: stretch !important;
+
+    gap: 24px;
+
+    width: 100% !important;
+
+    max-width: 100% !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+
+/* =========================================================
+   MOBILE
+   ONE COLUMN
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .featured-grid,
+    .collection-grid {
+
+        display: grid !important;
+
+        grid-template-columns: minmax(0, 1fr) !important;
+
+        justify-content: center !important;
+
+        width: 100% !important;
+
+        max-width: 100% !important;
+
+        gap: 18px;
+
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .featured-grid,
+    .collection-grid {
+
+        grid-template-columns: minmax(0, 1fr) !important;
+
+        gap: 16px;
+
+    }
+
+}
