@@ -3251,3 +3251,49 @@ CONTACT MAP
     }
 
 }
+
+/* =========================================================
+   HOME PAGE — FEATURED WATCHES
+   Maximum of 3 watches, centered on desktop
+   ========================================================= */
+
+.featured-grid {
+    display: grid !important;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+
+    gap: 24px;
+
+    width: 100%;
+
+    max-width: 1000px;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+
+/* MOBILE — 2 COLUMNS */
+
+@media (max-width: 768px) {
+
+    .featured-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+
+        gap: 14px;
+
+        max-width: 100%;
+    }
+
+}
+
+
+/* VERY SMALL MOBILE */
+
+@media (max-width: 420px) {
+
+    .featured-grid {
+        gap: 10px;
+    }
+
+}
