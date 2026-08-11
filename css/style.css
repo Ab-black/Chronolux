@@ -2806,3 +2806,448 @@ CONTACT MAP
     border:none;
 
 }
+
+/* =========================================================
+   CHRONOLUX — PREMIUM WATCH PRODUCT GRID
+   Collection + Featured Watches
+   ========================================================= */
+
+/* -------------------------
+   PRODUCT GRID
+   ------------------------- */
+
+.watches-grid,
+.watch-grid,
+.collection-grid,
+.featured-grid {
+    display: grid !important;
+
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+
+    gap: 24px;
+
+    width: 100%;
+}
+
+
+/* -------------------------
+   WATCH CARD
+   ------------------------- */
+
+.watch-card {
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    background: #111;
+
+    border: 1px solid rgba(255,255,255,0.06);
+
+    border-radius: 16px;
+
+    box-sizing: border-box;
+
+    transition:
+        transform 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+
+/* CARD HOVER */
+
+.watch-card:hover {
+    transform: translateY(-6px);
+
+    border-color: rgba(212,175,55,0.45);
+
+    box-shadow:
+        0 18px 45px rgba(0,0,0,0.45);
+}
+
+
+/* =========================================================
+   IMAGE AREA
+   ========================================================= */
+
+.watch-card .watch-image,
+.watch-card .product-image,
+.watch-card .image-container {
+    width: 100%;
+
+    height: 245px;
+
+    min-height: 245px;
+
+    overflow: hidden;
+
+    background: #090909;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+}
+
+
+/* IMAGE ITSELF */
+
+.watch-card .watch-image img,
+.watch-card .product-image img,
+.watch-card .image-container img,
+.watch-card > img {
+
+    width: 100%;
+
+    height: 100%;
+
+    max-width: 100%;
+
+    max-height: 100%;
+
+    object-fit: cover;
+
+    object-position: center;
+
+    display: block;
+
+    transition: transform 0.5s ease;
+}
+
+
+/* IMAGE HOVER */
+
+.watch-card:hover .watch-image img,
+.watch-card:hover .product-image img,
+.watch-card:hover .image-container img,
+.watch-card:hover > img {
+    transform: scale(1.03);
+}
+
+
+/* =========================================================
+   WATCH INFORMATION
+   ========================================================= */
+
+.watch-card .watch-info,
+.watch-card .product-info,
+.watch-card .watch-details {
+    display: flex;
+
+    flex-direction: column;
+
+    flex: 1;
+
+    padding: 22px 20px 20px;
+
+    min-width: 0;
+}
+
+
+/* BRAND */
+
+.watch-card .brand,
+.watch-card .watch-brand,
+.watch-card .product-brand {
+    display: block;
+
+    min-height: 18px;
+
+    margin-bottom: 8px;
+
+    color: #c8a96a;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+}
+
+
+/* WATCH NAME */
+
+.watch-card h2,
+.watch-card h3,
+.watch-card .watch-name,
+.watch-card .product-name,
+.watch-card .watch-title {
+
+    min-height: 58px;
+
+    margin: 0 0 12px;
+
+    color: #fff;
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 24px;
+
+    line-height: 1.2;
+
+    font-weight: 600;
+}
+
+
+/* PRICE */
+
+.watch-card .price,
+.watch-card .watch-price,
+.watch-card .product-price {
+
+    min-height: 22px;
+
+    margin-bottom: 18px;
+
+    color: #d4af37;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   BUTTON
+   ========================================================= */
+
+.watch-card .watch-btn,
+.watch-card .details-btn,
+.watch-card .product-btn {
+
+    width: 100%;
+
+    min-height: 46px;
+
+    margin-top: auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    border-radius: 30px;
+
+    background: #d4af37;
+
+    color: #080808;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    border: none;
+
+    cursor: pointer;
+
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+.watch-card .watch-btn:hover,
+.watch-card .details-btn:hover,
+.watch-card .product-btn:hover {
+
+    background: #e5c66d;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   MAKE EVERY CARD THE SAME HEIGHT
+   ========================================================= */
+
+.watches-grid .watch-card,
+.watch-grid .watch-card,
+.collection-grid .watch-card,
+.featured-grid .watch-card {
+
+    height: 100%;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .watches-grid,
+    .watch-grid,
+    .collection-grid,
+    .featured-grid {
+
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+
+        gap: 20px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE — EXACTLY 2 COLUMNS
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .watches-grid,
+    .watch-grid,
+    .collection-grid,
+    .featured-grid {
+
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+
+        gap: 14px;
+
+        width: 100%;
+
+        box-sizing: border-box;
+    }
+
+
+    .watch-card {
+
+        border-radius: 14px;
+    }
+
+
+    /* Smaller but still identical image area */
+
+    .watch-card .watch-image,
+    .watch-card .product-image,
+    .watch-card .image-container {
+
+        height: 180px;
+
+        min-height: 180px;
+    }
+
+
+    .watch-card .watch-info,
+    .watch-card .product-info,
+    .watch-card .watch-details {
+
+        padding: 16px 13px 14px;
+    }
+
+
+    .watch-card .brand,
+    .watch-card .watch-brand,
+    .watch-card .product-brand {
+
+        font-size: 8px;
+
+        letter-spacing: 1px;
+
+        min-height: 15px;
+
+        margin-bottom: 6px;
+    }
+
+
+    .watch-card h2,
+    .watch-card h3,
+    .watch-card .watch-name,
+    .watch-card .product-name,
+    .watch-card .watch-title {
+
+        font-size: 18px;
+
+        min-height: 44px;
+
+        line-height: 1.15;
+
+        margin-bottom: 9px;
+    }
+
+
+    .watch-card .price,
+    .watch-card .watch-price,
+    .watch-card .product-price {
+
+        font-size: 10px;
+
+        min-height: 18px;
+
+        margin-bottom: 12px;
+    }
+
+
+    .watch-card .watch-btn,
+    .watch-card .details-btn,
+    .watch-card .product-btn {
+
+        min-height: 40px;
+
+        font-size: 10px;
+
+        padding: 8px 6px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .watches-grid,
+    .watch-grid,
+    .collection-grid,
+    .featured-grid {
+
+        gap: 10px;
+    }
+
+
+    .watch-card .watch-image,
+    .watch-card .product-image,
+    .watch-card .image-container {
+
+        height: 150px;
+
+        min-height: 150px;
+    }
+
+
+    .watch-card .watch-info,
+    .watch-card .product-info,
+    .watch-card .watch-details {
+
+        padding: 13px 10px 11px;
+    }
+
+
+    .watch-card h2,
+    .watch-card h3,
+    .watch-card .watch-name,
+    .watch-card .product-name,
+    .watch-card .watch-title {
+
+        font-size: 16px;
+
+        min-height: 39px;
+    }
+
+}
