@@ -1,3 +1,26 @@
+// ======================================
+// CHRONOLUX WATCH UPLOAD / EDIT
+// ======================================
+
+(function ensureCollectionField() {
+    const description = document.getElementById("description");
+    if (!description || document.getElementById("collection")) return;
+
+    const group = document.createElement("div");
+    group.className = "form-group";
+    group.innerHTML = `
+        <label for="collection">Collection</label>
+        <select id="collection" required>
+            <option value="">Select Collection</option>
+            <option value="classic-icons">Classic Icons</option>
+            <option value="limited-edition">Limited Edition</option>
+            <option value="modern-luxury">Modern Luxury</option>
+        </select>
+    `;
+
+    description.closest(".form-group")?.before(group);
+})();
+
 async function uploadImage(file) {
 
     const fileName = `${Date.now()}-${file.name}`;
@@ -24,248 +47,217 @@ async function saveWatch(e) {
 
     e.preventDefault();
 
-    alert("saveWatch started");
-
     const brand = document.getElementById("brand").value;
     const model = document.getElementById("model").value;
     const oldPrice = document.getElementById("oldPrice").value;
     const newPrice = document.getElementById("newPrice").value;
+    const collection = document.getElementById("collection")?.value || "";
     const description = document.getElementById("description").value;
+
+    if (!collection && !editingWatchId) {
+        alert("Please select a collection.");
+        return;
+    }
 
     const movement = document.getElementById("movement").value;
     const caseMaterial = document.getElementById("caseMaterial").value;
     const caseSize = document.getElementById("caseSize").value;
     const waterResistance = document.getElementById("waterResistance").value;
     const condition = document.getElementById("condition").value;
-
     const featured = document.getElementById("featured").checked;
-// ======================================
-// AUTO MANAGE FEATURED WATCHES
-// ======================================
 
-if (featured) {
+    if (featured) {
 
-    const { data: featuredWatches } = await supabaseClient
-        .from("watches")
-        .select("id")
-        .eq("featured", true)
-        .order("id", { ascending: true });
-
-    if (featuredWatches.length >= 3) {
-
-        const oldestWatch = featuredWatches[0];
-
-        await supabaseClient
+        const { data: featuredWatches, error: featuredError } = await supabaseClient
             .from("watches")
-            .update({
-                featured: false
-            })
-            .eq("id", oldestWatch.id);
+            .select("id")
+            .eq("featured", true)
+            .order("id", { ascending: true });
 
-    }
-
-}
-    const imageFile = document.getElementById("mainImage").files[0];
-    const imageFile2 = document.getElementById("image2").files[0];
-    const imageFile3 = document.getElementById("image3").files[0];
-    const imageFile4 = document.getElementById("image4").files[0];
-    const imageFile5 = document.getElementById("image5").files[0];
-    
-    let imageUrl = null;
-    let galleryUrls = [];
-    let imageUrl2 = null;
-    let imageUrl3 = null;
-    let imageUrl4 = null;
-    let imageUrl5 = null;
-
-    // Upload Main Image
-    if (imageFile) {
-    
-        imageUrl = await uploadImage(imageFile);
-    
-        if (!imageUrl) return;
-    
-    }
-
-    // Upload gallery images
-
-    const galleryFiles = [
-        imageFile2,
-        imageFile3,
-        imageFile4,
-        imageFile5
-];
-    
-    for (const file of galleryFiles) {
-    
-        if (!file) continue;
-    
-        const url = await uploadImage(file);
-    
-        if (url) {
-    
-            galleryUrls.push(url);
-    
+        if (featuredError) {
+            alert(featuredError.message);
+            return;
         }
-    
+
+        const otherFeaturedWatches = (featuredWatches || []).filter(
+            watch => String(watch.id) !== String(editingWatchId)
+        );
+
+        if (otherFeaturedWatches.length >= 3) {
+
+            const oldestWatch = otherFeaturedWatches[0];
+
+            const { error: unfeatureError } = await supabaseClient
+                .from("watches")
+                .update({ featured: false })
+                .eq("id", oldestWatch.id);
+
+            if (unfeatureError) {
+                alert(unfeatureError.message);
+                return;
+            }
+        }
     }
-    
 
-    // Editing and no new image selected
-    if (editingWatchId && !imageUrl) {
+    const imageFile = document.getElementById("mainImage").files[0];
+    const galleryFiles = [
+        document.getElementById("image2").files[0],
+        document.getElementById("image3").files[0],
+        document.getElementById("image4").files[0],
+        document.getElementById("image5").files[0]
+    ];
 
-    imageUrl = window.currentWatchImage;
+    // Main image: keep the existing image unless a new one is selected.
+    let imageUrl = null;
 
-}
+    if (imageFile) {
+        imageUrl = await uploadImage(imageFile);
+        if (!imageUrl) return;
+    }
 
-    // Keep existing gallery images if no new ones were uploaded
-if (editingWatchId && galleryUrls.length === 0) {
+    if (!imageUrl && editingWatchId) {
+        imageUrl = window.currentWatchImage || null;
+    }
 
-    galleryUrls = window.currentGallery || [];
-
-}
-    
-    // Adding new watch requires image
     if (!editingWatchId && !imageUrl) {
-
         alert("Please select a watch image.");
-
         return;
+    }
 
+    // Gallery: a blank file input means KEEP that existing image.
+    const existingGallery = Array.isArray(window.currentGallery)
+        ? [...window.currentGallery]
+            .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
+            .map(item => typeof item === "string" ? item : item.image_url)
+        : [];
+
+    const mergedGallery = [...existingGallery];
+    let galleryChanged = false;
+
+    for (let i = 0; i < galleryFiles.length; i++) {
+
+        const file = galleryFiles[i];
+        if (!file) continue;
+
+        const url = await uploadImage(file);
+        if (!url) return;
+
+        mergedGallery[i] = url;
+        galleryChanged = true;
+    }
+
+    while (mergedGallery.length && !mergedGallery[mergedGallery.length - 1]) {
+        mergedGallery.pop();
     }
 
     const slug = model
         .toLowerCase()
+        .trim()
         .replace(/\s+/g, "-");
 
     const watchData = {
-
-        brand: brand,
-        model: model,
-        slug: slug,
-    
+        brand,
+        model,
+        slug,
         old_price: oldPrice,
         new_price: newPrice,
-    
-        description: description,
-    
-        image: imageUrl || window.currentWatchImage,
-    
-        featured: featured,
-    
-        movement: movement,
+        collection: collection || window.currentWatchCollection || null,
+        description,
+        image: imageUrl,
+        featured,
+        movement,
         case_material: caseMaterial,
         case_size: caseSize,
         water_resistance: waterResistance,
-        condition: condition
-    
+        condition
     };
+
     let result;
-let watchId;
+    let watchId;
 
-alert("editingWatchId = " + editingWatchId);
+    if (editingWatchId) {
 
-if (editingWatchId) {
+        result = await supabaseClient
+            .from("watches")
+            .update(watchData)
+            .eq("id", editingWatchId)
+            .select()
+            .single();
 
-    alert("Updating watch...");
+        watchId = editingWatchId;
 
-    result = await supabaseClient
-        .from("watches")
-        .update(watchData)
-        .eq("id", editingWatchId)
-        .select()
-        .single();
+    } else {
 
-    watchId = editingWatchId;
+        result = await supabaseClient
+            .from("watches")
+            .insert([watchData])
+            .select()
+            .single();
 
-} else {
-
-    alert("Adding new watch...");
-
-    result = await supabaseClient
-        .from("watches")
-        .insert([watchData])
-        .select()
-        .single();
-
-    watchId = result.data.id;
-
-}
-
-const { error } = result;
-
-if (error) {
-
-    alert(error.message);
-
-    return;
-
-}
-
-    if (error) {
-
-        alert(error.message);
-
-        return;
-
+        watchId = result.data?.id;
     }
 
-    // ======================================
-// SAVE GALLERY IMAGES
-// ======================================
+    if (result.error) {
+        alert(result.error.message);
+        return;
+    }
 
-// Remove existing gallery images when editing
-if (editingWatchId) {
+    // Only rebuild gallery rows when adding a watch or when a gallery image
+    // was actually changed. Editing text/details alone leaves gallery rows untouched.
+    if (!editingWatchId || galleryChanged) {
 
-    await supabaseClient
-        .from("watch_images")
-        .delete()
-        .eq("watch_id", watchId);
+        const { error: deleteGalleryError } = await supabaseClient
+            .from("watch_images")
+            .delete()
+            .eq("watch_id", watchId);
 
-}
+        if (deleteGalleryError) {
+            alert(deleteGalleryError.message);
+            return;
+        }
 
-// Save newly uploaded gallery images
-for (let i = 0; i < galleryUrls.length; i++) {
+        for (let i = 0; i < mergedGallery.length; i++) {
 
-    await supabaseClient
-        .from("watch_images")
-        .insert({
+            if (!mergedGallery[i]) continue;
 
-            watch_id: watchId,
-            image_url: galleryUrls[i],
-            sort_order: i + 1
+            const { error: galleryInsertError } = await supabaseClient
+                .from("watch_images")
+                .insert({
+                    watch_id: watchId,
+                    image_url: mergedGallery[i],
+                    sort_order: i + 1
+                });
 
-        });
+            if (galleryInsertError) {
+                alert(galleryInsertError.message);
+                return;
+            }
+        }
+    }
 
-}
+    document.getElementById("watch-form").reset();
 
-    // Reset form
-document.getElementById("watch-form").reset();
+    const preview = document.getElementById("currentImage");
+    if (preview) {
+        preview.src = "";
+        preview.style.display = "none";
+    }
 
-// Hide current image preview
-const preview = document.getElementById("currentImage");
+    const galleryPreview = document.getElementById("currentGalleryPreview");
+    if (galleryPreview) galleryPreview.innerHTML = "";
 
-if (preview) {
-    preview.src = "";
-    preview.style.display = "none";
-}
+    window.currentWatchImage = null;
+    window.currentGallery = [];
+    window.currentWatchCollection = null;
 
-// Clear stored image
-window.currentWatchImage = null;
+    editingWatchId = null;
 
-// Exit edit mode
-editingWatchId = null;
+    document.getElementById("save-watch-btn").innerHTML = `
+        <i class="fas fa-save"></i>
+        Save Watch
+    `;
 
-// Restore button text
-document.getElementById("save-watch-btn").innerHTML = `
-    <i class="fas fa-save"></i>
-    Save Watch
-`;
+    document.getElementById("page-title").textContent = "Add Watch";
 
-// Restore page title
-document.getElementById("page-title").textContent = "Add Watch";
-
-// Reload inventory
-loadAdminWatches();
-
+    loadAdminWatches();
 }
