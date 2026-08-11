@@ -662,96 +662,6 @@ MOBILE
 }
 
 
-/* =========================================================
-FINAL PREMIUM REVIEW SUMMARY OVERRIDE
-Fixes rating bars + prevents old CSS conflicts
-========================================================= */
-
-.customer-reviews .review-summary {
-display: grid !important;
-grid-template-columns: 280px minmax(0, 1fr) !important;
-align-items: center !important;
-gap: 60px !important;
-}
-
-/* Rating breakdown */
-
-.customer-reviews .rating-bars {
-display: flex !important;
-flex-direction: column !important;
-width: 100% !important;
-gap: 18px !important;
-}
-
-/* Individual rating row */
-
-.customer-reviews .rating-bars .rating-row {
-display: grid !important;
-grid-template-columns: 70px minmax(0, 1fr) !important;
-align-items: center !important;
-width: 100% !important;
-gap: 16px !important;
-}
-
-/* Star label */
-
-.customer-reviews .rating-bars .rating-row > span {
-display: block !important;
-width: auto !important;
-color: #d4af37 !important;
-font-size: 14px !important;
-line-height: 1 !important;
-white-space: nowrap !important;
-}
-
-/* Horizontal bar */
-
-.customer-reviews .rating-bars .rating-row .bar {
-display: block !important;
-position: relative !important;
-
-```
-width: 100% !important;
-height: 9px !important;
-
-background: #242424 !important;
-
-border-radius: 50px !important;
-overflow: hidden !important;
-
-margin: 0 !important;
-padding: 0 !important;
-```
-
-}
-
-/* Gold fill */
-
-.customer-reviews .rating-bars .rating-row .fill {
-display: block !important;
-position: absolute !important;
-
-```
-left: 0 !important;
-top: 0 !important;
-
-height: 100% !important;
-
-width: 0%;
-
-background: linear-gradient(
-    90deg,
-    #a47d22,
-    #d4af37,
-    #f1d078
-) !important;
-
-border-radius: 50px !important;
-
-transition: width 0.8s ease !important;
-```
-
-}
 
 /* =========================================================
 DESKTOP
@@ -810,5 +720,276 @@ SMALL MOBILE
     height: 8px !important;
 }
 ```
+/* =========================================================
+   CHRONOLUX REVIEW SUMMARY — CLEAN FINAL VERSION
+   Overall rating only
+========================================================= */
 
+.review-summary {
+    width: 100%;
+    max-width: 1100px;
+
+    margin: 45px auto 70px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   OVERALL RATING CARD
+========================================================= */
+
+.review-summary .overall-rating {
+
+    width: 320px;
+    min-height: 220px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    box-sizing: border-box;
+
+    padding: 35px 25px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #181818,
+            #111111
+        );
+
+    border: 1px solid rgba(212, 175, 55, 0.18);
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+
+/* =========================================================
+   RATING NUMBER
+========================================================= */
+
+.review-summary .rating-number {
+
+    display: block;
+
+    margin: 0;
+}
+
+
+.review-summary #overall-rating {
+
+    display: block;
+
+    margin: 0;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 72px;
+
+    font-weight: 500;
+
+    line-height: 1;
+
+    color: #d4af37;
+
+    letter-spacing: -2px;
+}
+
+
+/* =========================================================
+   FIVE GOLD STARS
+========================================================= */
+
+.review-summary .overall-stars {
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 5px;
+
+    margin: 17px 0 12px;
+
+    color: #d4af37;
+
+    font-size: 20px;
+
+    line-height: 1;
+}
+
+
+.review-summary .overall-stars span {
+
+    display: inline-block;
+
+    color: #d4af37;
+}
+
+
+/* =========================================================
+   REVIEW COUNT
+========================================================= */
+
+.review-summary .overall-rating p {
+
+    margin: 0;
+
+    color: #999;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+.review-summary .overall-rating p strong {
+
+    color: #fff;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   COMPLETELY REMOVE OLD RATING BREAKDOWN
+========================================================= */
+
+.review-summary .rating-breakdown,
+.review-summary .rating-row,
+.review-summary .rating-bar,
+.review-summary .rating-fill,
+.review-summary .rating-label,
+.review-summary .mini-star {
+
+    display: none !important;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .review-summary {
+
+        width: 100%;
+
+        max-width: 100%;
+
+        margin: 35px auto 55px;
+
+        padding: 0 15px;
+
+        box-sizing: border-box;
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+    }
+
+
+    .review-summary .overall-rating {
+
+        width: 100%;
+
+        max-width: 320px;
+
+        min-height: 200px;
+
+        margin: 0 auto;
+
+        padding: 30px 20px;
+
+        box-sizing: border-box;
+    }
+
+
+    .review-summary #overall-rating {
+
+        font-size: 62px;
+    }
+
+
+    .review-summary .overall-stars {
+
+        font-size: 18px;
+
+        gap: 4px;
+    }
+
+
+    .review-summary .overall-rating p {
+
+        font-size: 12px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .review-summary {
+
+        padding-left: 12px;
+
+        padding-right: 12px;
+
+        margin-top: 25px;
+    }
+
+
+    .review-summary .overall-rating {
+
+        max-width: 300px;
+
+        min-height: 185px;
+
+        padding: 25px 15px;
+
+        border-radius: 20px;
+    }
+
+
+    .review-summary #overall-rating {
+
+        font-size: 58px;
+    }
+
+
+    .review-summary .overall-stars {
+
+        font-size: 17px;
+
+        gap: 3px;
+
+        margin-top: 14px;
+
+        margin-bottom: 11px;
+    }
+
+}
 }
