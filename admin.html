@@ -12,15 +12,12 @@
     <!-- Google Fonts -->
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
     <!-- Admin CSS -->
 
@@ -37,64 +34,22 @@
     <aside class="sidebar">
 
         <div class="sidebar-logo">
-
             <h2>Chrono<span>Lux</span></h2>
-
             <p>Luxury Admin</p>
-
         </div>
 
         <ul class="sidebar-menu">
-
-            <li class="active" data-page="dashboard">
-                <i class="fas fa-chart-line"></i>
-                Dashboard
-            </li>
-
-            <li data-page="watches">
-                <i class="fas fa-clock"></i>
-                Watches
-            </li>
-
-            <li data-page="add-watch">
-                <i class="fas fa-plus-circle"></i>
-                Add Watch
-            </li>
-
-            <li data-page="reviews">
-
-                <i class="fas fa-star-half-alt"></i>
-                Reviews
-            
-            </li>
-            
-            <li data-page="messages">
-                <i class="fas fa-envelope"></i>
-                Messages
-            </li>
-
-            <li data-page="featured">
-                <i class="fas fa-star"></i>
-                Featured
-            </li>
-
-            <li data-page="settings">
-                <i class="fas fa-cog"></i>
-                Settings
-            </li>
-
+            <li class="active" data-page="dashboard"><i class="fas fa-chart-line"></i>Dashboard</li>
+            <li data-page="watches"><i class="fas fa-clock"></i>Watches</li>
+            <li data-page="add-watch"><i class="fas fa-plus-circle"></i>Add Watch</li>
+            <li data-page="reviews"><i class="fas fa-star-half-alt"></i>Reviews</li>
+            <li data-page="messages"><i class="fas fa-envelope"></i>Messages</li>
+            <li data-page="featured"><i class="fas fa-star"></i>Featured</li>
+            <li data-page="settings"><i class="fas fa-cog"></i>Settings</li>
         </ul>
 
         <div class="sidebar-footer">
-
-            <a href="admin-login.html">
-
-                <i class="fas fa-sign-out-alt"></i>
-
-                Logout
-
-            </a>
-
+            <a href="admin-login.html"><i class="fas fa-sign-out-alt"></i>Logout</a>
         </div>
 
     </aside>
@@ -103,409 +58,243 @@
 
     <main class="admin-main">
 
-        <!-- Header -->
-
         <header class="admin-header">
+            <div>
+                <h1 id="page-title">Dashboard</h1>
+                <p>Welcome back, Administrator</p>
+            </div>
+            <div class="admin-user">
+                <i class="fas fa-user-circle"></i>
+                <span>Admin</span>
+            </div>
+        </header>
 
-    <div>
+        <!-- ================= WATCHES ================= -->
 
-        <h1 id="page-title">Dashboard</h1>
+        <section id="watches" class="page">
 
-        <p>Welcome back, Administrator</p>
+            <div class="page-header">
+                <div>
+                    <h2>Watch Inventory</h2>
+                    <p>Manage every luxury watch in your collection.</p>
+                </div>
+                <button class="gold-btn">
+                    <i class="fas fa-plus"></i>
+                    Add Watch
+                </button>
+            </div>
 
-    </div>
-
-    <div class="admin-user">
-
-        <i class="fas fa-user-circle"></i>
-
-        <span>Admin</span>
-
-    </div>
-
-</header>
-
-  <!-- ================= WATCHES ================= -->
-
-<section id="watches" class="page">
-
-    <div class="page-header">
-
-        <div>
-
-            <h2>Watch Inventory</h2>
-
-            <p>Manage every luxury watch in your collection.</p>
-
-        </div>
-
-        <button class="gold-btn">
-
-            <i class="fas fa-plus"></i>
-
-            Add Watch
-
-        </button>
-
-    </div>
-
-    <div class="inventory-toolbar">
-
-        <input
-            type="text"
-            placeholder="Search watches...">
-
-        <select>
-
-            <option>All Brands</option>
-            <option>Rolex</option>
-            <option>Patek Philippe</option>
-            <option>Richard Mille</option>
-            <option>Omega</option>
-            <option>Audemars Piguet</option>
-            <option>Cartier</option>
-
-        </select>
-
-    </div>
-
-    <div class="inventory-table">
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>Image</th>
-                    <th>Brand</th>
-                    <th>Model</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                <tr>
-
-                    <td>
-                        <img src="images/watches/rolex/cosmograph-daytona.jpg" class="watch-thumb">
-                    </td>
-
-                    <td>Rolex</td>
-
-                    <td>Cosmograph Daytona</td>
-
-                    <td>$18,500</td>
-
-                    <td><span class="status featured">Featured</span></td>
-
-                    <td>
-
-                        <button class="icon-btn">
-                            <i class="fas fa-edit"></i>
-                        </button>
-
-                        <button class="icon-btn delete">
-                            <i class="fas fa-trash"></i>
-                        </button>
-
-                    </td>
-
-                </tr>
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-</section>
-    <!-- ================= ADD WATCH ================= -->
-<section id="add-watch" class="page">
-
-    <div class="page-header">
-
-        <div>
-
-            <h2>Add New Watch</h2>
-
-            <p>Create a new luxury watch listing.</p>
-
-        </div>
-
-    </div>
-
-    <form id="watch-form" class="watch-form">
-
-        <div class="form-grid">
-
-            <div class="form-group">
-
-                <label>Brand</label>
-
-                <select id="brand">
-
-                    <option value="">Select Brand</option>
-
+            <div class="inventory-toolbar">
+                <input type="text" placeholder="Search watches...">
+                <select>
+                    <option>All Brands</option>
                     <option>Rolex</option>
-
                     <option>Patek Philippe</option>
-
                     <option>Richard Mille</option>
-
                     <option>Omega</option>
-
                     <option>Audemars Piguet</option>
-
                     <option>Cartier</option>
-
                 </select>
-
             </div>
 
-            <div class="form-group">
-
-                <label>Model</label>
-
-                <input
-                    type="text"
-                    id="model"
-                    placeholder="e.g. Cosmograph Daytona">
-
+            <div class="inventory-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><img src="images/watches/rolex/cosmograph-daytona.jpg" class="watch-thumb"></td>
+                            <td>Rolex</td>
+                            <td>Cosmograph Daytona</td>
+                            <td>$18,500</td>
+                            <td><span class="status featured">Featured</span></td>
+                            <td>
+                                <button class="icon-btn"><i class="fas fa-edit"></i></button>
+                                <button class="icon-btn delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
-            <div class="form-group">
+        </section>
 
-                <label>Old Price</label>
+        <!-- ================= ADD WATCH ================= -->
 
-                <input
-                    type="text"
-                    id="oldPrice"
-                    placeholder="$19,500">
+        <section id="add-watch" class="page">
 
+            <div class="page-header">
+                <div>
+                    <h2>Add New Watch</h2>
+                    <p>Create a new luxury watch listing.</p>
+                </div>
             </div>
 
-            <div class="form-group">
+            <form id="watch-form" class="watch-form">
 
-                <label>New Price</label>
+                <div class="form-grid">
 
-                <input
-                    type="text"
-                    id="newPrice"
-                    placeholder="$18,500">
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <select id="brand">
+                            <option value="">Select Brand</option>
+                            <option>Rolex</option>
+                            <option>Patek Philippe</option>
+                            <option>Richard Mille</option>
+                            <option>Omega</option>
+                            <option>Audemars Piguet</option>
+                            <option>Cartier</option>
+                        </select>
+                    </div>
 
-            </div>
+                    <div class="form-group">
+                        <label>Model</label>
+                        <input type="text" id="model" placeholder="e.g. Cosmograph Daytona">
+                    </div>
 
-        </div>
+                    <div class="form-group">
+                        <label>Old Price</label>
+                        <input type="text" id="oldPrice" placeholder="$19,500">
+                    </div>
 
-        <div class="form-group">
+                    <div class="form-group">
+                        <label>New Price</label>
+                        <input type="text" id="newPrice" placeholder="$18,500">
+                    </div>
 
-            <label>Description</label>
+                </div>
 
-            <textarea
-                id="description"
-                rows="6"
-                placeholder="Watch description..."></textarea>
+                <!-- Collection is intentionally above Description -->
+                <div class="form-group">
+                    <label for="collection">Collection</label>
+                    <select id="collection" required>
+                        <option value="">Select Collection</option>
+                        <option value="classic-icons">Classic Icons</option>
+                        <option value="limited-edition">Limited Edition</option>
+                        <option value="modern-luxury">Modern Luxury</option>
+                    </select>
+                </div>
 
-        </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="description" rows="6" placeholder="Watch description..."></textarea>
+                </div>
 
-        <div class="form-group">
+                <div class="form-group">
+                    <label>Main Watch Image</label>
+                    <input type="file" id="mainImage" accept="image/*">
+                </div>
 
-                <label>Main Watch Image</label>
-            
-                <input
-                    type="file"
-                    id="mainImage"
-                    accept="image/*">
-            
-            </div>
-            
-            <div class="form-group">
-            
-                <label>Gallery Image 2</label>
-            
-                <input
-                    type="file"
-                    id="image2"
-                    accept="image/*">
-            
-            </div>
-            
-            <div class="form-group">
-            
-                <label>Gallery Image 3</label>
-            
-                <input
-                    type="file"
-                    id="image3"
-                    accept="image/*">
-            
-            </div>
-            
-            <div class="form-group">
-            
-                <label>Gallery Image 4</label>
-            
-                <input
-                    type="file"
-                    id="image4"
-                    accept="image/*">
-            
-            </div>
-            
-            <div class="form-group">
-            
-                <label>Gallery Image 5</label>
-            
-                <input
-                    type="file"
-                    id="image5"
-                    accept="image/*">
-            
-            </div>
-            
-            <!-- Current Image Preview -->
-            
-            <div class="form-group">
-            
-                <label>Current Main Image</label>
-            
-                <img
-                    id="currentImage"
-                    src=""
-                    style="
-                        display:none;
-                        width:180px;
-                        border-radius:12px;
-                        margin-top:10px;
-                    ">
-            
-            </div>
+                <div class="form-group">
+                    <label>Gallery Image 2</label>
+                    <input type="file" id="image2" accept="image/*">
+                </div>
 
-        <div class="form-group">
+                <div class="form-group">
+                    <label>Gallery Image 3</label>
+                    <input type="file" id="image3" accept="image/*">
+                </div>
 
-            <div class="form-grid">
+                <div class="form-group">
+                    <label>Gallery Image 4</label>
+                    <input type="file" id="image4" accept="image/*">
+                </div>
 
-    <div class="form-group">
-        <label>Movement</label>
-        <input type="text" id="movement" placeholder="Automatic">
-    </div>
+                <div class="form-group">
+                    <label>Gallery Image 5</label>
+                    <input type="file" id="image5" accept="image/*">
+                </div>
 
-    <div class="form-group">
-        <label>Case Material</label>
-        <input type="text" id="caseMaterial" placeholder="Oystersteel">
-    </div>
+                <div class="form-group">
+                    <label>Current Main Image</label>
+                    <img id="currentImage" src="" style="display:none;width:180px;border-radius:12px;margin-top:10px;">
+                    <div id="currentGalleryPreview"></div>
+                </div>
 
-    <div class="form-group">
-        <label>Case Size</label>
-        <input type="text" id="caseSize" placeholder="40mm">
-    </div>
+                <div class="form-group">
+                    <div class="form-grid">
 
-    <div class="form-group">
-        <label>Water Resistance</label>
-        <input type="text" id="waterResistance" placeholder="100m">
-    </div>
+                        <div class="form-group">
+                            <label>Movement</label>
+                            <input type="text" id="movement" placeholder="Automatic">
+                        </div>
 
-    <div class="form-group">
-        <label>Condition</label>
-        <input type="text" id="condition" placeholder="New">
-    </div>
+                        <div class="form-group">
+                            <label>Case Material</label>
+                            <input type="text" id="caseMaterial" placeholder="Oystersteel">
+                        </div>
 
-</div>
-        </div>
+                        <div class="form-group">
+                            <label>Case Size</label>
+                            <input type="text" id="caseSize" placeholder="40mm">
+                        </div>
 
-        <div class="form-group">
+                        <div class="form-group">
+                            <label>Water Resistance</label>
+                            <input type="text" id="waterResistance" placeholder="100m">
+                        </div>
 
-            <label>
+                        <div class="form-group">
+                            <label>Condition</label>
+                            <input type="text" id="condition" placeholder="New">
+                        </div>
 
-                <input type="checkbox" id="featured">
+                    </div>
+                </div>
 
-                Feature this watch on Homepage
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="featured">
+                        Feature this watch on Homepage
+                    </label>
+                </div>
 
-            </label>
+                <button type="submit" class="gold-btn" id="save-watch-btn">
+                    <i class="fas fa-save"></i>
+                    Save Watch
+                </button>
 
-        </div>
+            </form>
 
-        <button
-            type="submit"
-            class="gold-btn"
-            id="save-watch-btn">
-        
-            <i class="fas fa-save"></i>
-        
-            Save Watch
-        
-        </button>
+        </section>
 
-    </form>
-
-</section>
-
-    <!-- ================= MESSAGES ================= -->
-
-    <section id="messages" class="page">
-
-    </section>
+        <!-- ================= MESSAGES ================= -->
+        <section id="messages" class="page"></section>
 
         <!-- ================= REVIEWS ================= -->
+        <section id="reviews" class="page">
+            <div class="page-header">
+                <div>
+                    <h2>Customer Reviews</h2>
+                    <p>Manage customer testimonials and ratings.</p>
+                </div>
+            </div>
+            <div id="reviews-container" class="reviews-container"></div>
+        </section>
 
-<section id="reviews" class="page">
+        <!-- ================= FEATURED ================= -->
+        <section id="featured" class="page"></section>
 
-    <div class="page-header">
+        <!-- ================= SETTINGS ================= -->
+        <section id="settings" class="page"></section>
 
-        <div>
-
-            <h2>Customer Reviews</h2>
-
-            <p>Manage customer testimonials and ratings.</p>
-
-        </div>
-
-    </div>
-
-    <div id="reviews-container" class="reviews-container">
-
-        <!-- Reviews will load here -->
-
-    </div>
-
-</section>
-    <!-- ================= FEATURED ================= -->
-
-    <section id="featured" class="page">
-
-    </section>
-
-<!-- ================= SETTINGS ================= -->
-
-    <section id="settings" class="page">
-
-    </section>
-
-</main>
+    </main>
 
 </div>
 
-<!-- Supabase Library -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<!-- Supabase Config -->
 <script src="js/supabase.js"></script>
-
-<!-- Admin -->
 <script src="js/admin.js"></script>
-
-<!-- Upload -->
 <script src="js/upload-watch.js"></script>
-
-<!-- Load Watches -->
 <script src="js/load-admin-watches.js"></script>
-
 <script src="js/admin-reviews.js"></script>
 
 </body>
