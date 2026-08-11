@@ -3,6 +3,7 @@
 // ==========================================
 
 let allWatches = [];
+let selectedCollection = "";
 
 document.addEventListener("DOMContentLoaded", loadCollection);
 
@@ -14,10 +15,24 @@ async function loadCollection() {
 
     grid.innerHTML = "<p>Loading watches...</p>";
 
-    const { data: watches, error } = await supabaseClient
+    // Read the optional collection from the URL.
+    // Normal collection.html navigation has no parameter and therefore
+    // continues to show every watch.
+    const params = new URLSearchParams(window.location.search);
+    selectedCollection = (params.get("collection") || "").trim().toLowerCase();
+
+    let query = supabaseClient
         .from("watches")
         .select("*")
         .order("id", { ascending: false });
+
+    // When an Explore card supplies a collection, only request watches
+    // belonging to that collection. Without it, request all watches.
+    if (selectedCollection) {
+        query = query.eq("collection", selectedCollection);
+    }
+
+    const { data: watches, error } = await query;
 
     if (error) {
 
@@ -29,26 +44,29 @@ async function loadCollection() {
 
     }
 
-    allWatches = watches;
+    allWatches = watches || [];
 
-    populateBrandFilter(watches);
+    populateBrandFilter(allWatches);
 
-    renderWatches(watches);
+    renderWatches(allWatches);
 
     // Search
-    document
-        .getElementById("watch-search")
-        .addEventListener("input", filterWatches);
+    const searchInput = document.getElementById("watch-search");
+    if (searchInput) {
+        searchInput.addEventListener("input", filterWatches);
+    }
 
     // Brand
-    document
-        .getElementById("brand-filter")
-        .addEventListener("change", filterWatches);
+    const brandFilter = document.getElementById("brand-filter");
+    if (brandFilter) {
+        brandFilter.addEventListener("change", filterWatches);
+    }
 
     // Sort
-    document
-        .getElementById("sort-filter")
-        .addEventListener("change", filterWatches);
+    const sortFilter = document.getElementById("sort-filter");
+    if (sortFilter) {
+        sortFilter.addEventListener("change", filterWatches);
+    }
 
 }
 
@@ -62,7 +80,9 @@ function renderWatches(watches) {
 
     if (watches.length === 0) {
 
-        grid.innerHTML = "<p>No watches found.</p>";
+        grid.innerHTML = selectedCollection
+            ? "<p>No watches found in this collection.</p>"
+            : "<p>No watches found.</p>";
 
         return;
 
@@ -124,6 +144,8 @@ function populateBrandFilter(watches) {
 
     const brandFilter = document.getElementById("brand-filter");
 
+    if (!brandFilter) return;
+
     brandFilter.innerHTML =
         `<option value="all">All Brands</option>`;
 
@@ -146,31 +168,28 @@ function populateBrandFilter(watches) {
 
 function filterWatches() {
 
-    const search = document
-        .getElementById("watch-search")
-        .value
-        .toLowerCase();
+    const searchInput = document.getElementById("watch-search");
+    const brandFilter = document.getElementById("brand-filter");
+    const sortFilter = document.getElementById("sort-filter");
 
-    const brand = document
-        .getElementById("brand-filter")
-        .value;
+    const search = (searchInput?.value || "").toLowerCase();
+    const brand = brandFilter?.value || "all";
+    const sort = sortFilter?.value || "default";
 
-    const sort = document
-        .getElementById("sort-filter")
-        .value;
-
+    // allWatches already contains only the selected collection when a
+    // collection parameter was supplied, so every search/brand/sort
+    // operation remains inside that collection.
     let filtered = allWatches.filter(watch => {
 
+        const watchBrand = String(watch.brand || "").toLowerCase();
+        const watchModel = String(watch.model || "").toLowerCase();
+
         const matchesSearch =
-
-            watch.brand.toLowerCase().includes(search) ||
-
-            watch.model.toLowerCase().includes(search);
+            watchBrand.includes(search) ||
+            watchModel.includes(search);
 
         const matchesBrand =
-
             brand === "all" ||
-
             watch.brand === brand;
 
         return matchesSearch && matchesBrand;
@@ -188,14 +207,14 @@ function filterWatches() {
         case "az":
 
             filtered.sort((a, b) =>
-                a.brand.localeCompare(b.brand));
+                String(a.brand || "").localeCompare(String(b.brand || "")));
 
             break;
 
         case "za":
 
             filtered.sort((a, b) =>
-                b.brand.localeCompare(a.brand));
+                String(b.brand || "").localeCompare(String(a.brand || "")));
 
             break;
 
@@ -203,9 +222,9 @@ function filterWatches() {
 
             filtered.sort((a, b) =>
 
-                parseFloat(a.new_price.replace(/[^0-9.]/g, "")) -
+                parseFloat(String(a.new_price || "").replace(/[^0-9.]/g, "")) -
 
-                parseFloat(b.new_price.replace(/[^0-9.]/g, ""))
+                parseFloat(String(b.new_price || "").replace(/[^0-9.]/g, ""))
 
             );
 
@@ -215,9 +234,9 @@ function filterWatches() {
 
             filtered.sort((a, b) =>
 
-                parseFloat(b.new_price.replace(/[^0-9.]/g, "")) -
+                parseFloat(String(b.new_price || "").replace(/[^0-9.]/g, "")) -
 
-                parseFloat(a.new_price.replace(/[^0-9.]/g, ""))
+                parseFloat(String(a.new_price || "").replace(/[^0-9.]/g, ""))
 
             );
 
