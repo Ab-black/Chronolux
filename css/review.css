@@ -101,11 +101,13 @@
 }
 
 /* =========================================================
-   VIEW ALL REVIEWS GRID
+   REVIEW GRID
+   Shared by the 8 featured About-page reviews and
+   the View All Reviews page.
    Desktop: exactly 3 columns.
    ========================================================= */
 
-#all-reviews-grid {
+.reviews-grid {
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     gap: 24px;
@@ -121,7 +123,7 @@
    REVIEW CARD
    ========================================================= */
 
-#all-reviews-grid .review-card {
+.reviews-grid .review-card {
     width: 100%;
     min-width: 0;
     max-width: none;
@@ -137,7 +139,7 @@
     transition: 0.35s ease;
 }
 
-#all-reviews-grid .review-card:hover {
+.reviews-grid .review-card:hover {
     transform: translateY(-6px);
     border-color: #d4af37;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
@@ -147,14 +149,14 @@
    REVIEW HEADER
    ========================================================= */
 
-#all-reviews-grid .review-header {
+.reviews-grid .review-header {
     display: flex;
     align-items: center;
     gap: 14px;
     min-width: 0;
 }
 
-#all-reviews-grid .review-avatar {
+.reviews-grid .review-avatar {
     width: 52px;
     height: 52px;
     flex: 0 0 52px;
@@ -168,11 +170,11 @@
     font-weight: 700;
 }
 
-#all-reviews-grid .review-user {
+.reviews-grid .review-user {
     min-width: 0;
 }
 
-#all-reviews-grid .review-user h4 {
+.reviews-grid .review-user h4 {
     margin: 0;
     color: #fff;
     font-size: 17px;
@@ -180,7 +182,7 @@
     word-wrap: break-word;
 }
 
-#all-reviews-grid .review-user span {
+.reviews-grid .review-user span {
     color: #999;
     font-size: 14px;
     overflow-wrap: break-word;
@@ -191,7 +193,7 @@
    REVIEW STARS
    ========================================================= */
 
-#all-reviews-grid .review-stars {
+.reviews-grid .review-stars {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -200,7 +202,7 @@
     margin-bottom: 22px;
 }
 
-#all-reviews-grid .review-stars .star {
+.reviews-grid .review-stars .star {
     width: 16px;
     height: 20px;
     flex: 0 0 16px;
@@ -211,11 +213,11 @@
     line-height: 1;
 }
 
-#all-reviews-grid .review-stars .star-selected {
+.reviews-grid .review-stars .star-selected {
     color: #d4af37;
 }
 
-#all-reviews-grid .review-stars .star-empty {
+.reviews-grid .review-stars .star-empty {
     color: #555;
 }
 
@@ -223,7 +225,7 @@
    REVIEW CONTENT
    ========================================================= */
 
-#all-reviews-grid .review-title {
+.reviews-grid .review-title {
     margin: 0;
     color: #fff;
     font-size: 20px;
@@ -232,7 +234,7 @@
     word-wrap: break-word;
 }
 
-#all-reviews-grid .review-text {
+.reviews-grid .review-text {
     margin: 0;
     color: #d0d0d0;
     font-size: 15px;
@@ -245,12 +247,12 @@
    HELPFUL BUTTON
    ========================================================= */
 
-#all-reviews-grid .helpful-wrapper {
+.reviews-grid .helpful-wrapper {
     margin-top: 18px;
     margin-bottom: 4px;
 }
 
-#all-reviews-grid .helpful-btn {
+.reviews-grid .helpful-btn {
     display: inline-flex;
     align-items: center;
     gap: 7px;
@@ -270,48 +272,48 @@
         box-shadow 0.25s ease;
 }
 
-#all-reviews-grid .helpful-heart {
+.reviews-grid .helpful-heart {
     color: #aaa;
     font-size: 17px;
     line-height: 1;
     transition: color 0.25s ease, transform 0.2s ease;
 }
 
-#all-reviews-grid .helpful-count {
+.reviews-grid .helpful-count {
     color: #fff;
     font-weight: 700;
 }
 
-#all-reviews-grid .helpful-label {
+.reviews-grid .helpful-label {
     color: #aaa;
 }
 
-#all-reviews-grid .helpful-btn:hover {
+.reviews-grid .helpful-btn:hover {
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(212, 175, 55, 0.45);
     box-shadow: 0 5px 18px rgba(0, 0, 0, 0.25);
     transform: translateY(-1px);
 }
 
-#all-reviews-grid .helpful-btn:hover .helpful-heart {
+.reviews-grid .helpful-btn:hover .helpful-heart {
     transform: scale(1.12);
 }
 
-#all-reviews-grid .helpful-btn.helpful-active {
+.reviews-grid .helpful-btn.helpful-active {
     background: rgba(220, 38, 38, 0.08);
     border-color: rgba(220, 38, 38, 0.35);
 }
 
-#all-reviews-grid .helpful-btn.helpful-active .helpful-heart {
+.reviews-grid .helpful-btn.helpful-active .helpful-heart {
     color: #ef4444;
     transform: scale(1.12);
 }
 
-#all-reviews-grid .helpful-btn.helpful-active .helpful-count {
+.reviews-grid .helpful-btn.helpful-active .helpful-count {
     color: #fff;
 }
 
-#all-reviews-grid .review-card * {
+.reviews-grid .review-card * {
     max-width: 100%;
     box-sizing: border-box;
 }
@@ -339,7 +341,7 @@
         padding: 30px 20px;
     }
 
-    #all-reviews-grid {
+    .reviews-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         gap: 25px;
     }
@@ -398,7 +400,7 @@
         margin-bottom: 11px;
     }
 
-    #all-reviews-grid {
+    .reviews-grid {
         grid-template-columns: minmax(0, 1fr) !important;
         gap: 20px;
     }
