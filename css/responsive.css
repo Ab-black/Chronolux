@@ -296,3 +296,287 @@ SMALL PHONES
     font-size:42px;
 
 }
+
+/* =========================================================
+CHRONOLUX — AUTHORIZED MOBILE / LAYOUT FIXES ONLY
+These overrides are scoped to the requested pages/components.
+========================================================= */
+
+/* =========================================================
+1. COLLECTION PAGE — LARGER WATCH IMAGE AREA
+========================================================= */
+
+.collection-toolbar ~ .watch-grid{
+    grid-template-columns:repeat(3, minmax(0, 1fr)) !important;
+    gap:30px !important;
+}
+
+.collection-toolbar ~ .watch-grid .watch-card{
+    min-width:0;
+    width:100%;
+}
+
+.collection-toolbar ~ .watch-grid .watch-image{
+    min-height:360px !important;
+    padding:28px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+}
+
+.collection-toolbar ~ .watch-grid .watch-image img{
+    width:100% !important;
+    height:300px !important;
+    max-width:100% !important;
+    object-fit:contain !important;
+}
+
+@media (max-width:1100px){
+
+.collection-toolbar ~ .watch-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+}
+
+}
+
+@media (max-width:768px){
+
+.collection-toolbar ~ .watch-grid{
+    grid-template-columns:1fr !important;
+    gap:24px !important;
+}
+
+.collection-toolbar ~ .watch-grid .watch-image{
+    min-height:300px !important;
+    padding:24px !important;
+}
+
+.collection-toolbar ~ .watch-grid .watch-image img{
+    height:250px !important;
+}
+
+}
+
+/* =========================================================
+2. PRODUCT PAGE — PREVENT MOBILE HORIZONTAL OVERFLOW
+========================================================= */
+
+.product-container{
+    width:100%;
+    min-width:0;
+}
+
+.product-container > *{
+    min-width:0;
+    max-width:100%;
+}
+
+.product-details{
+    min-width:0;
+    max-width:100%;
+    overflow:hidden;
+}
+
+.product-image,
+.gallery-wrapper,
+.main-image{
+    min-width:0;
+    max-width:100%;
+}
+
+.product-image img,
+.main-image img{
+    max-width:100%;
+}
+
+.specifications{
+    width:100%;
+    max-width:100%;
+    overflow:hidden;
+}
+
+.specifications ul{
+    width:100%;
+    max-width:100%;
+}
+
+.specifications li{
+    min-width:0;
+}
+
+.specifications li > *{
+    min-width:0;
+    max-width:100%;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+}
+
+@media (max-width:768px){
+
+.product-container{
+    grid-template-columns:1fr !important;
+    gap:42px !important;
+    width:100% !important;
+}
+
+.product-image{
+    width:100% !important;
+}
+
+.product-details{
+    width:100% !important;
+    text-align:left;
+}
+
+.specifications li{
+    display:grid !important;
+    grid-template-columns:minmax(105px, 34%) minmax(0, 1fr) !important;
+    gap:14px !important;
+    align-items:start !important;
+}
+
+.product-details .watch-btn{
+    width:100% !important;
+    max-width:100% !important;
+}
+
+}
+
+@media (max-width:480px){
+
+.product-container{
+    gap:34px !important;
+}
+
+.specifications li{
+    grid-template-columns:minmax(92px, 32%) minmax(0, 1fr) !important;
+    gap:12px !important;
+}
+
+}
+
+/* =========================================================
+3. REVIEWS PAGE — CENTERED SUMMARY + RESPONSIVE REVIEW GRID
+========================================================= */
+
+.customer-reviews .review-summary{
+    width:100% !important;
+    max-width:1100px !important;
+    margin:45px auto 60px !important;
+    padding:0 !important;
+    display:flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+    grid-template-columns:none !important;
+}
+
+.customer-reviews .overall-rating{
+    width:320px !important;
+    max-width:100% !important;
+    min-height:220px !important;
+    margin:0 auto !important;
+    box-sizing:border-box !important;
+}
+
+/* The old horizontal rating breakdown is intentionally removed. */
+.customer-reviews .rating-bars,
+.customer-reviews .rating-row,
+.customer-reviews .rating-breakdown{
+    display:none !important;
+}
+
+/* The review-page search field is intentionally removed. */
+.customer-reviews .review-search{
+    display:none !important;
+}
+
+.reviews-grid{
+    width:100% !important;
+    max-width:1100px !important;
+    margin:0 auto !important;
+    display:grid !important;
+    grid-template-columns:repeat(3, minmax(0, 1fr)) !important;
+    gap:24px !important;
+}
+
+.review-card{
+    width:100% !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    box-sizing:border-box !important;
+    overflow:hidden !important;
+}
+
+@media (max-width:900px){
+
+.reviews-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+}
+
+}
+
+@media (max-width:600px){
+
+.customer-reviews .review-summary{
+    padding:0 !important;
+    margin:35px auto 50px !important;
+}
+
+.customer-reviews .overall-rating{
+    width:min(320px, 100%) !important;
+    min-height:200px !important;
+}
+
+.reviews-grid{
+    grid-template-columns:minmax(0, 1fr) !important;
+    gap:20px !important;
+}
+
+.review-card{
+    padding:24px !important;
+}
+
+}
+
+/* =========================================================
+6. ABOUT PAGE — SHOW ONLY THE 8 FEATURED REVIEWS
+The existing JS already limits #reviews-grid to 8.
+The duplicate all-reviews container is hidden only on About,
+while the dedicated reviews.html page keeps all reviews.
+========================================================= */
+
+.customer-reviews:has(#reviews-grid) #all-reviews-grid{
+    display:none !important;
+}
+
+.customer-reviews:has(#reviews-grid) #reviews-grid{
+    width:100% !important;
+    max-width:1100px !important;
+    margin:0 auto !important;
+    display:grid !important;
+    grid-template-columns:repeat(3, minmax(0, 1fr)) !important;
+    gap:24px !important;
+}
+
+.customer-reviews:has(#reviews-grid) .review-summary{
+    display:flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+}
+
+@media (max-width:900px){
+
+.customer-reviews:has(#reviews-grid) #reviews-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+}
+
+}
+
+@media (max-width:600px){
+
+.customer-reviews:has(#reviews-grid) #reviews-grid{
+    grid-template-columns:minmax(0, 1fr) !important;
+    gap:20px !important;
+}
+
+}
