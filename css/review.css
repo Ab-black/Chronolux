@@ -1074,3 +1074,110 @@ SMALL MOBILE
         min-width: 0 !important;
     }
 }
+
+/* =========================================================
+   VIEW ALL REVIEWS — DESKTOP GRID FIX
+   ONLY affects the View All Reviews grid
+========================================================= */
+
+@media (min-width: 769px) {
+
+    /* Main reviews grid */
+    .reviews-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+
+        width: 100% !important;
+        max-width: 100% !important;
+
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+
+        gap: 24px !important;
+
+        box-sizing: border-box !important;
+
+        justify-content: stretch !important;
+        align-items: stretch !important;
+    }
+
+    /* Individual review cards */
+    .reviews-grid .review-card {
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 0 !important;
+
+        margin: 0 !important;
+
+        box-sizing: border-box !important;
+
+        transform: none !important;
+    }
+
+    /* Prevent card content from forcing the card wider */
+    .reviews-grid .review-card h4,
+    .reviews-grid .review-card p,
+    .reviews-grid .review-card span {
+        max-width: 100%;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    }
+
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width: 1100px) {
+
+    .reviews-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 28px !important;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET / MOBILE
+   Keep the existing responsive behaviour
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .reviews-grid {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+
+        width: 100% !important;
+        max-width: 100% !important;
+
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+
+        box-sizing: border-box !important;
+    }
+
+    .reviews-grid .review-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+
+        box-sizing: border-box !important;
+        transform: none !important;
+
+        overflow: hidden !important;
+    }
+
+}
