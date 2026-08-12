@@ -1181,3 +1181,131 @@ SMALL MOBILE
     }
 
 }
+
+/* =========================================================
+   CHRONOLUX — VIEW ALL REVIEWS DESKTOP LAYOUT FIX
+   ONLY FIXES THE EMPTY SPACE BESIDE THE REVIEW GRID
+   Keeps the review cards in 3 columns
+========================================================= */
+
+@media (min-width: 769px) {
+
+    /* Stop the review summary from placing
+       the overall-rating beside the review grid */
+    .review-summary {
+        display: block !important;
+        width: 100% !important;
+        max-width: 1100px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Keep the overall rating centered if it is displayed */
+    .review-summary .overall-rating {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    /* Make the View All Reviews grid use
+       the entire available width */
+    #all-reviews-grid {
+        display: grid !important;
+
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr)) !important;
+
+        width: 100% !important;
+        max-width: 100% !important;
+
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+
+        gap: 24px !important;
+
+        box-sizing: border-box !important;
+
+        justify-content: stretch !important;
+        align-items: stretch !important;
+    }
+
+    /* Make every review card fill its column */
+    #all-reviews-grid .review-card {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+
+        margin: 0 !important;
+
+        box-sizing: border-box !important;
+    }
+
+    /* Prevent content from creating horizontal overflow */
+    #all-reviews-grid .review-card * {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    #all-reviews-grid .review-card h4,
+    #all-reviews-grid .review-card p,
+    #all-reviews-grid .review-card span {
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    }
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+   Keep exactly 3 columns
+========================================================= */
+
+@media (min-width: 1100px) {
+
+    #all-reviews-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr)) !important;
+
+        gap: 28px !important;
+    }
+}
+
+
+/* =========================================================
+   MOBILE — DO NOT CHANGE THE EXISTING MOBILE DESIGN
+========================================================= */
+
+@media (max-width: 768px) {
+
+    #all-reviews-grid {
+        display: grid !important;
+
+        grid-template-columns:
+            minmax(0, 1fr) !important;
+
+        width: 100% !important;
+        max-width: 100% !important;
+
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+
+        box-sizing: border-box !important;
+    }
+
+    #all-reviews-grid .review-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+
+        box-sizing: border-box !important;
+
+        overflow: hidden !important;
+    }
+}
