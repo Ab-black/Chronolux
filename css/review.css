@@ -1,774 +1,51 @@
 /* =========================================================
-PREMIUM CUSTOMER REVIEW SUMMARY
-Shared by About + Reviews pages
-========================================================= */
+   CHRONOLUX REVIEW PAGE
+   Review summary, review grid, review cards and responsive layout
+   ========================================================= */
 
 .customer-reviews {
-padding: 110px 0;
-background:
-radial-gradient(
-circle at 20% 20%,
-rgba(212, 175, 55, 0.045),
-transparent 35%
-),
-#050505;
-}
-
-/* MAIN SUMMARY CARD */
-
-.customer-reviews .review-summary {
-width: 100%;
-max-width: 1100px;
-margin: 0 auto 70px;
-
-```
-display: grid;
-grid-template-columns: 300px 1fr;
-gap: 65px;
-align-items: center;
-
-padding: 42px;
-
-background:
-    linear-gradient(
-        145deg,
-        rgba(255,255,255,0.045),
-        rgba(255,255,255,0.015)
-    );
-
-border: 1px solid rgba(212,175,55,0.18);
-border-radius: 28px;
-
-box-shadow:
-    0 25px 70px rgba(0,0,0,0.45),
-    inset 0 1px 0 rgba(255,255,255,0.035);
-```
-
+    padding: 110px 0;
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(212, 175, 55, 0.045),
+            transparent 35%
+        ),
+        #050505;
 }
 
 /* =========================================================
-OVERALL RATING
-========================================================= */
+   REVIEW SUMMARY
+   ========================================================= */
 
-.customer-reviews .overall-rating {
-min-height: 215px;
-
-```
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-
-text-align: center;
-
-padding: 30px 20px;
-
-background:
-    linear-gradient(
-        145deg,
-        rgba(255,255,255,0.045),
-        rgba(255,255,255,0.015)
-    );
-
-border: 1px solid rgba(255,255,255,0.08);
-border-radius: 22px;
-
-box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.035);
-```
-
-}
-
-.customer-reviews .overall-rating h1 {
-margin: 0;
-
-```
-font-family: "Cormorant Garamond", serif;
-
-font-size: 76px;
-line-height: 0.9;
-font-weight: 500;
-
-color: #d4af37;
-
-letter-spacing: -2px;
-```
-
-}
-
-/* GOLD STARS */
-
-.customer-reviews .overall-rating .stars {
-margin: 18px 0 12px;
-
-```
-color: #d4af37;
-
-font-size: 19px;
-letter-spacing: 5px;
-
-line-height: 1;
-```
-
-}
-
-/* REVIEW COUNT */
-
-.customer-reviews .overall-rating p {
-margin: 0;
-
-```
-color: #9d9d9d;
-
-font-size: 13px;
-letter-spacing: 0.2px;
-```
-
-}
-
-.customer-reviews .overall-rating p span {
-color: #ffffff;
-font-weight: 600;
-}
-
-/* =========================================================
-RATING BREAKDOWN
-========================================================= */
-
-.customer-reviews .rating-bars {
-width: 100%;
-
-```
-display: flex;
-flex-direction: column;
-
-gap: 17px;
-```
-
-}
-
-/* EACH RATING ROW */
-
-.customer-reviews .rating-row {
-width: 100%;
-
-```
-display: grid;
-
-grid-template-columns: 76px 1fr;
-
-align-items: center;
-
-gap: 18px;
-```
-
-}
-
-/* STAR LABEL */
-
-.customer-reviews .rating-row > span {
-color: #d4af37;
-
-```
-font-size: 14px;
-font-weight: 600;
-
-letter-spacing: 1px;
-
-white-space: nowrap;
-```
-
-}
-
-/* BAR */
-
-.customer-reviews .rating-row .bar {
-position: relative;
-
-```
-width: 100%;
-height: 9px;
-
-overflow: hidden;
-
-background: rgba(255,255,255,0.075);
-
-border-radius: 50px;
-
-box-shadow:
-    inset 0 1px 2px rgba(0,0,0,0.4);
-```
-
-}
-
-/* GOLD FILL */
-
-.customer-reviews .rating-row .fill {
-position: absolute;
-
-```
-left: 0;
-top: 0;
-
-height: 100%;
-
-width: 0%;
-
-background:
-    linear-gradient(
-        90deg,
-        #a47d22,
-        #d4af37,
-        #f2d47c
-    );
-
-border-radius: inherit;
-
-box-shadow:
-    0 0 12px rgba(212,175,55,0.18);
-
-transition:
-    width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-```
-
-}
-
-/* =========================================================
-SEARCH
-========================================================= */
-
-.customer-reviews .review-search {
-max-width: 650px;
-
-```
-margin: 0 auto 45px;
-```
-
-}
-
-.customer-reviews .review-search input {
-width: 100%;
-
-```
-padding: 16px 20px;
-
-background: #111;
-
-border: 1px solid rgba(255,255,255,0.08);
-
-border-radius: 14px;
-
-color: #fff;
-
-outline: none;
-
-font-family: inherit;
-
-transition: 0.3s ease;
-```
-
-}
-
-.customer-reviews .review-search input::placeholder {
-color: #777;
-}
-
-.customer-reviews .review-search input:focus {
-border-color: rgba(212,175,55,0.6);
-
-```
-box-shadow:
-    0 0 0 3px rgba(212,175,55,0.08);
-```
-
-}
-
-/* =========================================================
-MOBILE
-========================================================= */
-
-@media (max-width: 800px) {
-
-```
-.customer-reviews {
-    padding: 80px 0;
-}
-
-.customer-reviews .review-summary {
-    grid-template-columns: 1fr;
-
-    gap: 35px;
-
-    padding: 25px;
-
-    border-radius: 22px;
-
-    margin-bottom: 50px;
-}
-
-.customer-reviews .overall-rating {
-    min-height: 190px;
-}
-
-.customer-reviews .overall-rating h1 {
-    font-size: 64px;
-}
-
-.customer-reviews .rating-bars {
-    gap: 15px;
-}
-
-.customer-reviews .rating-row {
-    grid-template-columns: 65px 1fr;
-
-    gap: 12px;
-}
-
-.customer-reviews .rating-row > span {
-    font-size: 12px;
-    letter-spacing: 0.5px;
-}
-
-.customer-reviews .rating-row .bar {
-    height: 8px;
-}
-```
-
-}
-
-@media (max-width: 480px) {
-
-```
-.customer-reviews .review-summary {
-    padding: 18px;
-}
-
-.customer-reviews .overall-rating {
-    min-height: 175px;
-}
-
-.customer-reviews .overall-rating h1 {
-    font-size: 58px;
-}
-
-.customer-reviews .overall-rating .stars {
-    font-size: 17px;
-    letter-spacing: 4px;
-}
-```
-
-}
-
-/* ===========================
-   REVIEW GRID
-=========================== */
-
-.reviews-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
-    gap:24px;
-    margin-top:50px;
-}
-
-/* ===========================
-   REVIEW CARD
-=========================== */
-
-.review-card{
-
-    background:#181818;
-
-    border:1px solid rgba(255,255,255,.06);
-
-    border-radius:18px;
-
-    padding:24px;
-
-    transition:.35s ease;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:14px;
-
-}
-
-.review-card:hover{
-
-    transform:translateY(-6px);
-
-    border-color:#D4AF37;
-
-    box-shadow:0 15px 35px rgba(0,0,0,.35);
-
-}
-
-/* reviewer */
-
-.review-header{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:14px;
-
-}
-
-.review-avatar{
-
-    width:52px;
-
-    height:52px;
-
-    border-radius:50%;
-
-    background:#D4AF37;
-
-    color:#000;
-
-    font-weight:700;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    font-size:18px;
-
-    flex-shrink:0;
-
-}
-
-.review-user h4{
-
-    margin:0;
-
-    color:#fff;
-
-    font-size:17px;
-
-}
-
-.review-user span{
-
-    color:#999;
-
-    font-size:14px;
-
-}
-
-/* =========================================
-   REVIEW STARS
-========================================= */
-
-.review-stars {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-
-    margin-top: 14px;
-    margin-bottom: 22px;
-
-    height: 20px;
-}
-
-.review-stars .star {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 16px;
-    height: 20px;
-
-    font-size: 17px;
-    line-height: 1;
-
-    flex-shrink: 0;
-}
-
-/* SELECTED RATING */
-
-.review-stars .star-selected {
-    color: #D4AF37;
-}
-
-/* UNSELECTED RATING */
-
-.review-stars .star-empty {
-    color: #555;
-}
-
-/* title */
-
-.review-title{
-
-    color:#fff;
-
-    font-size:20px;
-
-    font-weight:600;
-
-    margin:0;
-
-}
-
-/* review body */
-
-.review-text{
-
-    color:#d0d0d0;
-
-    line-height:1.8;
-
-    font-size:15px;
-
-}
-
-/* =========================================
-   REVIEW STARS
-========================================= */
-
-.review-stars {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-
-    margin-top: 14px;
-    margin-bottom: 22px;
-
-    height: 20px;
-}
-
-.review-stars .star {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 16px;
-    height: 20px;
-
-    font-size: 17px;
-    line-height: 1;
-
-    flex-shrink: 0;
-}
-
-/* SELECTED RATING */
-
-.review-stars .star-selected {
-    color: #D4AF37;
-}
-
-/* UNSELECTED RATING */
-
-.review-stars .star-empty {
-    color: #555;
-}
-
-/* =========================================
-   HELPFUL BUTTON
-========================================= */
-
-.helpful-wrapper {
-    margin-top: 18px;
-    margin-bottom: 4px;
-}
-
-.helpful-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-
-    padding: 9px 14px;
-
-    border: 1px solid rgba(255, 255, 255, 0.12);
-
-    border-radius: 24px;
-
-    background: rgba(255, 255, 255, 0.04);
-
-    color: #cfcfcf;
-
-    font-family: inherit;
-
-    font-size: 12px;
-    font-weight: 500;
-
-    cursor: pointer;
-
-    transition:
-        background 0.25s ease,
-        border-color 0.25s ease,
-        transform 0.2s ease,
-        box-shadow 0.25s ease;
-}
-
-.helpful-heart {
-    font-size: 17px;
-    line-height: 1;
-
-    color: #aaa;
-
-    transition:
-        color 0.25s ease,
-        transform 0.2s ease;
-}
-
-.helpful-count {
-    font-weight: 700;
-    color: #fff;
-}
-
-.helpful-label {
-    color: #aaa;
-}
-
-/* HOVER */
-
-.helpful-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-
-    border-color: rgba(212, 175, 55, 0.45);
-
-    box-shadow:
-        0 5px 18px rgba(0, 0, 0, 0.25);
-
-    transform: translateY(-1px);
-}
-
-.helpful-btn:hover .helpful-heart {
-    transform: scale(1.12);
-}
-
-/* ACTIVE / CLICKED */
-
-.helpful-btn.helpful-active {
-    background: rgba(220, 38, 38, 0.08);
-
-    border-color: rgba(220, 38, 38, 0.35);
-}
-
-.helpful-btn.helpful-active .helpful-heart {
-    color: #ef4444;
-
-    transform: scale(1.12);
-}
-
-.helpful-btn.helpful-active .helpful-count {
-    color: #fff;
-}
-
-
-
-/* =========================================================
-DESKTOP
-========================================================= */
-
-@media (min-width: 901px) {
-
-```
-.customer-reviews .review-summary {
-    grid-template-columns: 280px minmax(0, 1fr) !important;
-}
-```
-
-}
-
-/* =========================================================
-TABLET / MOBILE
-========================================================= */
-
-@media (max-width: 900px) {
-
-```
-.customer-reviews .review-summary {
-    grid-template-columns: 1fr !important;
-    gap: 35px !important;
-}
-
-.customer-reviews .rating-bars {
-    width: 100% !important;
-}
-
-.customer-reviews .rating-bars .rating-row {
-    grid-template-columns: 65px minmax(0, 1fr) !important;
-}
-```
-
-}
-
-/* =========================================================
-SMALL MOBILE
-========================================================= */
-
-@media (max-width: 480px) {
-
-```
-.customer-reviews .review-summary {
-    padding: 22px !important;
-}
-
-.customer-reviews .rating-bars .rating-row {
-    grid-template-columns: 60px minmax(0, 1fr) !important;
-    gap: 12px !important;
-}
-
-.customer-reviews .rating-bars .rating-row .bar {
-    height: 8px !important;
-}
-```
-/* =========================================================
-   CHRONOLUX REVIEW SUMMARY — CLEAN FINAL VERSION
-   Overall rating only
-========================================================= */
-
-.review-summary {
+.review-summary:has(#all-reviews-grid) {
     width: 100%;
     max-width: 1100px;
-
     margin: 45px auto 70px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
     box-sizing: border-box;
+    display: block;
 }
 
-
 /* =========================================================
-   OVERALL RATING CARD
-========================================================= */
+   OVERALL RATING
+   ========================================================= */
 
 .review-summary .overall-rating {
-
     width: 320px;
     min-height: 220px;
+    margin: 0 auto 50px;
+    padding: 35px 25px;
+    box-sizing: border-box;
 
     display: flex;
     flex-direction: column;
-
     justify-content: center;
     align-items: center;
 
-    box-sizing: border-box;
-
-    padding: 35px 25px;
-
     text-align: center;
 
-    background:
-        linear-gradient(
-            145deg,
-            #181818,
-            #111111
-        );
-
+    background: linear-gradient(145deg, #181818, #111111);
     border: 1px solid rgba(212, 175, 55, 0.18);
-
     border-radius: 22px;
 
     box-shadow:
@@ -776,536 +53,388 @@ SMALL MOBILE
         inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-
-/* =========================================================
-   RATING NUMBER
-========================================================= */
-
 .review-summary .rating-number {
-
     display: block;
-
     margin: 0;
 }
-
 
 .review-summary #overall-rating {
-
     display: block;
-
     margin: 0;
-
-    font-family:
-        "Cormorant Garamond",
-        Georgia,
-        serif;
-
+    font-family: "Cormorant Garamond", Georgia, serif;
     font-size: 72px;
-
     font-weight: 500;
-
     line-height: 1;
-
-    color: #d4af37;
-
     letter-spacing: -2px;
+    color: #d4af37;
 }
-
-
-/* =========================================================
-   FIVE GOLD STARS
-========================================================= */
 
 .review-summary .overall-stars {
-
     display: flex;
-
     justify-content: center;
     align-items: center;
-
     gap: 5px;
-
     margin: 17px 0 12px;
-
     color: #d4af37;
-
     font-size: 20px;
-
     line-height: 1;
 }
 
-
 .review-summary .overall-stars span {
-
     display: inline-block;
-
     color: #d4af37;
 }
 
-
-/* =========================================================
-   REVIEW COUNT
-========================================================= */
-
 .review-summary .overall-rating p {
-
     margin: 0;
-
     color: #999;
-
     font-size: 13px;
-
     line-height: 1.5;
 }
 
-
 .review-summary .overall-rating p strong {
-
     color: #fff;
-
     font-weight: 600;
 }
 
-
 /* =========================================================
-   COMPLETELY REMOVE OLD RATING BREAKDOWN
-========================================================= */
+   REVIEW SEARCH
+   ========================================================= */
 
-.review-summary .rating-breakdown,
-.review-summary .rating-row,
-.review-summary .rating-bar,
-.review-summary .rating-fill,
-.review-summary .rating-label,
-.review-summary .mini-star {
-
-    display: none !important;
+.customer-reviews .review-search {
+    max-width: 650px;
+    margin: 0 auto 45px;
 }
 
+.customer-reviews .review-search input {
+    width: 100%;
+    padding: 16px 20px;
+    box-sizing: border-box;
+    background: #111;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    color: #fff;
+    outline: none;
+    font-family: inherit;
+    transition: 0.3s ease;
+}
+
+.customer-reviews .review-search input::placeholder {
+    color: #777;
+}
+
+.customer-reviews .review-search input:focus {
+    border-color: rgba(212, 175, 55, 0.6);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
+}
+
+/* =========================================================
+   VIEW ALL REVIEWS GRID
+   Desktop: exactly 3 columns.
+   ========================================================= */
+
+#all-reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    align-items: stretch;
+}
+
+/* =========================================================
+   REVIEW CARD
+   ========================================================= */
+
+#all-reviews-grid .review-card {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    margin: 0;
+    padding: 24px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: #181818;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 18px;
+    transition: 0.35s ease;
+}
+
+#all-reviews-grid .review-card:hover {
+    transform: translateY(-6px);
+    border-color: #d4af37;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+}
+
+/* =========================================================
+   REVIEW HEADER
+   ========================================================= */
+
+#all-reviews-grid .review-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+#all-reviews-grid .review-avatar {
+    width: 52px;
+    height: 52px;
+    flex: 0 0 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #d4af37;
+    color: #000;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+#all-reviews-grid .review-user {
+    min-width: 0;
+}
+
+#all-reviews-grid .review-user h4 {
+    margin: 0;
+    color: #fff;
+    font-size: 17px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+#all-reviews-grid .review-user span {
+    color: #999;
+    font-size: 14px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+/* =========================================================
+   REVIEW STARS
+   ========================================================= */
+
+#all-reviews-grid .review-stars {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 20px;
+    margin-top: 14px;
+    margin-bottom: 22px;
+}
+
+#all-reviews-grid .review-stars .star {
+    width: 16px;
+    height: 20px;
+    flex: 0 0 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    line-height: 1;
+}
+
+#all-reviews-grid .review-stars .star-selected {
+    color: #d4af37;
+}
+
+#all-reviews-grid .review-stars .star-empty {
+    color: #555;
+}
+
+/* =========================================================
+   REVIEW CONTENT
+   ========================================================= */
+
+#all-reviews-grid .review-title {
+    margin: 0;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+#all-reviews-grid .review-text {
+    margin: 0;
+    color: #d0d0d0;
+    font-size: 15px;
+    line-height: 1.8;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+/* =========================================================
+   HELPFUL BUTTON
+   ========================================================= */
+
+#all-reviews-grid .helpful-wrapper {
+    margin-top: 18px;
+    margin-bottom: 4px;
+}
+
+#all-reviews-grid .helpful-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.04);
+    color: #cfcfcf;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
+}
+
+#all-reviews-grid .helpful-heart {
+    color: #aaa;
+    font-size: 17px;
+    line-height: 1;
+    transition: color 0.25s ease, transform 0.2s ease;
+}
+
+#all-reviews-grid .helpful-count {
+    color: #fff;
+    font-weight: 700;
+}
+
+#all-reviews-grid .helpful-label {
+    color: #aaa;
+}
+
+#all-reviews-grid .helpful-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(212, 175, 55, 0.45);
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.25);
+    transform: translateY(-1px);
+}
+
+#all-reviews-grid .helpful-btn:hover .helpful-heart {
+    transform: scale(1.12);
+}
+
+#all-reviews-grid .helpful-btn.helpful-active {
+    background: rgba(220, 38, 38, 0.08);
+    border-color: rgba(220, 38, 38, 0.35);
+}
+
+#all-reviews-grid .helpful-btn.helpful-active .helpful-heart {
+    color: #ef4444;
+    transform: scale(1.12);
+}
+
+#all-reviews-grid .helpful-btn.helpful-active .helpful-count {
+    color: #fff;
+}
+
+/* Prevent review content from forcing horizontal overflow. */
+#all-reviews-grid .review-card * {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   LARGE DESKTOP
+   ========================================================= */
+
+@media (min-width: 1100px) {
+    #all-reviews-grid {
+        gap: 28px;
+    }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+    .customer-reviews {
+        padding: 80px 0;
+    }
+
+    .review-summary:has(#all-reviews-grid) {
+        width: 100%;
+        max-width: 100%;
+        margin: 35px auto 55px;
+        padding: 0 20px;
+    }
+
+    .review-summary .overall-rating {
+        width: 100%;
+        max-width: 320px;
+        min-height: 200px;
+        margin-bottom: 40px;
+        padding: 30px 20px;
+    }
+
+    #all-reviews-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 25px;
+    }
+}
 
 /* =========================================================
    MOBILE
-========================================================= */
+   ========================================================= */
 
 @media (max-width: 768px) {
-
-    .review-summary {
-
-        width: 100%;
-
-        max-width: 100%;
-
-        margin: 35px auto 55px;
-
-        padding: 0 15px;
-
-        box-sizing: border-box;
-
-        display: flex;
-
-        justify-content: center;
-
-        align-items: center;
+    .review-summary:has(#all-reviews-grid) {
+        padding-left: 15px;
+        padding-right: 15px;
     }
-
-
-    .review-summary .overall-rating {
-
-        width: 100%;
-
-        max-width: 320px;
-
-        min-height: 200px;
-
-        margin: 0 auto;
-
-        padding: 30px 20px;
-
-        box-sizing: border-box;
-    }
-
 
     .review-summary #overall-rating {
-
         font-size: 62px;
     }
 
-
     .review-summary .overall-stars {
-
         font-size: 18px;
-
         gap: 4px;
     }
 
-
     .review-summary .overall-rating p {
-
         font-size: 12px;
     }
-
 }
-
 
 /* =========================================================
    SMALL PHONES
-========================================================= */
+   ========================================================= */
 
 @media (max-width: 480px) {
-
-    .review-summary {
-
+    .review-summary:has(#all-reviews-grid) {
         padding-left: 12px;
-
         padding-right: 12px;
-
         margin-top: 25px;
     }
 
-
     .review-summary .overall-rating {
-
         max-width: 300px;
-
         min-height: 185px;
-
         padding: 25px 15px;
-
         border-radius: 20px;
     }
 
-
     .review-summary #overall-rating {
-
         font-size: 58px;
     }
 
-
     .review-summary .overall-stars {
-
         font-size: 17px;
-
         gap: 3px;
-
         margin-top: 14px;
-
         margin-bottom: 11px;
-    }
-
-}
-}
-
-/* =========================================================
-   REVIEW CARD MOBILE LAYOUT FIX
-   ONLY fixes the mobile review card positioning/width
-========================================================= */
-
-@media (max-width: 768px) {
-
-    /* Keep the reviews section inside the screen */
-    .reviews-section {
-        width: 100%;
-        max-width: 100%;
-        overflow-x: hidden;
-        box-sizing: border-box;
-    }
-
-    /* Make the review grid use the full available width */
-    .reviews-grid {
-        display: grid !important;
-        grid-template-columns: minmax(0, 1fr) !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        gap: 25px !important;
-        box-sizing: border-box;
-    }
-
-    /* Make every review card fit perfectly inside the screen */
-    .review-card {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        box-sizing: border-box !important;
-        overflow: hidden !important;
-    }
-
-    /* Prevent long names/text from forcing the card wider */
-    .review-card h4,
-    .review-card p,
-    .review-card span {
-        max-width: 100%;
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-    }
-
-    /* Keep the review header/content inside the card */
-    .review-card * {
-        max-width: 100%;
-        box-sizing: border-box;
-    }
-}
-
-
-/* =========================================================
-   SMALL PHONES
-========================================================= */
-
-@media (max-width: 480px) {
-
-    .reviews-section {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-
-    .reviews-grid {
-        width: 100% !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-
-    .review-card {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-    }
-}
-
-/* =========================================================
-   VIEW ALL REVIEWS — DESKTOP GRID FIX
-   ONLY affects the View All Reviews grid
-========================================================= */
-
-@media (min-width: 769px) {
-
-    /* Main reviews grid */
-    .reviews-grid {
-        display: grid !important;
-        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-
-        width: 100% !important;
-        max-width: 100% !important;
-
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-
-        gap: 24px !important;
-
-        box-sizing: border-box !important;
-
-        justify-content: stretch !important;
-        align-items: stretch !important;
-    }
-
-    /* Individual review cards */
-    .reviews-grid .review-card {
-        width: 100% !important;
-        max-width: none !important;
-        min-width: 0 !important;
-
-        margin: 0 !important;
-
-        box-sizing: border-box !important;
-
-        transform: none !important;
-    }
-
-    /* Prevent card content from forcing the card wider */
-    .reviews-grid .review-card h4,
-    .reviews-grid .review-card p,
-    .reviews-grid .review-card span {
-        max-width: 100%;
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-    }
-
-}
-
-
-/* =========================================================
-   LARGE DESKTOP
-========================================================= */
-
-@media (min-width: 1100px) {
-
-    .reviews-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-        gap: 28px !important;
-    }
-
-}
-
-
-/* =========================================================
-   TABLET / MOBILE
-   Keep the existing responsive behaviour
-========================================================= */
-
-@media (max-width: 768px) {
-
-    .reviews-grid {
-        display: grid !important;
-        grid-template-columns: minmax(0, 1fr) !important;
-
-        width: 100% !important;
-        max-width: 100% !important;
-
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-
-        box-sizing: border-box !important;
-    }
-
-    .reviews-grid .review-card {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-
-        box-sizing: border-box !important;
-        transform: none !important;
-
-        overflow: hidden !important;
-    }
-
-}
-
-/* =========================================================
-   CHRONOLUX — VIEW ALL REVIEWS DESKTOP LAYOUT FIX
-   ONLY FIXES THE EMPTY SPACE BESIDE THE REVIEW GRID
-   Keeps the review cards in 3 columns
-========================================================= */
-
-@media (min-width: 769px) {
-
-    /* Stop the review summary from placing
-       the overall-rating beside the review grid */
-    .review-summary {
-        display: block !important;
-        width: 100% !important;
-        max-width: 1100px !important;
-        box-sizing: border-box !important;
-    }
-
-    /* Keep the overall rating centered if it is displayed */
-    .review-summary .overall-rating {
-        margin-left: auto !important;
-        margin-right: auto !important;
-    }
-
-    /* Make the View All Reviews grid use
-       the entire available width */
-    #all-reviews-grid {
-        display: grid !important;
-
-        grid-template-columns:
-            repeat(3, minmax(0, 1fr)) !important;
-
-        width: 100% !important;
-        max-width: 100% !important;
-
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-
-        gap: 24px !important;
-
-        box-sizing: border-box !important;
-
-        justify-content: stretch !important;
-        align-items: stretch !important;
-    }
-
-    /* Make every review card fill its column */
-    #all-reviews-grid .review-card {
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: none !important;
-
-        margin: 0 !important;
-
-        box-sizing: border-box !important;
-    }
-
-    /* Prevent content from creating horizontal overflow */
-    #all-reviews-grid .review-card * {
-        max-width: 100%;
-        box-sizing: border-box;
-    }
-
-    #all-reviews-grid .review-card h4,
-    #all-reviews-grid .review-card p,
-    #all-reviews-grid .review-card span {
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-    }
-}
-
-
-/* =========================================================
-   LARGE DESKTOP
-   Keep exactly 3 columns
-========================================================= */
-
-@media (min-width: 1100px) {
-
-    #all-reviews-grid {
-        grid-template-columns:
-            repeat(3, minmax(0, 1fr)) !important;
-
-        gap: 28px !important;
-    }
-}
-
-
-/* =========================================================
-   MOBILE — DO NOT CHANGE THE EXISTING MOBILE DESIGN
-========================================================= */
-
-@media (max-width: 768px) {
-
-    #all-reviews-grid {
-        display: grid !important;
-
-        grid-template-columns:
-            minmax(0, 1fr) !important;
-
-        width: 100% !important;
-        max-width: 100% !important;
-
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-
-        box-sizing: border-box !important;
-    }
-
-    #all-reviews-grid .review-card {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-
-        box-sizing: border-box !important;
-
-        overflow: hidden !important;
     }
 }
