@@ -993,3 +993,84 @@ SMALL MOBILE
 
 }
 }
+
+/* =========================================================
+   REVIEW CARD MOBILE LAYOUT FIX
+   ONLY fixes the mobile review card positioning/width
+========================================================= */
+
+@media (max-width: 768px) {
+
+    /* Keep the reviews section inside the screen */
+    .reviews-section {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+        box-sizing: border-box;
+    }
+
+    /* Make the review grid use the full available width */
+    .reviews-grid {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        gap: 25px !important;
+        box-sizing: border-box;
+    }
+
+    /* Make every review card fit perfectly inside the screen */
+    .review-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    /* Prevent long names/text from forcing the card wider */
+    .review-card h4,
+    .review-card p,
+    .review-card span {
+        max-width: 100%;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    }
+
+    /* Keep the review header/content inside the card */
+    .review-card * {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .reviews-section {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .reviews-grid {
+        width: 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .review-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+    }
+}
