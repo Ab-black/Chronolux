@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout | ChronoLux</title>
+<meta name="description" content="Secure ChronoLux checkout.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/checkout.css">
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <nav class="navbar">
+            <a href="index.html" class="logo">Chrono<span>Lux</span></a>
+            <div class="nav-right">
+                <a href="collection.html" class="checkout-back">Back to Collection</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main class="checkout-page">
+    <div class="container checkout-container">
+        <div class="checkout-heading">
+            <span>SECURE PURCHASE</span>
+            <h1>Complete Your Order</h1>
+            <p>Your selected timepiece is reserved for this checkout session.</p>
+        </div>
+
+        <form id="checkout-form" class="checkout-layout">
+            <div class="checkout-main">
+                <section class="checkout-card">
+                    <div class="checkout-card-heading">
+                        <span>01</span>
+                        <div><h2>Customer Details</h2><p>Tell us how to contact you about your order.</p></div>
+                    </div>
+                    <div class="form-grid">
+                        <label>Full Name<input id="customer-name" type="text" required autocomplete="name"></label>
+                        <label>Email Address<input id="customer-email" type="email" required autocomplete="email"></label>
+                        <label>Phone Number<input id="customer-phone" type="tel" required autocomplete="tel"></label>
+                    </div>
+                </section>
+
+                <section class="checkout-card">
+                    <div class="checkout-card-heading">
+                        <span>02</span>
+                        <div><h2>Shipping Details</h2><p>Where should your ChronoLux timepiece be delivered?</p></div>
+                    </div>
+                    <div class="form-grid">
+                        <label>Country<input id="shipping-country" type="text" required autocomplete="country-name"></label>
+                        <label>State / Region<input id="shipping-state" type="text" required autocomplete="address-level1"></label>
+                        <label class="full-width">Street Address<input id="shipping-address" type="text" required autocomplete="street-address"></label>
+                        <label>City<input id="shipping-city" type="text" required autocomplete="address-level2"></label>
+                        <label>Postal / ZIP Code<input id="shipping-postal" type="text" required autocomplete="postal-code"></label>
+                    </div>
+                </section>
+
+                <section class="checkout-card">
+                    <div class="checkout-card-heading">
+                        <span>03</span>
+                        <div><h2>Order Summary</h2><p>Review your selected timepiece before continuing.</p></div>
+                    </div>
+                    <div id="checkout-product" class="checkout-product">Loading product...</div>
+                </section>
+            </div>
+
+            <aside class="checkout-sidebar">
+                <div class="checkout-total-card">
+                    <span class="summary-label">YOUR ORDER</span>
+                    <div id="summary-product" class="summary-product">Loading...</div>
+                    <div class="summary-line"><span>Subtotal</span><strong id="summary-price">—</strong></div>
+                    <div class="summary-line"><span>Shipping</span><span>Calculated after order</span></div>
+                    <div class="summary-total"><span>Total</span><strong id="summary-total">—</strong></div>
+                    <button type="submit" class="checkout-submit">Place Order</button>
+                    <p class="checkout-note">Secure payment will be connected in the next checkout phase.</p>
+                </div>
+            </aside>
+        </form>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/checkout.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
