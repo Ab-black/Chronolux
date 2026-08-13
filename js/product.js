@@ -5,431 +5,124 @@
 document.addEventListener("DOMContentLoaded", loadProduct);
 
 async function loadProduct() {
-
     const params = new URLSearchParams(window.location.search);
-
     const slug = params.get("slug");
 
     if (!slug) {
-
         alert("Product not found.");
-
         return;
-
     }
 
-        const { data: watch, error } = await supabaseClient
+    const { data: watch, error } = await supabaseClient
         .from("watches")
         .select("*")
         .eq("slug", slug)
         .single();
-    
-    console.log("Slug:", slug);
-    console.log("Watch:", watch);
-    console.log("Description:", watch.description);
-    
-    if (error) {
-    
-        console.log(error);
-    
+
+    if (error || !watch) {
+        console.error(error);
         return;
-    
     }
-    
-    // Load gallery images
+
     const { data: galleryImages, error: galleryError } = await supabaseClient
         .from("watch_images")
         .select("*")
         .eq("watch_id", watch.id)
         .order("sort_order", { ascending: true });
-    console.log("Gallery Images:", galleryImages);
-    
-    if (galleryError) {
-    
-        console.log(galleryError);
-    
+
+    if (galleryError) console.error(galleryError);
+
+    document.title = `${watch.brand} ${watch.model} | ChronoLux`;
+
+    const image = document.getElementById("product-image");
+    const dotsContainer = document.getElementById("gallery-dots");
+    const thumbContainer = document.getElementById("gallery-thumbnails");
+    const prevBtn = document.getElementById("gallery-prev");
+    const nextBtn = document.getElementById("gallery-next");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightbox-image");
+    const lightboxDots = document.getElementById("lightbox-dots");
+    const lightboxPrev = document.getElementById("lightbox-prev");
+    const lightboxNext = document.getElementById("lightbox-next");
+    const lightboxClose = document.getElementById("lightbox-close");
+
+    const allImages = [watch.image, ...(galleryImages || []).map(img => img.image_url)];
+    let currentIndex = 0;
+
+    function showImage(index) {
+        currentIndex = index;
+        image.style.opacity = "0";
+        setTimeout(() => {
+            image.src = allImages[currentIndex];
+            lightboxImage.src = allImages[currentIndex];
+            image.style.opacity = "1";
+        }, 180);
+
+        document.querySelectorAll(".gallery-dot").forEach((dot, i) => dot.classList.toggle("active", i === currentIndex));
+        document.querySelectorAll(".gallery-thumb").forEach((thumb, i) => thumb.classList.toggle("active", i === currentIndex));
     }
 
-    // =============================
-    // PAGE TITLE
-    // =============================
+    dotsContainer.innerHTML = "";
+    thumbContainer.innerHTML = "";
 
-    document.title =
-        `${watch.brand} ${watch.model} | ChronoLux`;
+    allImages.forEach((url, index) => {
+        const dot = document.createElement("div");
+        dot.className = "gallery-dot";
+        if (index === 0) dot.classList.add("active");
+        dot.onclick = () => showImage(index);
+        dotsContainer.appendChild(dot);
 
-// =============================
-// IMAGE GALLERY
-// =============================
+        const thumb = document.createElement("img");
+        thumb.src = url;
+        thumb.className = "gallery-thumb";
+        if (index === 0) thumb.classList.add("active");
+        thumb.onclick = () => showImage(index);
+        thumbContainer.appendChild(thumb);
+    });
 
-const image = document.getElementById("product-image");
+    prevBtn.onclick = () => showImage((currentIndex - 1 + allImages.length) % allImages.length);
+    nextBtn.onclick = () => showImage((currentIndex + 1) % allImages.length);
+    showImage(0);
 
-const dotsContainer = document.getElementById("gallery-dots");
-
-const thumbContainer = document.getElementById("gallery-thumbnails");
-
-const prevBtn = document.getElementById("gallery-prev");
-
-const nextBtn = document.getElementById("gallery-next");
-
-// =============================
-// LIGHTBOX ELEMENTS
-// =============================
-
-const lightbox = document.getElementById("lightbox");
-
-const lightboxImage = document.getElementById("lightbox-image");
-
-const lightboxDots = document.getElementById("lightbox-dots");
-
-const lightboxPrev = document.getElementById("lightbox-prev");
-
-const lightboxNext = document.getElementById("lightbox-next");
-
-const lightboxClose = document.getElementById("lightbox-close");
-// Build gallery
-
-const allImages = [
-
-    watch.image,
-
-    ...(galleryImages || []).map(img => img.image_url)
-
-];
-
-// Current image index
-
-let currentIndex = 0;
-
-// Show image
-
-function showImage(index){
-
-    currentIndex = index;
-
-    image.style.opacity = "0";
-
-    setTimeout(()=>{
-
-        image.src = allImages[currentIndex];
-
+    image.onclick = () => {
+        lightbox.classList.add("show");
         lightboxImage.src = allImages[currentIndex];
+    };
 
-        image.style.opacity = "1";
+    lightboxClose.onclick = () => lightbox.classList.remove("show");
+    lightbox.onclick = e => {
+        if (e.target === lightbox || e.target.classList.contains("lightbox")) lightbox.classList.remove("show");
+    };
 
-    },180);
-
-    // Active dot
-
-    document.querySelectorAll(".gallery-dot").forEach((dot,i)=>{
-
-        dot.classList.toggle("active", i===currentIndex);
-
+    document.addEventListener("keydown", e => {
+        if (e.key === "Escape") lightbox.classList.remove("show");
+        if (document.activeElement?.tagName === "INPUT" || document.activeElement?.tagName === "TEXTAREA") return;
+        if (e.key === "ArrowRight") nextBtn.click();
+        if (e.key === "ArrowLeft") prevBtn.click();
     });
 
-    // Active thumbnail
-
-    document.querySelectorAll(".gallery-thumb").forEach((thumb,i)=>{
-
-        thumb.classList.toggle("active", i===currentIndex);
-
-    });
-
-}
-
-// Clear old content
-
-dotsContainer.innerHTML = "";
-
-thumbContainer.innerHTML = "";
-
-// Build gallery controls
-
-allImages.forEach((url,index)=>{
-
-    // Desktop dots
-
-    const dot = document.createElement("div");
-
-    dot.className = "gallery-dot";
-
-    if(index===0){
-
-        dot.classList.add("active");
-
-    }
-
-    dot.onclick = ()=>showImage(index);
-
-    dotsContainer.appendChild(dot);
-
-    // Mobile thumbnail
-
-    const thumb = document.createElement("img");
-
-    thumb.src = url;
-
-    thumb.className = "gallery-thumb";
-
-    if(index===0){
-
-        thumb.classList.add("active");
-
-    }
-
-    thumb.onclick = ()=>showImage(index);
-
-    thumbContainer.appendChild(thumb);
-
-});
-
-// Previous button
-
-prevBtn.onclick = () => {
-
-    currentIndex--;
-
-    if(currentIndex < 0){
-
-        currentIndex = allImages.length - 1;
-
-    }
-
-    showImage(currentIndex);
-
-};
-
-nextBtn.onclick = () => {
-
-    currentIndex++;
-
-    if(currentIndex >= allImages.length){
-
-        currentIndex = 0;
-
-    }
-
-    showImage(currentIndex);
-
-};
-
-// Next button
-
-nextBtn.onclick = ()=>{
-
-    currentIndex++;
-
-    if(currentIndex>=allImages.length){
-
-        currentIndex = 0;
-
-    }
-
-    showImage(currentIndex);
-
-};
-
-// Initial image
-
-showImage(0);
-
-    // =============================
-// OPEN LIGHTBOX
-// =============================
-
-image.onclick = () => {
-
-    lightbox.classList.add("show");
-
-    lightboxImage.src = allImages[currentIndex];
-
-};
-
-// =============================
-// CLOSE LIGHTBOX
-// =============================
-
-lightboxClose.onclick = () => {
-
-    lightbox.classList.remove("show");
-
-};
-
-// =============================
-// CLICK OUTSIDE TO CLOSE
-// =============================
-
-lightbox.onclick = (e) => {
-
-    if(
-
-        e.target === lightbox ||
-
-        e.target.classList.contains("lightbox")
-
-    ){
-
-        lightbox.classList.remove("show");
-
-    }
-
-};
-    
-// =============================
-// ESC KEY
-// =============================
-
-document.addEventListener("keydown",(e)=>{
-
-    if(e.key==="Escape"){
-
-        lightbox.classList.remove("show");
-
-    }
-
-});
-
-// =============================
-// LIGHTBOX ARROWS
-// =============================
-
-lightboxPrev.onclick = () => {
-
-    currentIndex--;
-
-    if(currentIndex < 0){
-
-        currentIndex = allImages.length - 1;
-
-    }
-
-    showImage(currentIndex);
-
-};
-
-lightboxNext.onclick = () => {
-
-    currentIndex++;
-
-    if(currentIndex >= allImages.length){
-
-        currentIndex = 0;
-
-    }
-
-    showImage(currentIndex);
-
-};
-    // =============================
-// Keyboard Navigation
-// =============================
-
-document.addEventListener("keydown", (e) => {
-
-    // Ignore key presses while typing
-    if (
-        document.activeElement.tagName === "INPUT" ||
-        document.activeElement.tagName === "TEXTAREA"
-    ) return;
-
-    if (e.key === "ArrowRight") {
-
-        nextBtn.click();
-
-    }
-
-    if (e.key === "ArrowLeft") {
-
-        prevBtn.click();
-
-    }
-
-});
-    // =============================
-    // BRAND
-    // =============================
-
-    document.getElementById("product-brand").textContent =
-        watch.brand;
-
-    // =============================
-    // MODEL
-    // =============================
-
-    document.getElementById("product-name").textContent =
-        watch.model;
-    
-    document.getElementById("breadcrumb-brand").textContent =
-    watch.brand;
-
-    document.getElementById("breadcrumb-model").textContent =
-    watch.model;
-    // =============================
-    // PRICES
-    // =============================
-
-    document.getElementById("old-price").textContent =
-        watch.old_price;
-
-    document.getElementById("new-price").textContent =
-        watch.new_price;
-
-    // =============================
-    // DESCRIPTION
-    // =============================
-
-    document.getElementById("product-description").textContent =
-        watch.description;
-
-    // =============================
-    // SPECIFICATIONS
-    // =============================
+    lightboxPrev.onclick = () => showImage((currentIndex - 1 + allImages.length) % allImages.length);
+    lightboxNext.onclick = () => showImage((currentIndex + 1) % allImages.length);
+
+    document.getElementById("product-brand").textContent = watch.brand;
+    document.getElementById("product-name").textContent = watch.model;
+    document.getElementById("breadcrumb-brand").textContent = watch.brand;
+    document.getElementById("breadcrumb-model").textContent = watch.model;
+    document.getElementById("old-price").textContent = watch.old_price;
+    document.getElementById("new-price").textContent = watch.new_price;
+    document.getElementById("product-description").textContent = watch.description;
 
     document.getElementById("product-specs").innerHTML = `
-
         <li><strong>Brand:</strong> ${watch.brand}</li>
-
         <li><strong>Model:</strong> ${watch.model}</li>
-
         <li><strong>Movement:</strong> ${watch.movement}</li>
-
         <li><strong>Case:</strong> ${watch.case_material}</li>
-
         <li><strong>Case Size:</strong> ${watch.case_size}</li>
-
         <li><strong>Water Resistance:</strong> ${watch.water_resistance}</li>
-
         <li><strong>Condition:</strong> ${watch.condition}</li>
-
     `;
 
-    // =============================
-    // WHATSAPP BUTTON
-    // =============================
-
-    const pageURL = window.location.href;
-
-    const message = `Hello ChronoLux,
-
-I'm interested in this luxury watch.
-
-Brand: ${watch.brand}
-Model: ${watch.model}
-
-Price: ${watch.new_price}
-
-Product Page:
-${pageURL}
-
-Could you please let me know:
-
-• Is it still available?
-• What is the condition?
-• Shipping options
-• Payment procedure
-
-Thank you.`;
-
-   document.getElementById("whatsapp-btn").href =
-`https://wa.me/2349039450751?text=${encodeURIComponent(message)}`;
-
+    const buyButton = document.getElementById("whatsapp-btn");
+    buyButton.textContent = "BUY NOW";
+    buyButton.href = `checkout.html?slug=${encodeURIComponent(watch.slug)}`;
 }
