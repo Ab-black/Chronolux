@@ -6,50 +6,37 @@
 .customer-reviews {
     padding: 110px 0;
     background:
-        radial-gradient(
-            circle at 20% 20%,
-            rgba(212, 175, 55, 0.045),
-            transparent 35%
-        ),
+        radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.045), transparent 35%),
         #050505;
 }
 
 /* =========================================================
    REVIEW SUMMARY
-   The full review page must stack the rating above the grid.
    ========================================================= */
 
 .review-summary:has(#all-reviews-grid) {
     width: 100%;
     max-width: 1100px;
-    margin: 45px auto 90px;
+    margin: 45px auto 0;
     padding: 0;
     box-sizing: border-box;
     display: block !important;
 }
 
-/* =========================================================
-   OVERALL RATING
-   ========================================================= */
-
 .review-summary .overall-rating {
     width: 320px;
     min-height: 220px;
-    margin: 70px;
+    margin: 0 auto 90px;
     padding: 35px 25px;
     box-sizing: border-box;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     text-align: center;
-
     background: linear-gradient(145deg, #181818, #111111);
     border: 1px solid rgba(212, 175, 55, 0.18);
     border-radius: 22px;
-
     box-shadow:
         0 20px 50px rgba(0, 0, 0, 0.35),
         inset 0 1px 0 rgba(255, 255, 255, 0.04);
@@ -101,9 +88,6 @@
 
 /* =========================================================
    REVIEW GRID
-   Shared by the 8 featured About-page reviews and
-   the View All Reviews page.
-   Desktop: exactly 3 columns.
    ========================================================= */
 
 .reviews-grid {
@@ -143,10 +127,6 @@
     border-color: #d4af37;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
 }
-
-/* =========================================================
-   REVIEW HEADER
-   ========================================================= */
 
 .reviews-grid .review-header {
     display: flex;
@@ -188,10 +168,6 @@
     word-wrap: break-word;
 }
 
-/* =========================================================
-   REVIEW STARS
-   ========================================================= */
-
 .reviews-grid .review-stars {
     display: flex;
     align-items: center;
@@ -220,10 +196,6 @@
     color: #555;
 }
 
-/* =========================================================
-   REVIEW CONTENT
-   ========================================================= */
-
 .reviews-grid .review-title {
     margin: 0;
     color: #fff;
@@ -241,10 +213,6 @@
     overflow-wrap: break-word;
     word-wrap: break-word;
 }
-
-/* =========================================================
-   HELPFUL BUTTON
-   ========================================================= */
 
 .reviews-grid .helpful-wrapper {
     margin-top: 18px;
@@ -264,11 +232,7 @@
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
-    transition:
-        background 0.25s ease,
-        border-color 0.25s ease,
-        transform 0.2s ease,
-        box-shadow 0.25s ease;
+    transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
 }
 
 .reviews-grid .helpful-heart {
@@ -318,7 +282,7 @@
 }
 
 /* =========================================================
-   TABLET
+   RESPONSIVE
    ========================================================= */
 
 @media (max-width: 900px) {
@@ -328,7 +292,7 @@
 
     .review-summary:has(#all-reviews-grid) {
         max-width: 100%;
-        margin: 35px auto 55px;
+        margin: 35px auto 0;
         padding: 0 20px;
     }
 
@@ -336,7 +300,7 @@
         width: 100%;
         max-width: 320px;
         min-height: 200px;
-        margin-bottom: 70px;
+        margin: 0 auto 70px;
         padding: 30px 20px;
     }
 
@@ -345,10 +309,6 @@
         gap: 25px;
     }
 }
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
 
 @media (max-width: 768px) {
     .review-summary:has(#all-reviews-grid) {
@@ -370,10 +330,6 @@
     }
 }
 
-/* =========================================================
-   SMALL PHONES
-   ========================================================= */
-
 @media (max-width: 600px) {
     .review-summary:has(#all-reviews-grid) {
         padding-left: 12px;
@@ -386,7 +342,7 @@
         min-height: 185px;
         padding: 25px 15px;
         border-radius: 20px;
-        margin-bottom: 60px;
+        margin: 0 auto 60px;
     }
 
     .review-summary #overall-rating {
