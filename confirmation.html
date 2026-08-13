@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Confirmation | ChronoLux</title>
+<meta name="description" content="ChronoLux order and payment confirmation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/confirmation.css">
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <nav class="navbar">
+            <a href="index.html" class="logo">Chrono<span>Lux</span></a>
+        </nav>
+    </div>
+</header>
+
+<main class="confirmation-page">
+    <div class="container confirmation-container">
+        <section id="confirmation-loading" class="confirmation-state">
+            <span class="confirmation-kicker">ORDER CONFIRMATION</span>
+            <h1>Confirming your order</h1>
+            <p>Please wait while we securely verify your payment.</p>
+        </section>
+
+        <section id="confirmation-success" class="confirmation-content" hidden>
+            <div class="confirmation-hero">
+                <div class="confirmation-check" aria-hidden="true">✓</div>
+                <span class="confirmation-kicker">PAYMENT CONFIRMED</span>
+                <h1>Thank You for Your Purchase</h1>
+                <p>Your ChronoLux order has been successfully confirmed.</p>
+            </div>
+
+            <div class="confirmation-grid">
+                <section class="confirmation-card confirmation-order-card">
+                    <div class="confirmation-card-heading">
+                        <span>01</span>
+                        <div><h2>Order Details</h2><p>Your purchase reference and selected timepiece.</p></div>
+                    </div>
+                    <div class="confirmation-order-number">
+                        <span>Order Number</span>
+                        <strong id="confirmation-order-number">—</strong>
+                    </div>
+                    <div id="confirmation-product" class="confirmation-product">—</div>
+                    <div class="confirmation-line"><span>Payment</span><strong id="confirmation-payment">Confirmed</strong></div>
+                </section>
+
+                <section class="confirmation-card">
+                    <div class="confirmation-card-heading">
+                        <span>02</span>
+                        <div><h2>Customer</h2><p>Contact details attached to this order.</p></div>
+                    </div>
+                    <div class="confirmation-details">
+                        <div><span>Name</span><strong id="confirmation-name">—</strong></div>
+                        <div><span>Email</span><strong id="confirmation-email">—</strong></div>
+                        <div><span>Phone</span><strong id="confirmation-phone">—</strong></div>
+                    </div>
+                </section>
+
+                <section class="confirmation-card">
+                    <div class="confirmation-card-heading">
+                        <span>03</span>
+                        <div><h2>Delivery</h2><p>Shipping information for your timepiece.</p></div>
+                    </div>
+                    <div class="confirmation-details">
+                        <div><span>Address</span><strong id="confirmation-address">—</strong></div>
+                        <div><span>City / State</span><strong id="confirmation-city-state">—</strong></div>
+                        <div><span>Country</span><strong id="confirmation-country">—</strong></div>
+                        <div><span>Postal Code</span><strong id="confirmation-postal">—</strong></div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="confirmation-email-note">
+                <strong>Confirmation email</strong>
+                <p>Your order confirmation is associated with <span id="confirmation-email-note">your email address</span>. Payment verification is handled securely by the payment service.</p>
+            </div>
+
+            <a href="index.html" class="confirmation-button">Return to ChronoLux</a>
+        </section>
+
+        <section id="confirmation-failure" class="confirmation-state confirmation-error" hidden>
+            <span class="confirmation-kicker">PAYMENT STATUS</span>
+            <h1>We Could Not Confirm This Payment</h1>
+            <p id="confirmation-error-message">Your payment could not be confirmed yet. Please return to checkout and try again.</p>
+            <a id="confirmation-retry" href="collection.html" class="confirmation-button">Return to Collection</a>
+        </section>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/confirmation.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
