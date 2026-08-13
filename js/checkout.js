@@ -1,6 +1,4 @@
 const PAYMENT_FUNCTION = "paystack-initialize";
-const VERIFY_FUNCTION = "paystack-verify";
-
 const $ = (id) => document.getElementById(id);
 
 function setCheckoutMessage(message, isError = false) {
@@ -10,52 +8,11 @@ function setCheckoutMessage(message, isError = false) {
     note.style.color = isError ? "#ef4444" : "#9d9d9d";
 }
 
-async function verifyReturnedPayment() {
-    const reference = new URLSearchParams(window.location.search).get("reference");
-    if (!reference) return false;
-
-    const button = document.querySelector(".checkout-submit");
-    if (button) {
-        button.disabled = true;
-        button.textContent = "Verifying Payment...";
-    }
-
-    setCheckoutMessage("Verifying your payment securely. Please wait...");
-
+function getStoredCheckout() {
     try {
-        const { data, error } = await supabaseClient.functions.invoke(VERIFY_FUNCTION, {
-            body: { reference }
-        });
-
-        if (error) throw error;
-
-        if (data?.verified && data?.payment_status === "paid") {
-            setCheckoutMessage(`Payment confirmed. Order ${data.order_number} is confirmed.`);
-            if (button) button.textContent = "Payment Confirmed";
-            sessionStorage.removeItem("chronolux-checkout");
-            return true;
-        }
-
-        setCheckoutMessage(
-            data?.payment_status === "failed"
-                ? "Payment was not completed. You can retry the payment."
-                : "Payment is still being processed. Please wait a moment and try again.",
-            data?.payment_status === "failed"
-        );
-
-        if (button) {
-            button.disabled = false;
-            button.textContent = "Pay Now";
-        }
-        return true;
-    } catch (error) {
-        console.error("Payment verification error:", error);
-        setCheckoutMessage("We could not verify the payment yet. Please try again.", true);
-        if (button) {
-            button.disabled = false;
-            button.textContent = "Pay Now";
-        }
-        return true;
+        return JSON.parse(sessionStorage.getItem("chronolux-checkout") || "null");
+    } catch {
+        return null;
     }
 }
 
@@ -110,10 +67,8 @@ async function loadCheckoutProduct() {
         setCheckoutMessage("Creating your secure order and preparing payment...");
 
         try {
-            // The browser sends only the product slug and customer/shipping data.
-            // The server-side Supabase function determines the real price from the
-            // watches table, so changing the displayed price in DevTools cannot
-            // reduce the amount charged.
+            // Only the product slug is trusted from the browser.
+            // The server-side order function determines the real product price.
             const { data: order, error: orderError } = await supabaseClient.rpc(
                 "create_chronolux_order",
                 {
@@ -149,10 +104,31 @@ async function loadCheckoutProduct() {
             if (paymentError) throw paymentError;
             if (!payment?.authorization_url) throw new Error("Payment could not be initialized.");
 
+            // Store only the information needed by the confirmation screen.
+            // Payment verification itself remains server-side.
             sessionStorage.setItem("chronolux-checkout", JSON.stringify({
                 order_id: createdOrder.order_id,
                 order_number: createdOrder.order_number,
-                payment_reference: payment.reference
+                payment_reference: payment.reference,
+                product: {
+                    brand: watch.brand,
+                    model: watch.model,
+                    slug: watch.slug,
+                    price: watch.new_price,
+                    image: watch.image
+                },
+                customer: {
+                    name: $("customer-name").value.trim(),
+                    email: $("customer-email").value.trim(),
+                    phone: $("customer-phone").value.trim()
+                },
+                shipping: {
+                    country: $("shipping-country").value.trim(),
+                    state: $("shipping-state").value.trim(),
+                    address: $("shipping-address").value.trim(),
+                    city: $("shipping-city").value.trim(),
+                    postal: $("shipping-postal").value.trim()
+                }
             }));
 
             window.location.href = payment.authorization_url;
@@ -169,8 +145,20 @@ async function loadCheckoutProduct() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const returnedFromPayment = await verifyReturnedPayment();
-    if (!returnedFromPayment) {
-        await loadCheckoutProduct();
+    const reference = new URLSearchParams(window.location.search).get("reference");
+
+    // Paystack returns the customer here after payment. Move immediately to the
+    // dedicated confirmation page so checkout.html remains a purchase form only.
+    if (reference) {
+        const stored = getStoredCheckout();
+        if (stored) {
+            stored.payment_reference = reference;
+            sessionStorage.setItem("chronolux-checkout", JSON.stringify(stored));
+        }
+
+        window.location.replace(`confirmation.html?reference=${encodeURIComponent(reference)}`);
+        return;
     }
+
+    await loadCheckoutProduct();
 });
