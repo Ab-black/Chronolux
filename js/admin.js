@@ -1,9 +1,16 @@
-
 /*=========================================
 CHRONOLUX ADMIN
 =========================================*/
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+
+    // Step 1: require a valid Supabase Auth session before opening the dashboard.
+    const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
+
+    if (sessionError || !session) {
+        window.location.replace("admin-login.html");
+        return;
+    }
 
     const menuItems = document.querySelectorAll(".sidebar-menu li");
 
@@ -46,6 +53,24 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
     });
+
+    // Sign out through Supabase instead of simply navigating to the login page.
+    const logoutLink = document.querySelector('.sidebar-footer a[href="admin-login.html"]');
+
+    if (logoutLink) {
+        logoutLink.addEventListener("click", async (event) => {
+            event.preventDefault();
+
+            const { error } = await supabaseClient.auth.signOut();
+
+            if (error) {
+                console.error(error);
+                return;
+            }
+
+            window.location.replace("admin-login.html");
+        });
+    }
 
     /*=========================================
     WATCH FORM
