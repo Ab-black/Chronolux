@@ -12,432 +12,86 @@ document.addEventListener("DOMContentLoaded", () => {
     const zoneCount = document.getElementById("shipping-zone-count");
     const rateCount = document.getElementById("shipping-rate-count");
     const previewForm = document.getElementById("shipping-preview-form");
+    let zones = [], rates = [], countries = [], states = [];
 
-    let zones = [];
-    let rates = [];
+    const esc = v => String(v ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+    const money = (v,c="USD") => new Intl.NumberFormat("en-US",{style:"currency",currency:c,minimumFractionDigits:2}).format(Number(v||0));
+    const msg = (t,type="") => { message.textContent=t; message.className=`shipping-message ${type}`; };
 
-    const escapeHtml = value => String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-
-    const showMessage = (text, type = "") => {
-        message.textContent = text;
-        message.className = `shipping-message ${type}`;
-    };
-
-    const formatMoney = (value, currency = "USD") => new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency,
-        minimumFractionDigits: 2
-    }).format(Number(value || 0));
-
-    async function shippingAction(action, payload = {}) {
-        const { data, error } = await supabaseClient.functions.invoke("admin-shipping", {
-            body: { action, ...payload }
-        });
-
-        if (error) {
-            console.error(`admin-shipping ${action}:`, error);
-            throw new Error(error.message || "Shipping management request failed.");
-        }
-
-        if (data?.error) throw new Error(data.error);
+    async function action(action,payload={}) {
+        const {data,error}=await supabaseClient.functions.invoke("admin-shipping",{body:{action,...payload}});
+        if(error) throw new Error(error.message||"Shipping management request failed.");
+        if(data?.error) throw new Error(data.error);
         return data;
     }
+    const zoneCountries = id => countries.filter(c=>String(c.zone_id)===String(id)&&c.active).sort((a,b)=>a.name.localeCompare(b.name));
+    const zoneStates = id => states.filter(s=>String(s.zone_id)===String(id)&&s.active).sort((a,b)=>a.name.localeCompare(b.name));
 
-    async function loadShippingData() {
-        zonesList.innerHTML = '<div class="shipping-loading">Loading zones...</div>';
-        ratesList.innerHTML = '<div class="shipping-loading">Loading rules...</div>';
-
-        try {
-            const data = await shippingAction("list");
-            zones = data.zones || [];
-            rates = data.rates || [];
-            renderZones();
-            renderRates();
-            showMessage("Shipping configuration loaded.", "success");
-        } catch (error) {
-            console.error(error);
-            zonesList.innerHTML = '<div class="shipping-empty">Shipping data could not be loaded.</div>';
-            ratesList.innerHTML = '<div class="shipping-empty">Shipping data could not be loaded.</div>';
-            zoneCount.textContent = "—";
-            rateCount.textContent = "—";
-            showMessage(error.message || "Shipping management requires an authorized admin session.", "error");
-        }
-    }
-
-    function renderZones() {
-        const activeZones = zones.filter(zone => zone.active);
-        zoneCount.textContent = activeZones.length;
-
-        if (!zones.length) {
-            zonesList.innerHTML = '<div class="shipping-empty">No shipping zones found.</div>';
-            return;
-        }
-
-        zonesList.innerHTML = zones.map(zone => `
-            <div class="shipping-zone-row">
-                <div>
-                    <strong>${escapeHtml(zone.name)}</strong>
-                    <span>${escapeHtml(zone.description || "No description")}</span>
-                </div>
-                <div class="shipping-zone-actions">
-                    <span class="shipping-status ${zone.active ? "active" : "inactive"}">${zone.active ? "Active" : "Inactive"}</span>
-                    <button class="small-action" data-zone-edit="${zone.id}" type="button">Edit</button>
-                    <button class="small-action danger" data-zone-toggle="${zone.id}" type="button">${zone.active ? "Disable" : "Enable"}</button>
-                    <button class="small-action danger" data-zone-delete="${zone.id}" type="button">Delete</button>
-                </div>
-            </div>
-        `).join("");
-    }
-
-    function renderRates() {
-        const activeRates = rates.filter(rate => rate.active);
-        rateCount.textContent = activeRates.length;
-
-        if (!rates.length) {
-            ratesList.innerHTML = '<div class="shipping-empty">No shipping rules found.</div>';
-            return;
-        }
-
-        const zoneMap = new Map(zones.map(zone => [String(zone.id), zone.name]));
-        const countriesByZone = new Map();
-
-        rates.forEach(rate => {
-            if (!rate.country || rate.state) return;
-            const zoneKey = String(rate.zone_id);
-            if (!countriesByZone.has(zoneKey)) countriesByZone.set(zoneKey, new Set());
-            countriesByZone.get(zoneKey).add(rate.country);
-        });
-
-        ratesList.innerHTML = rates.map(rate => {
-            const zoneName = zoneMap.get(String(rate.zone_id)) || "Unknown zone";
-            const scope = rate.state ? "State rule" : rate.country ? "Country rule" : "Zone rule";
-            const isInternational = zoneName.toLowerCase() === "international";
-
-            let heading = zoneName;
-            let coverage = "";
-
-            if (rate.state) {
-                heading = rate.state;
-                coverage = rate.country || zoneName;
-            } else if (rate.country) {
-                heading = rate.country;
-                coverage = zoneName;
-            } else if (isInternational) {
-                heading = "International";
-                coverage = "This rule is used when a supported shipping location does not have a more specific regional or country shipping rule.";
-            } else {
-                heading = zoneName;
-                const countries = Array.from(countriesByZone.get(String(rate.zone_id)) || []);
-                coverage = countries.length
-                    ? countries.join(" • ")
-                    : "No countries are currently assigned to this zone.";
-            }
-
-            return `
-                <article class="shipping-rate-card ${rate.active ? "" : "inactive-rule"}">
-                    <div class="shipping-rate-top">
-                        <div>
-                            <span class="shipping-rule-type">${escapeHtml(scope)}</span>
-                            <h4>${escapeHtml(heading)}</h4>
-                            <p>${escapeHtml(coverage)}</p>
-                        </div>
-                        <span class="shipping-status ${rate.active ? "active" : "inactive"}">${rate.active ? "Active" : "Inactive"}</span>
-                    </div>
-                    <div class="shipping-rate-values">
-                        <div><span>Base</span><strong>${formatMoney(rate.base_fee, rate.currency)}</strong></div>
-                        <div><span>Value Rate</span><strong>${Number(rate.value_rate).toFixed(2)}%</strong></div>
-                        <div><span>Minimum</span><strong>${rate.minimum_fee == null ? "—" : formatMoney(rate.minimum_fee, rate.currency)}</strong></div>
-                        <div><span>Maximum</span><strong>${rate.maximum_fee == null ? "—" : formatMoney(rate.maximum_fee, rate.currency)}</strong></div>
-                    </div>
-                    <div class="shipping-rate-actions">
-                        <button class="small-action" data-rate-edit="${rate.id}" type="button">Edit</button>
-                        <button class="small-action danger" data-rate-toggle="${rate.id}" type="button">${rate.active ? "Disable" : "Enable"}</button>
-                        <button class="small-action danger" data-rate-delete="${rate.id}" type="button">Delete</button>
-                    </div>
-                </article>
-            `;
+    function renderZones(){
+        zoneCount.textContent=zones.filter(z=>z.active).length;
+        if(!zones.length){zonesList.innerHTML='<div class="shipping-empty">No shipping zones found.</div>';return;}
+        zonesList.innerHTML=zones.map(z=>{
+            const cs=zoneCountries(z.id), ss=zoneStates(z.id);
+            return `<div class="shipping-zone-row shipping-zone-row-expanded"><div class="shipping-zone-main"><strong>${esc(z.name)}</strong><span>${esc(z.description||"No description")}</span><div class="shipping-zone-subline"><span>Countries</span><div class="shipping-location-tags">${cs.length?cs.map(c=>`<span class="shipping-location-tag">${esc(c.name)}</span>`).join(""):'<span class="shipping-location-empty">No countries assigned</span>'}</div></div>${ss.length?`<div class="shipping-zone-subline"><span>States / Regions</span><div class="shipping-location-tags">${ss.map(s=>`<span class="shipping-location-tag muted">${esc(s.name)}</span>`).join("")}</div></div>`:""}</div><div class="shipping-zone-actions"><span class="shipping-status ${z.active?"active":"inactive"}">${z.active?"Active":"Inactive"}</span><button class="small-action" data-zone-edit="${z.id}" type="button">Edit</button><button class="small-action danger" data-zone-toggle="${z.id}" type="button">${z.active?"Disable":"Enable"}</button><button class="small-action danger" data-zone-delete="${z.id}" type="button">Delete</button></div></div>`;
         }).join("");
     }
 
-    async function addZone() {
-        const name = prompt("Shipping zone name:");
-        if (!name?.trim()) return;
-        const description = prompt("Description (optional):", "");
-
-        try {
-            await shippingAction("create_zone", {
-                name: name.trim(),
-                description: description?.trim() || null,
-                active: true
-            });
-            showMessage("Shipping zone created.", "success");
-            await loadShippingData();
-        } catch (error) {
-            console.error(error);
-            showMessage(error.message || "Unable to create the shipping zone.", "error");
-        }
+    function renderRates(){
+        rateCount.textContent=rates.filter(r=>r.active).length;
+        if(!zones.length){ratesList.innerHTML='<div class="shipping-empty">Create a shipping zone first.</div>';return;}
+        ratesList.innerHTML=zones.map(z=>{
+            const zr=rates.filter(r=>String(r.zone_id)===String(z.id));
+            const rule=zr.find(r=>!r.country&&!r.state);
+            const specific=zr.filter(r=>r.country||r.state);
+            const cs=zoneCountries(z.id), intl=z.name.trim().toLowerCase()==="international";
+            const coverage=intl?'<span class="shipping-international-note">Used when a supported shipping location does not have a more specific regional or country shipping rule.</span>':cs.length?cs.map(c=>`<span class="shipping-location-tag">${esc(c.name)}</span>`).join(""):'<span class="shipping-location-empty">No countries are currently assigned to this zone.</span>';
+            const ruleHtml=rule?`<div class="shipping-rule-block ${rule.active?"":"inactive-rule"}"><div class="shipping-rule-block-top"><div><span class="shipping-rule-type">ZONE RULE</span><h4>${esc(z.name)}</h4></div><span class="shipping-status ${rule.active?"active":"inactive"}">${rule.active?"Active":"Inactive"}</span></div><div class="shipping-rate-values"><div><span>Base</span><strong>${money(rule.base_fee,rule.currency)}</strong></div><div><span>Value Rate</span><strong>${Number(rule.value_rate).toFixed(2)}%</strong></div><div><span>Minimum</span><strong>${rule.minimum_fee==null?"—":money(rule.minimum_fee,rule.currency)}</strong></div><div><span>Maximum</span><strong>${rule.maximum_fee==null?"—":money(rule.maximum_fee,rule.currency)}</strong></div></div><div class="shipping-rate-actions"><button class="small-action" data-rate-edit="${rule.id}" type="button">Edit</button><button class="small-action danger" data-rate-toggle="${rule.id}" type="button">${rule.active?"Disable":"Enable"}</button><button class="small-action danger" data-rate-delete="${rule.id}" type="button">Delete</button></div></div>`:`<div class="shipping-rule-missing"><strong>No zone pricing rule configured yet.</strong><span>This zone is ready. Add its default shipping price to activate calculation for the zone.</span><button class="small-action" data-add-zone-rule="${z.id}" type="button">Add Zone Rule</button></div>`;
+            const specificHtml=specific.length?`<div class="shipping-specific-rules"><div class="shipping-specific-heading">Specific pricing rules</div>${specific.map(r=>`<div class="shipping-specific-rule ${r.active?"":"inactive-rule"}"><div><span class="shipping-rule-type">${r.state?"STATE RULE":"COUNTRY RULE"}</span><strong>${esc(r.state?`${r.state}, ${r.country||z.name}`:r.country)}</strong></div><div class="shipping-specific-rule-price">${money(r.base_fee,r.currency)} + ${Number(r.value_rate).toFixed(2)}%</div><div class="shipping-rate-actions"><button class="small-action" data-rate-edit="${r.id}" type="button">Edit</button><button class="small-action danger" data-rate-toggle="${r.id}" type="button">${r.active?"Disable":"Enable"}</button><button class="small-action danger" data-rate-delete="${r.id}" type="button">Delete</button></div></div>`).join("")}</div>`:"";
+            return `<article class="shipping-rate-card ${z.active?"":"inactive-rule"}"><div class="shipping-rate-top"><div><span class="shipping-rule-type">SHIPPING ZONE</span><h4>${esc(z.name)}</h4><div class="shipping-rule-coverage">${coverage}</div></div><span class="shipping-status ${z.active?"active":"inactive"}">${z.active?"Active":"Inactive"}</span></div>${ruleHtml}${specificHtml}<div class="shipping-zone-rule-footer"><button class="outline-btn" data-add-zone-rule="${z.id}" type="button"><i class="fas fa-plus"></i> Add Rule for ${esc(z.name)}</button></div></article>`;
+        }).join("");
     }
 
-    async function editZone(id) {
-        const zone = zones.find(item => String(item.id) === String(id));
-        if (!zone) return;
+    function modal(title,body){
+        let m=document.getElementById("shipping-modal");
+        if(!m){m=document.createElement("div");m.id="shipping-modal";m.className="shipping-modal";m.innerHTML='<div class="shipping-modal-backdrop" data-modal-close></div><div class="shipping-modal-dialog" role="dialog" aria-modal="true"><div class="shipping-modal-header"><div><span class="shipping-eyebrow">SHIPPING CONTROL</span><h3 id="shipping-modal-title"></h3></div><button class="shipping-modal-close" type="button" data-modal-close>&times;</button></div><div id="shipping-modal-body"></div></div>';document.body.appendChild(m);m.addEventListener("click",e=>{if(e.target.closest("[data-modal-close]"))closeModal();});}
+        m.querySelector("#shipping-modal-title").textContent=title;m.querySelector("#shipping-modal-body").innerHTML=body;m.classList.add("open");document.body.classList.add("shipping-modal-open");return m;
+    }
+    function closeModal(){document.getElementById("shipping-modal")?.classList.remove("open");document.body.classList.remove("shipping-modal-open");}
 
-        const name = prompt("Shipping zone name:", zone.name);
-        if (!name?.trim()) return;
-        const description = prompt("Description:", zone.description || "");
-
-        try {
-            await shippingAction("update_zone", {
-                id: Number(id),
-                name: name.trim(),
-                description: description?.trim() || null,
-                active: zone.active
-            });
-            showMessage("Shipping zone updated.", "success");
-            await loadShippingData();
-        } catch (error) {
-            console.error(error);
-            showMessage(error.message || "Unable to update the shipping zone.", "error");
-        }
+    function openZone(zone=null){
+        const edit=!!zone, selected=zone?zoneCountries(zone.id):[], existingStates=zone?zoneStates(zone.id):[];
+        const body=`<form id="zone-form" class="shipping-modal-form"><div class="shipping-form-grid"><label>Zone Name<input id="zone-name" value="${esc(zone?.name||"")}" placeholder="e.g. North America" required></label><label>Description<input id="zone-description" value="${esc(zone?.description||"")}" placeholder="Countries covered by this zone"></label></div><div class="shipping-form-section"><div class="shipping-form-section-heading"><div><strong>Countries</strong><span>Select the countries this zone should cover.</span></div><span id="country-count" class="shipping-selection-count">${selected.length} selected</span></div><input id="country-search" class="shipping-search-input" type="search" placeholder="Search countries..."><div id="country-options" class="shipping-country-options">${countries.slice().sort((a,b)=>a.name.localeCompare(b.name)).map(c=>`<label class="shipping-country-option"><input name="zone-country" type="checkbox" value="${c.id}" ${selected.some(s=>s.id===c.id)?"checked":""}><span>${esc(c.name)}</span></label>`).join("")}</div></div><div class="shipping-form-section"><div class="shipping-form-section-heading"><div><strong>States / Regions <span class="optional-label">Optional</span></strong><span>Add states manually for more specific shipping coverage.</span></div></div><div id="state-rows">${existingStates.length?existingStates.map(s=>`<div class="shipping-state-row"><input class="state-name" value="${esc(s.name)}" placeholder="e.g. Ontario"><select class="state-country"><option value="">General state / region</option>${selected.map(c=>`<option value="${c.id}" ${String(s.country_id||"")===String(c.id)?"selected":""}>${esc(c.name)}</option>`).join("")}</select><button type="button" class="small-action danger remove-state">Remove</button></div>`).join(""): '<div class="shipping-state-row"><input class="state-name" placeholder="e.g. Ontario"><select class="state-country"><option value="">General state / region</option></select></div>'}</div><button type="button" class="outline-btn" id="add-state"><i class="fas fa-plus"></i> Add State / Region</button></div><label class="shipping-checkbox-label"><input id="zone-active" type="checkbox" ${zone?.active!==false?"checked":""}> Active zone</label><div class="shipping-modal-actions"><button type="button" class="outline-btn" data-modal-close>Cancel</button><button type="submit" class="gold-btn">${edit?"Save Zone":"Create Zone"}</button></div></form>`;
+        const m=modal(edit?`Edit ${zone.name}`:"Add Shipping Zone",body), options=m.querySelector("#country-options"), search=m.querySelector("#country-search"), stateRows=m.querySelector("#state-rows");
+        const refreshCount=()=>m.querySelector("#country-count").textContent=`${m.querySelectorAll('input[name="zone-country"]:checked').length} selected`;
+        options.addEventListener("change",refreshCount);search.addEventListener("input",()=>{const q=search.value.toLowerCase();options.querySelectorAll(".shipping-country-option").forEach(o=>o.style.display=o.textContent.toLowerCase().includes(q)?"flex":"none");});
+        const stateSelectOptions=()=>[...m.querySelectorAll('input[name="zone-country"]:checked')].map(i=>countries.find(c=>String(c.id)===i.value)).filter(Boolean).map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("");
+        options.addEventListener("change",()=>{m.querySelectorAll(".state-country").forEach(select=>{const current=select.value;select.innerHTML='<option value="">General state / region</option>'+stateSelectOptions();if([...select.options].some(o=>o.value===current))select.value=current;});});
+        m.querySelector("#add-state").addEventListener("click",()=>{const row=document.createElement("div");row.className="shipping-state-row";row.innerHTML=`<input class="state-name" placeholder="e.g. Ontario"><select class="state-country"><option value="">General state / region</option>${stateSelectOptions()}</select><button type="button" class="small-action danger remove-state">Remove</button>`;stateRows.appendChild(row);});
+        stateRows.addEventListener("click",e=>{if(e.target.closest(".remove-state"))e.target.closest(".shipping-state-row")?.remove();});
+        m.querySelector("#zone-form").addEventListener("submit",async e=>{e.preventDefault();const name=m.querySelector("#zone-name").value.trim();if(!name)return;const selectedIds=[...m.querySelectorAll('input[name="zone-country"]:checked')].map(i=>Number(i.value));const selectedSet=new Set(selectedIds);const currentAssignments=countries.filter(c=>String(c.zone_id)===String(zone?.id||"")&&c.active);const countriesPayload=countries.filter(c=>selectedSet.has(Number(c.id))).map(c=>({id:c.id,active:true}));currentAssignments.filter(c=>!selectedSet.has(Number(c.id))).forEach(c=>countriesPayload.push({id:c.id,active:false}));const statePayload=[...m.querySelectorAll(".shipping-state-row")].map(r=>({name:r.querySelector(".state-name")?.value.trim(),country_id:r.querySelector(".state-country")?.value?Number(r.querySelector(".state-country").value):null})).filter(s=>s.name);try{const saved=await action(edit?"update_zone":"create_zone",{...(edit?{id:zone.id}:{}),name,description:m.querySelector("#zone-description").value.trim()||null,active:m.querySelector("#zone-active").checked});await action("save_zone_locations",{zone_id:saved.zone.id,countries:countriesPayload,states:statePayload});closeModal();msg(edit?"Shipping zone updated.":"Shipping zone created.","success");await load();}catch(err){msg(err.message||"Unable to save the shipping zone.","error");}});
     }
 
-    async function toggleZone(id) {
-        const zone = zones.find(item => String(item.id) === String(id));
-        if (!zone) return;
-
-        const action = zone.active ? "disable" : "enable";
-        if (!confirm(`Are you sure you want to ${action} ${zone.name}?`)) return;
-
-        try {
-            await shippingAction("toggle_zone", { id: Number(id) });
-            showMessage(`Shipping zone ${action}d.`, "success");
-            await loadShippingData();
-        } catch (error) {
-            console.error(error);
-            showMessage(error.message || "Unable to change the zone status.", "error");
-        }
+    function openRate(rate=null,presetZone=null){
+        const edit=!!rate, zoneId=rate?.zone_id||presetZone||zones.find(z=>z.active)?.id||"", type=rate?.state?"state":rate?.country?"country":"zone";
+        const body=`<form id="rate-form" class="shipping-modal-form"><div class="shipping-form-grid"><label>Shipping Zone<select id="rate-zone" required>${zones.map(z=>`<option value="${z.id}" ${String(z.id)===String(zoneId)?"selected":""}>${esc(z.name)}</option>`).join("")}</select></label><label>Rule Type<select id="rate-type"><option value="zone" ${type==="zone"?"selected":""}>Zone Rule</option><option value="country" ${type==="country"?"selected":""}>Country Rule</option><option value="state" ${type==="state"?"selected":""}>State / Region Rule</option></select></label></div><div id="rate-location"></div><div class="shipping-form-grid"><label>Base Fee<input id="rate-base" type="number" min="0" step="0.01" value="${rate?.base_fee??""}" required></label><label>Value Rate (%)<input id="rate-value" type="number" min="0" step="0.01" value="${rate?.value_rate??""}" required></label><label>Minimum Fee<input id="rate-min" type="number" min="0" step="0.01" value="${rate?.minimum_fee??""}"></label><label>Maximum Fee<input id="rate-max" type="number" min="0" step="0.01" value="${rate?.maximum_fee??""}"></label><label>Currency<select id="rate-currency"><option value="USD" ${!rate||rate.currency==="USD"?"selected":""}>USD</option><option value="NGN" ${rate?.currency==="NGN"?"selected":""}>NGN</option><option value="EUR" ${rate?.currency==="EUR"?"selected":""}>EUR</option><option value="GBP" ${rate?.currency==="GBP"?"selected":""}>GBP</option></select></label></div><label class="shipping-checkbox-label"><input id="rate-active" type="checkbox" ${rate?.active!==false?"checked":""}> Active rule</label><div class="shipping-modal-actions"><button type="button" class="outline-btn" data-modal-close>Cancel</button><button type="submit" class="gold-btn">${edit?"Save Rule":"Create Rule"}</button></div></form>`;
+        const m=modal(edit?"Edit Shipping Rule":"Add Shipping Rule",body), zoneSelect=m.querySelector("#rate-zone"),typeSelect=m.querySelector("#rate-type"),loc=m.querySelector("#rate-location");
+        function locations(){const cs=zoneCountries(zoneSelect.value);if(typeSelect.value==="zone")loc.innerHTML='<div class="shipping-rule-helper">This rule applies to the entire selected zone unless a more specific country or state rule exists.</div>';else if(typeSelect.value==="country")loc.innerHTML=`<label>Country<select id="rate-country" required><option value="">Select country</option>${cs.map(c=>`<option value="${esc(c.name)}" ${rate?.country===c.name?"selected":""}>${esc(c.name)}</option>`).join("")}</select></label>`;else loc.innerHTML=`<div class="shipping-form-grid"><label>Country<select id="rate-country" required><option value="">Select country</option>${cs.map(c=>`<option value="${esc(c.name)}" ${rate?.country===c.name?"selected":""}>${esc(c.name)}</option>`).join("")}</select></label><label>State / Region<input id="rate-state" value="${esc(rate?.state||"")}" placeholder="e.g. Rivers" required></label></div>`;}
+        locations();zoneSelect.addEventListener("change",locations);typeSelect.addEventListener("change",locations);
+        m.querySelector("#rate-form").addEventListener("submit",async e=>{e.preventDefault();const t=typeSelect.value,country=m.querySelector("#rate-country")?.value.trim()||null,state=m.querySelector("#rate-state")?.value.trim()||null,base=Number(m.querySelector("#rate-base").value),value=Number(m.querySelector("#rate-value").value),min=m.querySelector("#rate-min").value.trim(),max=m.querySelector("#rate-max").value.trim(),minFee=min?Number(min):null,maxFee=max?Number(max):null;if(!Number.isFinite(base)||!Number.isFinite(value)||base<0||value<0||(minFee!==null&&minFee<0)||(maxFee!==null&&maxFee<0)||(minFee!==null&&maxFee!==null&&maxFee<minFee))return;try{await action(edit?"update_rate":"create_rate",{...(edit?{id:rate.id}:{}),zone_id:Number(zoneSelect.value),country:t==="zone"?null:country,state:t==="state"?state:null,base_fee:base,value_rate:value,minimum_fee:minFee,maximum_fee:maxFee,currency:m.querySelector("#rate-currency").value,active:m.querySelector("#rate-active").checked});closeModal();msg(edit?"Shipping rule updated.":"Shipping rule created.","success");await load();}catch(err){msg(err.message||"Unable to save the shipping rule.","error");}});
     }
 
-    async function deleteZone(id) {
-        const zone = zones.find(item => String(item.id) === String(id));
-        if (!zone) return;
-        if (!confirm(`Permanently delete the ${zone.name} shipping zone? This cannot be undone.`)) return;
+    async function toggleZone(id){const z=zones.find(x=>String(x.id)===String(id));if(!z)return;const a=z.active?"disable":"enable";if(!confirm(`Are you sure you want to ${a} ${z.name}?`))return;try{await action("toggle_zone",{id:Number(id)});msg(`Shipping zone ${a}d.` ,"success");await load();}catch(e){msg(e.message,"error");}}
+    async function deleteZone(id){const z=zones.find(x=>String(x.id)===String(id));if(!z||!confirm(`Permanently delete the ${z.name} shipping zone? This cannot be undone.`))return;try{await action("delete_zone",{id:Number(id)});msg("Shipping zone deleted.","success");await load();}catch(e){msg(e.message,"error");}}
+    async function toggleRate(id){const r=rates.find(x=>String(x.id)===String(id));if(!r)return;const a=r.active?"disable":"enable";if(!confirm(`Are you sure you want to ${a} this shipping rule?`))return;try{await action("toggle_rate",{id:Number(id)});msg(`Shipping rule ${a}d.` ,"success");await load();}catch(e){msg(e.message,"error");}}
+    async function deleteRate(id){if(!confirm("Permanently delete this shipping rule? This cannot be undone."))return;try{await action("delete_rate",{id:Number(id)});msg("Shipping rule deleted.","success");await load();}catch(e){msg(e.message,"error");}}
+    async function load(){zonesList.innerHTML='<div class="shipping-loading">Loading zones...</div>';ratesList.innerHTML='<div class="shipping-loading">Loading rules...</div>';try{const d=await action("list");zones=d.zones||[];rates=d.rates||[];countries=d.countries||[];states=d.states||[];renderZones();renderRates();msg("Shipping configuration loaded.","success");}catch(e){zonesList.innerHTML='<div class="shipping-empty">Shipping data could not be loaded.</div>';ratesList.innerHTML='<div class="shipping-empty">Shipping data could not be loaded.</div>';zoneCount.textContent="—";rateCount.textContent="—";msg(e.message||"Shipping management requires an authorized admin session.","error");}}
 
-        try {
-            await shippingAction("delete_zone", { id: Number(id) });
-            showMessage("Shipping zone deleted.", "success");
-            await loadShippingData();
-        } catch (error) {
-            console.error(error);
-            showMessage(error.message || "Unable to delete the shipping zone. It may still contain shipping rules.", "error");
-        }
-    }
+    document.getElementById("add-shipping-zone")?.addEventListener("click",()=>openZone());
+    document.getElementById("add-shipping-rate")?.addEventListener("click",()=>openRate());
+    zonesList.addEventListener("click",e=>{const edit=e.target.closest("[data-zone-edit]"),toggle=e.target.closest("[data-zone-toggle]"),del=e.target.closest("[data-zone-delete]");if(edit){const z=zones.find(x=>String(x.id)===String(edit.dataset.zoneEdit));if(z)openZone(z);}if(toggle)toggleZone(toggle.dataset.zoneToggle);if(del)deleteZone(del.dataset.zoneDelete);});
+    ratesList.addEventListener("click",e=>{const edit=e.target.closest("[data-rate-edit]"),toggle=e.target.closest("[data-rate-toggle]"),del=e.target.closest("[data-rate-delete]"),add=e.target.closest("[data-add-zone-rule]");if(edit){const r=rates.find(x=>String(x.id)===String(edit.dataset.rateEdit));if(r)openRate(r);}if(toggle)toggleRate(toggle.dataset.rateToggle);if(del)deleteRate(del.dataset.rateDelete);if(add)openRate(null,add.dataset.addZoneRule);});
 
-    async function addRate() {
-        if (!zones.length) {
-            showMessage("Create a shipping zone before adding a shipping rule.", "error");
-            return;
-        }
+    previewForm?.addEventListener("submit",async e=>{e.preventDefault();const price=Number(document.getElementById("shipping-preview-price").value),country=document.getElementById("shipping-preview-country").value.trim(),state=document.getElementById("shipping-preview-state").value.trim()||null,currency=document.getElementById("shipping-preview-currency").value,result=document.getElementById("shipping-preview-result");result.innerHTML="<span>Calculating...</span>";if(!Number.isFinite(price)||price<0||!country){result.innerHTML="<strong>Enter a valid watch price and country.</strong>";return;}try{const d=await action("quote",{watch_price:price,country,state,currency}),q=d.quote;if(!q)throw new Error("No matching shipping rule was found.");result.innerHTML=`<div><span>Matched Rule</span><strong>${esc(q.match_level)}</strong></div><div><span>Zone</span><strong>${esc(q.shipping_zone)}</strong></div><div><span>Base Fee</span><strong>${money(q.base_fee,q.shipping_currency)}</strong></div><div><span>Value Component</span><strong>${money(q.value_component,q.shipping_currency)}</strong></div><div><span>Shipping</span><strong>${money(q.calculated_shipping,q.shipping_currency)}</strong></div>`;}catch(err){result.innerHTML=`<strong>Unable to calculate a quote.</strong><span>${esc(err.message||"Make sure an active matching rule exists.")}</span>`;}});
 
-        const zoneOptions = zones.map(zone => `${zone.id}: ${zone.name}`).join("\n");
-        const zoneId = prompt(`Enter the Zone ID for this rule:\n\n${zoneOptions}`);
-        if (!zoneId) return;
-        const zone = zones.find(item => String(item.id) === String(zoneId));
-        if (!zone) {
-            showMessage("Invalid shipping zone ID.", "error");
-            return;
-        }
-
-        const country = prompt("Country (leave blank for zone rule):", "");
-        const state = country?.trim() ? prompt("State / Region (leave blank for country rule):", "") : "";
-        const baseFee = prompt("Base shipping fee:", "0");
-        const valueRate = prompt("Value rate (% of watch price):", "0");
-        const minimumFee = prompt("Minimum fee (leave blank for none):", "");
-        const maximumFee = prompt("Maximum fee (leave blank for none):", "");
-        const currency = prompt("Currency (USD, NGN, EUR, GBP):", "USD");
-
-        const payload = {
-            zone_id: Number(zoneId),
-            country: country?.trim() || null,
-            state: state?.trim() || null,
-            base_fee: Number(baseFee),
-            value_rate: Number(valueRate),
-            minimum_fee: minimumFee?.trim() ? Number(minimumFee) : null,
-            maximum_fee: maximumFee?.trim() ? Number(maximumFee) : null,
-            currency: currency?.trim().toUpperCase() || "USD",
-            active: true
-        };
-
-        if ([payload.base_fee, payload.value_rate].some(value => !Number.isFinite(value) || value < 0)) {
-            showMessage("Base fee and value rate must be valid non-negative numbers.", "error");
-            return;
-        }
-        if (payload.minimum_fee !== null && (!Number.isFinite(payload.minimum_fee) || payload.minimum_fee < 0)) {
-            showMessage("Minimum fee must be a valid non-negative number.", "error");
-            return;
-        }
-        if (payload.maximum_fee !== null && (!Number.isFinite(payload.maximum_fee) || payload.maximum_fee < 0)) {
-            showMessage("Maximum fee must be a valid non-negative number.", "error");
-            return;
-        }
-        if (payload.minimum_fee !== null && payload.maximum_fee !== null && payload.maximum_fee < payload.minimum_fee) {
-            showMessage("Maximum fee cannot be lower than minimum fee.", "error");
-            return;
-        }
-
-        try {
-            await shippingAction("create_rate", payload);
-            showMessage("Shipping rule created.", "success");
-            await loadShippingData();
-        } catch (error) {
-            console.error(error);
-            showMessage(error.message || "Unable to create the shipping rule.", "error");
-        }
-    }
-
-    async function editRate(id) {
-        const rate = rates.find(item => String(item.id) === String(id));
-        if (!rate) return;
-
-        const baseFee = prompt("Base shipping fee:", rate.base_fee);
-        const valueRate = prompt("Value rate (% of watch price):", rate.value_rate);
-        const minimumFee = prompt("Minimum fee (blank for none):", rate.minimum_fee ?? "");
-        const maximumFee = prompt("Maximum fee (blank for none):", rate.maximum_fee ?? "");
-
-        const payload = {
-            id: Number(id),
-            zone_id: Number(rate.zone_id),
-            country: rate.country || null,
-            state: rate.state || null,
-            base_fee: Number(baseFee),
-            value_rate: Number(valueRate),
-            minimum_fee: minimumFee?.trim() ? Number(minimumFee) : null,
-            maximum_fee: maximumFee?.trim() ? Number(maximumFee) : null,
-            currency: rate.currency,
-            active: rate.active
-        };
-
-        if (!Number.isFinite(payload.base_fee) || payload.base_fee < 0 || !Number.isFinite(payload.value_rate) || payload.value_rate < 0) {
-            showMessage("Invalid shipping values.", "error");
-            return;
-        }
-        if (payload.minimum_fee !== null && (!Number.isFinite(payload.minimum_fee) || payload.minimum_fee < 0)) {
-            showMessage("Invalid minimum fee.", "error");
-            return;
-        }
-        if (payload.maximum_fee !== null && (!Number.isFinite(payload.maximum_fee) || payload.maximum_fee < 0)) {
-            showMessage("Invalid maximum fee.", "error");
-            return;
-        }
-        if (payload.minimum_fee !== null && payload.maximum_fee !== null && payload.maximum_fee < payload.minimum_fee) {
-            showMessage("Maximum fee cannot be lower than minimum fee.", "error");
-            return;
-        }
-
-        try {
-            await shippingAction("update_rate", payload);
-            showMessage("Shipping rule updated.", "success");
-            await loadShippingData();
-        } catch (error) {
-            console.error(error);
-            showMessage(error.message || "Unable to update the shipping rule.", "error");
-        }
-    }
-
-    async function toggleRate(id) {
-        const rate = rates.find(item => String(item.id) === String(id));
-        if (!rate) return;
-        const action = rate.active ? "disable" : "enable";
-        if (!confirm(`Are you sure you want to ${action} this shipping rule?`)) return;
-
-        try {
-            await shippingAction("toggle_rate", { id: Number(id) });
-            showMessage(`Shipping rule ${action}d.`, "success");
-            await loadShippingData();
-        } catch (error) {
-            console.error(error);
-            showMessage(error.message || "Unable to change the shipping rule status.", "error");
-        }
-    }
-
-    async function deleteRate(id) {
-        if (!confirm("Permanently delete this shipping rule? This cannot be undone.")) return;
-
-        try {
-            await shippingAction("delete_rate", { id: Number(id) });
-            showMessage("Shipping rule deleted.", "success");
-            await loadShippingData();
-        } catch (error) {
-            console.error(error);
-            showMessage(error.message || "Unable to delete the shipping rule.", "error");
-        }
-    }
-
-    document.getElementById("add-shipping-zone")?.addEventListener("click", addZone);
-    document.getElementById("add-shipping-rate")?.addEventListener("click", addRate);
-
-    zonesList.addEventListener("click", event => {
-        const edit = event.target.closest("[data-zone-edit]");
-        const toggle = event.target.closest("[data-zone-toggle]");
-        const remove = event.target.closest("[data-zone-delete]");
-        if (edit) editZone(edit.dataset.zoneEdit);
-        if (toggle) toggleZone(toggle.dataset.zoneToggle);
-        if (remove) deleteZone(remove.dataset.zoneDelete);
-    });
-
-    ratesList.addEventListener("click", event => {
-        const edit = event.target.closest("[data-rate-edit]");
-        const toggle = event.target.closest("[data-rate-toggle]");
-        const remove = event.target.closest("[data-rate-delete]");
-        if (edit) editRate(edit.dataset.rateEdit);
-        if (toggle) toggleRate(toggle.dataset.rateToggle);
-        if (remove) deleteRate(remove.dataset.rateDelete);
-    });
-
-    previewForm?.addEventListener("submit", async event => {
-        event.preventDefault();
-
-        const price = Number(document.getElementById("shipping-preview-price").value);
-        const country = document.getElementById("shipping-preview-country").value.trim();
-        const state = document.getElementById("shipping-preview-state").value.trim() || null;
-        const currency = document.getElementById("shipping-preview-currency").value;
-        const result = document.getElementById("shipping-preview-result");
-
-        result.innerHTML = "<span>Calculating...</span>";
-
-        if (!Number.isFinite(price) || price < 0 || !country) {
-            result.innerHTML = "<strong>Enter a valid watch price and country.</strong>";
-            return;
-        }
-
-        try {
-            const data = await shippingAction("quote", {
-                watch_price: price,
-                country,
-                state,
-                currency
-            });
-
-            const quote = data.quote;
-            if (!quote) throw new Error("No matching shipping rule was found.");
-
-            result.innerHTML = `
-                <div><span>Matched Rule</span><strong>${escapeHtml(quote.match_level)}</strong></div>
-                <div><span>Zone</span><strong>${escapeHtml(quote.shipping_zone)}</strong></div>
-                <div><span>Base Fee</span><strong>${formatMoney(quote.base_fee, quote.shipping_currency)}</strong></div>
-                <div><span>Value Component</span><strong>${formatMoney(quote.value_component, quote.shipping_currency)}</strong></div>
-                <div><span>Shipping</span><strong>${formatMoney(quote.calculated_shipping, quote.shipping_currency)}</strong></div>
-            `;
-        } catch (error) {
-            console.error(error);
-            result.innerHTML = `<strong>Unable to calculate a quote.</strong><span>${escapeHtml(error.message || "Make sure an active matching rule exists.")}</span>`;
-        }
-    });
-
-    loadShippingData();
+    load();
 });
