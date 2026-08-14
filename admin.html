@@ -9,18 +9,10 @@
 
     <title>ChronoLux Admin</title>
 
-    <!-- Google Fonts -->
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
-    <!-- Admin CSS -->
-
     <link rel="stylesheet" href="css/admin.css">
 
 </head>
@@ -28,8 +20,6 @@
 <body>
 
 <div class="admin-container">
-
-    <!-- Sidebar -->
 
     <aside class="sidebar">
 
@@ -45,6 +35,7 @@
             <li data-page="reviews"><i class="fas fa-star-half-alt"></i>Reviews</li>
             <li data-page="messages"><i class="fas fa-envelope"></i>Messages</li>
             <li data-page="featured"><i class="fas fa-star"></i>Featured</li>
+            <li data-page="shipping"><i class="fas fa-truck-fast"></i>Shipping</li>
             <li data-page="settings"><i class="fas fa-cog"></i>Settings</li>
         </ul>
 
@@ -53,8 +44,6 @@
         </div>
 
     </aside>
-
-    <!-- Main Area -->
 
     <main class="admin-main">
 
@@ -69,225 +58,95 @@
             </div>
         </header>
 
-        <!-- ================= WATCHES ================= -->
-
         <section id="watches" class="page">
-
             <div class="page-header">
-                <div>
-                    <h2>Watch Inventory</h2>
-                    <p>Manage every luxury watch in your collection.</p>
-                </div>
-                <button class="gold-btn">
-                    <i class="fas fa-plus"></i>
-                    Add Watch
-                </button>
+                <div><h2>Watch Inventory</h2><p>Manage every luxury watch in your collection.</p></div>
+                <button class="gold-btn"><i class="fas fa-plus"></i> Add Watch</button>
             </div>
-
             <div class="inventory-toolbar">
                 <input type="text" placeholder="Search watches...">
-                <select>
-                    <option>All Brands</option>
-                    <option>Rolex</option>
-                    <option>Patek Philippe</option>
-                    <option>Richard Mille</option>
-                    <option>Omega</option>
-                    <option>Audemars Piguet</option>
-                    <option>Cartier</option>
-                </select>
+                <select><option>All Brands</option><option>Rolex</option><option>Patek Philippe</option><option>Richard Mille</option><option>Omega</option><option>Audemars Piguet</option><option>Cartier</option></select>
             </div>
-
             <div class="inventory-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Brand</th>
-                            <th>Model</th>
-                            <th>Price</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><img src="images/watches/rolex/cosmograph-daytona.jpg" class="watch-thumb"></td>
-                            <td>Rolex</td>
-                            <td>Cosmograph Daytona</td>
-                            <td>$18,500</td>
-                            <td><span class="status featured">Featured</span></td>
-                            <td>
-                                <button class="icon-btn"><i class="fas fa-edit"></i></button>
-                                <button class="icon-btn delete"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <table><thead><tr><th>Image</th><th>Brand</th><th>Model</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody><tr><td><img src="images/watches/rolex/cosmograph-daytona.jpg" class="watch-thumb"></td><td>Rolex</td><td>Cosmograph Daytona</td><td>$18,500</td><td><span class="status featured">Featured</span></td><td><button class="icon-btn"><i class="fas fa-edit"></i></button><button class="icon-btn delete"><i class="fas fa-trash"></i></button></td></tr></tbody></table>
             </div>
-
         </section>
-
-        <!-- ================= ADD WATCH ================= -->
 
         <section id="add-watch" class="page">
-
-            <div class="page-header">
-                <div>
-                    <h2>Add New Watch</h2>
-                    <p>Create a new luxury watch listing.</p>
-                </div>
-            </div>
-
+            <div class="page-header"><div><h2>Add New Watch</h2><p>Create a new luxury watch listing.</p></div></div>
             <form id="watch-form" class="watch-form">
-
                 <div class="form-grid">
-
-                    <div class="form-group">
-                        <label>Brand</label>
-                        <select id="brand">
-                            <option value="">Select Brand</option>
-                            <option>Rolex</option>
-                            <option>Patek Philippe</option>
-                            <option>Richard Mille</option>
-                            <option>Omega</option>
-                            <option>Audemars Piguet</option>
-                            <option>Cartier</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Model</label>
-                        <input type="text" id="model" placeholder="e.g. Cosmograph Daytona">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Old Price</label>
-                        <input type="text" id="oldPrice" placeholder="$19,500">
-                    </div>
-
-                    <div class="form-group">
-                        <label>New Price</label>
-                        <input type="text" id="newPrice" placeholder="$18,500">
-                    </div>
-
+                    <div class="form-group"><label>Brand</label><select id="brand"><option value="">Select Brand</option><option>Rolex</option><option>Patek Philippe</option><option>Richard Mille</option><option>Omega</option><option>Audemars Piguet</option><option>Cartier</option></select></div>
+                    <div class="form-group"><label>Model</label><input type="text" id="model" placeholder="e.g. Cosmograph Daytona"></div>
+                    <div class="form-group"><label>Old Price</label><input type="text" id="oldPrice" placeholder="$19,500"></div>
+                    <div class="form-group"><label>New Price</label><input type="text" id="newPrice" placeholder="$18,500"></div>
                 </div>
-
-                <!-- Collection is intentionally above Description -->
-                <div class="form-group">
-                    <label for="collection">Collection</label>
-                    <select id="collection" required>
-                        <option value="">Select Collection</option>
-                        <option value="classic-icons">Classic Icons</option>
-                        <option value="limited-edition">Limited Edition</option>
-                        <option value="modern-luxury">Modern Luxury</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea id="description" rows="6" placeholder="Watch description..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Main Watch Image</label>
-                    <input type="file" id="mainImage" accept="image/*">
-                </div>
-
-                <div class="form-group">
-                    <label>Gallery Image 2</label>
-                    <input type="file" id="image2" accept="image/*">
-                </div>
-
-                <div class="form-group">
-                    <label>Gallery Image 3</label>
-                    <input type="file" id="image3" accept="image/*">
-                </div>
-
-                <div class="form-group">
-                    <label>Gallery Image 4</label>
-                    <input type="file" id="image4" accept="image/*">
-                </div>
-
-                <div class="form-group">
-                    <label>Gallery Image 5</label>
-                    <input type="file" id="image5" accept="image/*">
-                </div>
-
-                <div class="form-group">
-                    <label>Current Main Image</label>
-                    <img id="currentImage" src="" style="display:none;width:180px;border-radius:12px;margin-top:10px;">
-                    <div id="currentGalleryPreview"></div>
-                </div>
-
-                <div class="form-group">
-                    <div class="form-grid">
-
-                        <div class="form-group">
-                            <label>Movement</label>
-                            <input type="text" id="movement" placeholder="Automatic">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Case Material</label>
-                            <input type="text" id="caseMaterial" placeholder="Oystersteel">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Case Size</label>
-                            <input type="text" id="caseSize" placeholder="40mm">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Water Resistance</label>
-                            <input type="text" id="waterResistance" placeholder="100m">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Condition</label>
-                            <input type="text" id="condition" placeholder="New">
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="featured">
-                        Feature this watch on Homepage
-                    </label>
-                </div>
-
-                <button type="submit" class="gold-btn" id="save-watch-btn">
-                    <i class="fas fa-save"></i>
-                    Save Watch
-                </button>
-
+                <div class="form-group"><label for="collection">Collection</label><select id="collection" required><option value="">Select Collection</option><option value="classic-icons">Classic Icons</option><option value="limited-edition">Limited Edition</option><option value="modern-luxury">Modern Luxury</option></select></div>
+                <div class="form-group"><label>Description</label><textarea id="description" rows="6" placeholder="Watch description..."></textarea></div>
+                <div class="form-group"><label>Main Watch Image</label><input type="file" id="mainImage" accept="image/*"></div>
+                <div class="form-group"><label>Gallery Image 2</label><input type="file" id="image2" accept="image/*"></div>
+                <div class="form-group"><label>Gallery Image 3</label><input type="file" id="image3" accept="image/*"></div>
+                <div class="form-group"><label>Gallery Image 4</label><input type="file" id="image4" accept="image/*"></div>
+                <div class="form-group"><label>Gallery Image 5</label><input type="file" id="image5" accept="image/*"></div>
+                <div class="form-group"><label>Current Main Image</label><img id="currentImage" src="" style="display:none;width:180px;border-radius:12px;margin-top:10px;"><div id="currentGalleryPreview"></div></div>
+                <div class="form-group"><div class="form-grid"><div class="form-group"><label>Movement</label><input type="text" id="movement" placeholder="Automatic"></div><div class="form-group"><label>Case Material</label><input type="text" id="caseMaterial" placeholder="Oystersteel"></div><div class="form-group"><label>Case Size</label><input type="text" id="caseSize" placeholder="40mm"></div><div class="form-group"><label>Water Resistance</label><input type="text" id="waterResistance" placeholder="100m"></div><div class="form-group"><label>Condition</label><input type="text" id="condition" placeholder="New"></div></div></div>
+                <div class="form-group"><label><input type="checkbox" id="featured"> Feature this watch on Homepage</label></div>
+                <button type="submit" class="gold-btn" id="save-watch-btn"><i class="fas fa-save"></i> Save Watch</button>
             </form>
-
         </section>
 
-        <!-- ================= MESSAGES ================= -->
         <section id="messages" class="page"></section>
-
-        <!-- ================= REVIEWS ================= -->
-        <section id="reviews" class="page">
-            <div class="page-header">
-                <div>
-                    <h2>Customer Reviews</h2>
-                    <p>Manage customer testimonials and ratings.</p>
-                </div>
-            </div>
-            <div id="reviews-container" class="reviews-container"></div>
-        </section>
-
-        <!-- ================= FEATURED ================= -->
+        <section id="reviews" class="page"><div class="page-header"><div><h2>Customer Reviews</h2><p>Manage customer testimonials and ratings.</p></div></div><div id="reviews-container" class="reviews-container"></div></section>
         <section id="featured" class="page"></section>
 
-        <!-- ================= SETTINGS ================= -->
+        <section id="shipping" class="page">
+            <div class="shipping-admin">
+                <div class="shipping-page-header">
+                    <div>
+                        <span class="shipping-eyebrow">SHIPPING CONTROL</span>
+                        <h2>Shipping Management</h2>
+                        <p>Manage ChronoLux delivery zones and pricing rules.</p>
+                    </div>
+                    <button type="button" class="gold-btn" id="add-shipping-rate"><i class="fas fa-plus"></i> Add Shipping Rule</button>
+                </div>
+
+                <div id="shipping-message" class="shipping-message" role="status" aria-live="polite"></div>
+
+                <div class="shipping-overview">
+                    <div class="shipping-stat"><span>Active Zones</span><strong id="shipping-zone-count">—</strong></div>
+                    <div class="shipping-stat"><span>Active Rules</span><strong id="shipping-rate-count">—</strong></div>
+                    <div class="shipping-stat"><span>Default Currency</span><strong>USD</strong></div>
+                </div>
+
+                <div class="shipping-grid">
+                    <div class="shipping-panel">
+                        <div class="shipping-panel-heading"><div><h3>Shipping Zones</h3><p>Geographic groups used by the calculation engine.</p></div><button type="button" class="outline-btn" id="add-shipping-zone">Add Zone</button></div>
+                        <div id="shipping-zones-list" class="shipping-zones-list"><div class="shipping-loading">Loading zones...</div></div>
+                    </div>
+
+                    <div class="shipping-panel">
+                        <div class="shipping-panel-heading"><div><h3>Shipping Rules</h3><p>State rules take priority over country and zone rules.</p></div></div>
+                        <div id="shipping-rates-list" class="shipping-rates-list"><div class="shipping-loading">Loading rules...</div></div>
+                    </div>
+                </div>
+
+                <div class="shipping-panel shipping-calculator-panel">
+                    <div class="shipping-panel-heading"><div><h3>Shipping Calculator Preview</h3><p>Preview how the Phase 7 engine will calculate a delivery price.</p></div></div>
+                    <form id="shipping-preview-form" class="shipping-preview-form">
+                        <label>Watch Price<input id="shipping-preview-price" type="number" min="0" step="0.01" placeholder="8199.90" required></label>
+                        <label>Country<input id="shipping-preview-country" type="text" placeholder="Nigeria" required></label>
+                        <label>State / Region<input id="shipping-preview-state" type="text" placeholder="Rivers"></label>
+                        <label>Currency<select id="shipping-preview-currency"><option value="USD">USD</option><option value="NGN">NGN</option><option value="EUR">EUR</option><option value="GBP">GBP</option></select></label>
+                        <button class="gold-btn" type="submit">Calculate</button>
+                    </form>
+                    <div id="shipping-preview-result" class="shipping-preview-result" aria-live="polite"></div>
+                </div>
+            </div>
+        </section>
+
         <section id="settings" class="page"></section>
 
     </main>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -296,6 +155,7 @@
 <script src="js/upload-watch.js"></script>
 <script src="js/load-admin-watches.js"></script>
 <script src="js/admin-reviews.js"></script>
+<script src="js/admin-shipping.js"></script>
 
 </body>
 </html>
