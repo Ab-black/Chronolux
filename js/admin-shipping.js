@@ -28,37 +28,45 @@ document.addEventListener("DOMContentLoaded", () => {
         message.className = `shipping-message ${type}`;
     };
 
-    const formatMoney = (value, currency = "USD") => {
-        return new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency,
-            minimumFractionDigits: 2
-        }).format(Number(value || 0));
-    };
+    const formatMoney = (value, currency = "USD") => new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency,
+        minimumFractionDigits: 2
+    }).format(Number(value || 0));
+
+    async function shippingAction(action, payload = {}) {
+        const { data, error } = await supabaseClient.functions.invoke("admin-shipping", {
+            body: { action, ...payload }
+        });
+
+        if (error) {
+            console.error(`admin-shipping ${action}:`, error);
+            throw new Error(error.message || "Shipping management request failed.");
+        }
+
+        if (data?.error) throw new Error(data.error);
+        return data;
+    }
 
     async function loadShippingData() {
         zonesList.innerHTML = '<div class="shipping-loading">Loading zones...</div>';
         ratesList.innerHTML = '<div class="shipping-loading">Loading rules...</div>';
 
-        const [zonesResult, ratesResult] = await Promise.all([
-            supabaseClient.from("shipping_zones").select("*").order("name"),
-            supabaseClient.from("shipping_rates").select("*, shipping_zones(name)").order("active", { ascending: false }).order("id")
-        ]);
-
-        if (zonesResult.error || ratesResult.error) {
-            console.error(zonesResult.error || ratesResult.error);
+        try {
+            const data = await shippingAction("list");
+            zones = data.zones || [];
+            rates = data.rates || [];
+            renderZones();
+            renderRates();
+            showMessage("Shipping configuration loaded.", "success");
+        } catch (error) {
+            console.error(error);
             zonesList.innerHTML = '<div class="shipping-empty">Shipping data could not be loaded.</div>';
             ratesList.innerHTML = '<div class="shipping-empty">Shipping data could not be loaded.</div>';
             zoneCount.textContent = "—";
             rateCount.textContent = "—";
-            showMessage("Shipping management requires an authorized Supabase admin session.", "error");
-            return;
+            showMessage(error.message || "Shipping management requires an authorized admin session.", "error");
         }
-
-        zones = zonesResult.data || [];
-        rates = ratesResult.data || [];
-        renderZones();
-        renderRates();
     }
 
     function renderZones() {
@@ -78,8 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
                 <div class="shipping-zone-actions">
                     <span class="shipping-status ${zone.active ? "active" : "inactive"}">${zone.active ? "Active" : "Inactive"}</span>
-                    <button class="small-action" data-zone-edit="${zone.id}" type="button" aria-label="Edit ${escapeHtml(zone.name)}">Edit</button>
+                    <button class="small-action" data-zone-edit="${zone.id}" type="button">Edit</button>
                     <button class="small-action danger" data-zone-toggle="${zone.id}" type="button">${zone.active ? "Disable" : "Enable"}</button>
+                    <button class="small-action danger" data-zone-delete="${zone.id}" type="button">Delete</button>
                 </div>
             </div>
         `).join("");
@@ -94,9 +103,11 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        const zoneMap = new Map(zones.map(zone => [String(zone.id), zone.name]));
+
         ratesList.innerHTML = rates.map(rate => {
             const location = [rate.country, rate.state].filter(Boolean).join(" · ") || "Zone default";
-            const zoneName = rate.shipping_zones?.name || "Unknown zone";
+            const zoneName = zoneMap.get(String(rate.zone_id)) || "Unknown zone";
             const scope = rate.state ? "State rule" : rate.country ? "Country rule" : "Zone rule";
 
             return `
@@ -130,20 +141,18 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!name?.trim()) return;
         const description = prompt("Description (optional):", "");
 
-        const { error } = await supabaseClient.from("shipping_zones").insert({
-            name: name.trim(),
-            description: description?.trim() || null,
-            active: true
-        });
-
-        if (error) {
+        try {
+            await shippingAction("create_zone", {
+                name: name.trim(),
+                description: description?.trim() || null,
+                active: true
+            });
+            showMessage("Shipping zone created.", "success");
+            await loadShippingData();
+        } catch (error) {
             console.error(error);
-            showMessage("Unable to create the shipping zone.", "error");
-            return;
+            showMessage(error.message || "Unable to create the shipping zone.", "error");
         }
-
-        showMessage("Shipping zone created.", "success");
-        loadShippingData();
     }
 
     async function editZone(id) {
@@ -154,19 +163,19 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!name?.trim()) return;
         const description = prompt("Description:", zone.description || "");
 
-        const { error } = await supabaseClient.from("shipping_zones").update({
-            name: name.trim(),
-            description: description?.trim() || null
-        }).eq("id", id);
-
-        if (error) {
+        try {
+            await shippingAction("update_zone", {
+                id: Number(id),
+                name: name.trim(),
+                description: description?.trim() || null,
+                active: zone.active
+            });
+            showMessage("Shipping zone updated.", "success");
+            await loadShippingData();
+        } catch (error) {
             console.error(error);
-            showMessage("Unable to update the shipping zone.", "error");
-            return;
+            showMessage(error.message || "Unable to update the shipping zone.", "error");
         }
-
-        showMessage("Shipping zone updated.", "success");
-        loadShippingData();
     }
 
     async function toggleZone(id) {
@@ -176,15 +185,29 @@ document.addEventListener("DOMContentLoaded", () => {
         const action = zone.active ? "disable" : "enable";
         if (!confirm(`Are you sure you want to ${action} ${zone.name}?`)) return;
 
-        const { error } = await supabaseClient.from("shipping_zones").update({ active: !zone.active }).eq("id", id);
-        if (error) {
+        try {
+            await shippingAction("toggle_zone", { id: Number(id) });
+            showMessage(`Shipping zone ${action}d.`, "success");
+            await loadShippingData();
+        } catch (error) {
             console.error(error);
-            showMessage("Unable to change the zone status.", "error");
-            return;
+            showMessage(error.message || "Unable to change the zone status.", "error");
         }
+    }
 
-        showMessage(`Shipping zone ${action}d.`, "success");
-        loadShippingData();
+    async function deleteZone(id) {
+        const zone = zones.find(item => String(item.id) === String(id));
+        if (!zone) return;
+        if (!confirm(`Permanently delete the ${zone.name} shipping zone? This cannot be undone.`)) return;
+
+        try {
+            await shippingAction("delete_zone", { id: Number(id) });
+            showMessage("Shipping zone deleted.", "success");
+            await loadShippingData();
+        } catch (error) {
+            console.error(error);
+            showMessage(error.message || "Unable to delete the shipping zone. It may still contain shipping rules.", "error");
+        }
     }
 
     async function addRate() {
@@ -226,16 +249,27 @@ document.addEventListener("DOMContentLoaded", () => {
             showMessage("Base fee and value rate must be valid non-negative numbers.", "error");
             return;
         }
-
-        const { error } = await supabaseClient.from("shipping_rates").insert(payload);
-        if (error) {
-            console.error(error);
-            showMessage(error.message || "Unable to create the shipping rule.", "error");
+        if (payload.minimum_fee !== null && (!Number.isFinite(payload.minimum_fee) || payload.minimum_fee < 0)) {
+            showMessage("Minimum fee must be a valid non-negative number.", "error");
+            return;
+        }
+        if (payload.maximum_fee !== null && (!Number.isFinite(payload.maximum_fee) || payload.maximum_fee < 0)) {
+            showMessage("Maximum fee must be a valid non-negative number.", "error");
+            return;
+        }
+        if (payload.minimum_fee !== null && payload.maximum_fee !== null && payload.maximum_fee < payload.minimum_fee) {
+            showMessage("Maximum fee cannot be lower than minimum fee.", "error");
             return;
         }
 
-        showMessage("Shipping rule created.", "success");
-        loadShippingData();
+        try {
+            await shippingAction("create_rate", payload);
+            showMessage("Shipping rule created.", "success");
+            await loadShippingData();
+        } catch (error) {
+            console.error(error);
+            showMessage(error.message || "Unable to create the shipping rule.", "error");
+        }
     }
 
     async function editRate(id) {
@@ -248,26 +282,43 @@ document.addEventListener("DOMContentLoaded", () => {
         const maximumFee = prompt("Maximum fee (blank for none):", rate.maximum_fee ?? "");
 
         const payload = {
+            id: Number(id),
+            zone_id: Number(rate.zone_id),
+            country: rate.country || null,
+            state: rate.state || null,
             base_fee: Number(baseFee),
             value_rate: Number(valueRate),
             minimum_fee: minimumFee?.trim() ? Number(minimumFee) : null,
-            maximum_fee: maximumFee?.trim() ? Number(maximumFee) : null
+            maximum_fee: maximumFee?.trim() ? Number(maximumFee) : null,
+            currency: rate.currency,
+            active: rate.active
         };
 
         if (!Number.isFinite(payload.base_fee) || payload.base_fee < 0 || !Number.isFinite(payload.value_rate) || payload.value_rate < 0) {
             showMessage("Invalid shipping values.", "error");
             return;
         }
-
-        const { error } = await supabaseClient.from("shipping_rates").update(payload).eq("id", id);
-        if (error) {
-            console.error(error);
-            showMessage(error.message || "Unable to update the shipping rule.", "error");
+        if (payload.minimum_fee !== null && (!Number.isFinite(payload.minimum_fee) || payload.minimum_fee < 0)) {
+            showMessage("Invalid minimum fee.", "error");
+            return;
+        }
+        if (payload.maximum_fee !== null && (!Number.isFinite(payload.maximum_fee) || payload.maximum_fee < 0)) {
+            showMessage("Invalid maximum fee.", "error");
+            return;
+        }
+        if (payload.minimum_fee !== null && payload.maximum_fee !== null && payload.maximum_fee < payload.minimum_fee) {
+            showMessage("Maximum fee cannot be lower than minimum fee.", "error");
             return;
         }
 
-        showMessage("Shipping rule updated.", "success");
-        loadShippingData();
+        try {
+            await shippingAction("update_rate", payload);
+            showMessage("Shipping rule updated.", "success");
+            await loadShippingData();
+        } catch (error) {
+            console.error(error);
+            showMessage(error.message || "Unable to update the shipping rule.", "error");
+        }
     }
 
     async function toggleRate(id) {
@@ -276,29 +327,27 @@ document.addEventListener("DOMContentLoaded", () => {
         const action = rate.active ? "disable" : "enable";
         if (!confirm(`Are you sure you want to ${action} this shipping rule?`)) return;
 
-        const { error } = await supabaseClient.from("shipping_rates").update({ active: !rate.active }).eq("id", id);
-        if (error) {
+        try {
+            await shippingAction("toggle_rate", { id: Number(id) });
+            showMessage(`Shipping rule ${action}d.`, "success");
+            await loadShippingData();
+        } catch (error) {
             console.error(error);
-            showMessage("Unable to change the shipping rule status.", "error");
-            return;
+            showMessage(error.message || "Unable to change the shipping rule status.", "error");
         }
-
-        showMessage(`Shipping rule ${action}d.`, "success");
-        loadShippingData();
     }
 
     async function deleteRate(id) {
         if (!confirm("Permanently delete this shipping rule? This cannot be undone.")) return;
 
-        const { error } = await supabaseClient.from("shipping_rates").delete().eq("id", id);
-        if (error) {
+        try {
+            await shippingAction("delete_rate", { id: Number(id) });
+            showMessage("Shipping rule deleted.", "success");
+            await loadShippingData();
+        } catch (error) {
             console.error(error);
-            showMessage("Unable to delete the shipping rule.", "error");
-            return;
+            showMessage(error.message || "Unable to delete the shipping rule.", "error");
         }
-
-        showMessage("Shipping rule deleted.", "success");
-        loadShippingData();
     }
 
     document.getElementById("add-shipping-zone")?.addEventListener("click", addZone);
@@ -307,8 +356,10 @@ document.addEventListener("DOMContentLoaded", () => {
     zonesList.addEventListener("click", event => {
         const edit = event.target.closest("[data-zone-edit]");
         const toggle = event.target.closest("[data-zone-toggle]");
+        const remove = event.target.closest("[data-zone-delete]");
         if (edit) editZone(edit.dataset.zoneEdit);
         if (toggle) toggleZone(toggle.dataset.zoneToggle);
+        if (remove) deleteZone(remove.dataset.zoneDelete);
     });
 
     ratesList.addEventListener("click", event => {
@@ -322,6 +373,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     previewForm?.addEventListener("submit", async event => {
         event.preventDefault();
+
         const price = Number(document.getElementById("shipping-preview-price").value);
         const country = document.getElementById("shipping-preview-country").value.trim();
         const state = document.getElementById("shipping-preview-state").value.trim() || null;
@@ -330,27 +382,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
         result.innerHTML = "<span>Calculating...</span>";
 
-        const { data, error } = await supabaseClient.rpc("get_chronolux_shipping_quote", {
-            p_watch_price: price,
-            p_country: country,
-            p_state: state,
-            p_currency: currency
-        });
-
-        if (error || !data?.length) {
-            console.error(error);
-            result.innerHTML = "<strong>Unable to calculate a quote.</strong><span>Make sure an active matching rule exists.</span>";
+        if (!Number.isFinite(price) || price < 0 || !country) {
+            result.innerHTML = "<strong>Enter a valid watch price and country.</strong>";
             return;
         }
 
-        const quote = data[0];
-        result.innerHTML = `
-            <div><span>Matched Rule</span><strong>${escapeHtml(quote.match_level)}</strong></div>
-            <div><span>Zone</span><strong>${escapeHtml(quote.shipping_zone)}</strong></div>
-            <div><span>Base Fee</span><strong>${formatMoney(quote.base_fee, quote.shipping_currency)}</strong></div>
-            <div><span>Value Component</span><strong>${formatMoney(quote.value_component, quote.shipping_currency)}</strong></div>
-            <div><span>Shipping</span><strong>${formatMoney(quote.calculated_shipping, quote.shipping_currency)}</strong></div>
-        `;
+        try {
+            const data = await shippingAction("quote", {
+                watch_price: price,
+                country,
+                state,
+                currency
+            });
+
+            const quote = data.quote;
+            if (!quote) throw new Error("No matching shipping rule was found.");
+
+            result.innerHTML = `
+                <div><span>Matched Rule</span><strong>${escapeHtml(quote.match_level)}</strong></div>
+                <div><span>Zone</span><strong>${escapeHtml(quote.shipping_zone)}</strong></div>
+                <div><span>Base Fee</span><strong>${formatMoney(quote.base_fee, quote.shipping_currency)}</strong></div>
+                <div><span>Value Component</span><strong>${formatMoney(quote.value_component, quote.shipping_currency)}</strong></div>
+                <div><span>Shipping</span><strong>${formatMoney(quote.calculated_shipping, quote.shipping_currency)}</strong></div>
+            `;
+        } catch (error) {
+            console.error(error);
+            result.innerHTML = `<strong>Unable to calculate a quote.</strong><span>${escapeHtml(error.message || "Make sure an active matching rule exists.")}</span>`;
+        }
     });
 
     loadShippingData();
