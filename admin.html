@@ -118,18 +118,6 @@
                     <div class="shipping-stat"><span>Default Currency</span><strong>USD</strong></div>
                 </div>
 
-                <div class="shipping-grid">
-                    <div class="shipping-panel">
-                        <div class="shipping-panel-heading"><div><h3>Shipping Zones</h3><p>Geographic groups used by the calculation engine.</p></div><button type="button" class="outline-btn" id="add-shipping-zone">Add Zone</button></div>
-                        <div id="shipping-zones-list" class="shipping-zones-list"><div class="shipping-loading">Loading zones...</div></div>
-                    </div>
-
-                    <div class="shipping-panel">
-                        <div class="shipping-panel-heading"><div><h3>Shipping Rules</h3><p>State rules take priority over country and zone rules.</p></div></div>
-                        <div id="shipping-rates-list" class="shipping-rates-list"><div class="shipping-loading">Loading rules...</div></div>
-                    </div>
-                </div>
-
                 <div class="shipping-panel shipping-calculator-panel">
                     <div class="shipping-panel-heading"><div><h3>Shipping Calculator Preview</h3><p>Preview how the Phase 7 engine will calculate a delivery price.</p></div></div>
                     <form id="shipping-preview-form" class="shipping-preview-form">
@@ -140,6 +128,18 @@
                         <button class="gold-btn" type="submit">Calculate</button>
                     </form>
                     <div id="shipping-preview-result" class="shipping-preview-result" aria-live="polite"></div>
+                </div>
+
+                <div class="shipping-grid">
+                    <div class="shipping-panel">
+                        <div class="shipping-panel-heading"><div><h3>Shipping Zones</h3><p>Geographic groups used by the calculation engine.</p></div><button type="button" class="outline-btn" id="add-shipping-zone">Add Zone</button></div>
+                        <div id="shipping-zones-list" class="shipping-zones-list"><div class="shipping-loading">Loading zones...</div></div>
+                    </div>
+
+                    <div class="shipping-panel">
+                        <div class="shipping-panel-heading"><div><h3>Shipping Rules</h3><p>State rules take priority over country and zone rules.</p></div></div>
+                        <div id="shipping-rates-list" class="shipping-rates-list"><div class="shipping-loading">Loading rules...</div></div>
+                    </div>
                 </div>
             </div>
         </section>
