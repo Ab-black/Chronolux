@@ -1,5 +1,9 @@
 const PAYMENT_FUNCTION = "paystack-initialize";
+const SHIPPING_COUNTRIES_FUNCTION = "shipping-countries";
 const $ = (id) => document.getElementById(id);
+
+let supportedShippingCountries = [];
+let selectedShippingCountry = "";
 
 function setCheckoutMessage(message, isError = false) {
     const note = document.querySelector(".checkout-note");
@@ -31,6 +35,147 @@ function escapeHtml(value) {
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+}
+
+function normalizeCountry(value) {
+    return String(value ?? "").trim().replace(/\s+/g, " ").toLowerCase();
+}
+
+function setCountryError(message) {
+    const input = $("shipping-country");
+    const error = $("shipping-country-error");
+    if (!input || !error) return;
+    error.textContent = message || "";
+    input.setAttribute("aria-invalid", message ? "true" : "false");
+    input.classList.toggle("country-invalid", Boolean(message));
+}
+
+function closeCountryOptions() {
+    const options = $("shipping-country-options");
+    const input = $("shipping-country");
+    const toggle = $("shipping-country-toggle");
+    if (!options) return;
+    options.hidden = true;
+    input?.setAttribute("aria-expanded", "false");
+    toggle?.setAttribute("aria-expanded", "false");
+}
+
+function openCountryOptions() {
+    const options = $("shipping-country-options");
+    const input = $("shipping-country");
+    const toggle = $("shipping-country-toggle");
+    if (!options || !supportedShippingCountries.length) return;
+    options.hidden = false;
+    input?.setAttribute("aria-expanded", "true");
+    toggle?.setAttribute("aria-expanded", "true");
+    renderCountryOptions(input?.value || "");
+}
+
+function renderCountryOptions(query = "") {
+    const options = $("shipping-country-options");
+    if (!options) return;
+
+    const normalizedQuery = normalizeCountry(query);
+    const matches = supportedShippingCountries.filter(country =>
+        !normalizedQuery || normalizeCountry(country.name).includes(normalizedQuery)
+    );
+
+    if (!matches.length) {
+        options.innerHTML = '<div class="country-option-empty">No supported shipping country found.</div>';
+        options.hidden = false;
+        return;
+    }
+
+    options.innerHTML = matches.map(country => `
+        <button type="button" class="country-option" role="option" data-country-name="${escapeHtml(country.name)}">
+            <span>${escapeHtml(country.name)}</span>
+        </button>
+    `).join("");
+    options.hidden = false;
+}
+
+function selectShippingCountry(name) {
+    const country = supportedShippingCountries.find(item => normalizeCountry(item.name) === normalizeCountry(name));
+    if (!country) return;
+
+    selectedShippingCountry = country.name;
+    $("shipping-country").value = country.name;
+    setCountryError("");
+    closeCountryOptions();
+}
+
+async function loadSupportedShippingCountries() {
+    try {
+        const { data, error } = await supabaseClient.functions.invoke(SHIPPING_COUNTRIES_FUNCTION, {
+            method: "GET"
+        });
+
+        if (error) throw error;
+        if (data?.error) throw new Error(data.error);
+
+        supportedShippingCountries = Array.isArray(data?.countries) ? data.countries : [];
+
+        if (!supportedShippingCountries.length) {
+            throw new Error("No supported shipping countries are currently configured.");
+        }
+    } catch (error) {
+        console.error("Shipping countries error:", error);
+        setCountryError("Shipping countries are temporarily unavailable. Please try again later.");
+    }
+}
+
+function validateShippingCountry() {
+    const value = $("shipping-country")?.value || "";
+    const country = supportedShippingCountries.find(item => normalizeCountry(item.name) === normalizeCountry(value));
+
+    if (!country) {
+        selectedShippingCountry = "";
+        setCountryError(value.trim()
+            ? "Shipping to this country is currently not established. Please select a supported country from the list."
+            : "Please select a shipping country.");
+        return false;
+    }
+
+    selectedShippingCountry = country.name;
+    $("shipping-country").value = country.name;
+    setCountryError("");
+    return true;
+}
+
+function setupCountryPicker() {
+    const input = $("shipping-country");
+    const toggle = $("shipping-country-toggle");
+    const options = $("shipping-country-options");
+    if (!input || !toggle || !options) return;
+
+    input.addEventListener("focus", openCountryOptions);
+    input.addEventListener("click", openCountryOptions);
+    input.addEventListener("input", () => {
+        selectedShippingCountry = "";
+        setCountryError("");
+        openCountryOptions();
+        renderCountryOptions(input.value);
+    });
+
+    input.addEventListener("blur", () => {
+        setTimeout(() => {
+            if (!options.matches(":hover")) validateShippingCountry();
+        }, 120);
+    });
+
+    toggle.addEventListener("click", () => {
+        if (options.hidden) openCountryOptions();
+        else closeCountryOptions();
+    });
+
+    options.addEventListener("click", event => {
+        const option = event.target.closest("[data-country-name]");
+        if (option) selectShippingCountry(option.dataset.countryName);
+    });
+
+    document.addEventListener("click", event => {
+        if (!$("shipping-country-picker")?.contains(event.target)) closeCountryOptions();
+    });
 }
 
 async function loadCheckoutProduct() {
@@ -73,6 +218,12 @@ async function loadCheckoutProduct() {
         form.addEventListener("submit", async (event) => {
             event.preventDefault();
 
+            const countryValid = validateShippingCountry();
+            if (!countryValid) {
+                $("shipping-country")?.focus();
+                return;
+            }
+
             if (!form.checkValidity()) {
                 form.reportValidity();
                 setCheckoutMessage("Please complete all required details before continuing.", true);
@@ -83,8 +234,8 @@ async function loadCheckoutProduct() {
             setCheckoutMessage("Creating your secure order and preparing payment…");
 
             try {
-                // Only the product slug is trusted from the browser.
-                // The server determines the real price from the database.
+                // Only the product slug and validated shipping country are used from the browser.
+                // The server determines the real product price from the database.
                 const { data: order, error: orderError } = await supabaseClient.rpc(
                     "create_chronolux_order",
                     {
@@ -92,7 +243,7 @@ async function loadCheckoutProduct() {
                         p_customer_name: $("customer-name").value.trim(),
                         p_customer_email: $("customer-email").value.trim(),
                         p_customer_phone: $("customer-phone").value.trim(),
-                        p_shipping_country: $("shipping-country").value.trim(),
+                        p_shipping_country: selectedShippingCountry,
                         p_shipping_state: $("shipping-state").value.trim(),
                         p_shipping_address: $("shipping-address").value.trim(),
                         p_shipping_city: $("shipping-city").value.trim(),
@@ -133,7 +284,7 @@ async function loadCheckoutProduct() {
                         phone: $("customer-phone").value.trim()
                     },
                     shipping: {
-                        country: $("shipping-country").value.trim(),
+                        country: selectedShippingCountry,
                         state: $("shipping-state").value.trim(),
                         address: $("shipping-address").value.trim(),
                         city: $("shipping-city").value.trim(),
@@ -171,5 +322,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
+    setupCountryPicker();
+    await loadSupportedShippingCountries();
     await loadCheckoutProduct();
 });
