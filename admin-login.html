@@ -1,1 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChronoLux Admin Login</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin-login.css">
+</head>
+<body>
+    <main class="admin-login-shell">
+        <section class="admin-login-card" aria-labelledby="admin-login-title">
+            <div class="admin-login-brand">
+                <h1>Chrono<span>Lux</span></h1>
+                <p>Luxury Admin</p>
+            </div>
+
+            <div class="admin-login-heading">
+                <span>SECURE ACCESS</span>
+                <h2 id="admin-login-title">Administrator Login</h2>
+                <p>Sign in to access the ChronoLux administration dashboard.</p>
+            </div>
+
+            <form id="admin-login-form" novalidate>
+                <div class="login-field">
+                    <label for="admin-email">Email address</label>
+                    <input id="admin-email" name="email" type="email" autocomplete="username" placeholder="admin@example.com" required>
+                </div>
+
+                <div class="login-field">
+                    <label for="admin-password">Password</label>
+                    <input id="admin-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+                </div>
+
+                <div id="admin-login-message" class="admin-login-message" role="alert" aria-live="polite"></div>
+
+                <button id="admin-login-button" type="submit">Sign In</button>
+            </form>
+
+            <p class="admin-login-security">
+                <i aria-hidden="true">●</i>
+                Secure authentication powered by Supabase
+            </p>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/admin-auth.js"></script>
+</body>
+</html>
