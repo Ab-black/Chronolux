@@ -55,7 +55,14 @@
                         <div><h2 id="shipping-details-title">Shipping Details</h2><p>Where should your ChronoLux timepiece be delivered?</p></div>
                     </div>
                     <div class="form-grid">
-                        <label>Country<input id="shipping-country" type="text" required autocomplete="country-name" aria-required="true"></label>
+                        <label class="country-field">Country
+                            <div class="country-picker" id="shipping-country-picker">
+                                <input id="shipping-country" type="text" required autocomplete="off" aria-required="true" aria-autocomplete="list" aria-controls="shipping-country-options" aria-expanded="false" placeholder="Search or select country">
+                                <button type="button" class="country-picker-toggle" id="shipping-country-toggle" aria-label="Open country list" aria-expanded="false">⌄</button>
+                                <div id="shipping-country-options" class="country-options" role="listbox" hidden></div>
+                            </div>
+                            <span id="shipping-country-error" class="shipping-country-error" role="alert" aria-live="polite"></span>
+                        </label>
                         <label>State / Region<input id="shipping-state" type="text" required autocomplete="address-level1" aria-required="true"></label>
                         <label class="full-width">Street Address<input id="shipping-address" type="text" required autocomplete="street-address" aria-required="true"></label>
                         <label>City<input id="shipping-city" type="text" required autocomplete="address-level2" aria-required="true"></label>
