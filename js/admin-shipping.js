@@ -104,19 +104,47 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const zoneMap = new Map(zones.map(zone => [String(zone.id), zone.name]));
+        const countriesByZone = new Map();
+
+        rates.forEach(rate => {
+            if (!rate.country || rate.state) return;
+            const zoneKey = String(rate.zone_id);
+            if (!countriesByZone.has(zoneKey)) countriesByZone.set(zoneKey, new Set());
+            countriesByZone.get(zoneKey).add(rate.country);
+        });
 
         ratesList.innerHTML = rates.map(rate => {
-            const location = [rate.country, rate.state].filter(Boolean).join(" · ") || "Zone default";
             const zoneName = zoneMap.get(String(rate.zone_id)) || "Unknown zone";
             const scope = rate.state ? "State rule" : rate.country ? "Country rule" : "Zone rule";
+            const isInternational = zoneName.toLowerCase() === "international";
+
+            let heading = zoneName;
+            let coverage = "";
+
+            if (rate.state) {
+                heading = rate.state;
+                coverage = rate.country || zoneName;
+            } else if (rate.country) {
+                heading = rate.country;
+                coverage = zoneName;
+            } else if (isInternational) {
+                heading = "International";
+                coverage = "This rule is used when a supported shipping location does not have a more specific regional or country shipping rule.";
+            } else {
+                heading = zoneName;
+                const countries = Array.from(countriesByZone.get(String(rate.zone_id)) || []);
+                coverage = countries.length
+                    ? countries.join(" • ")
+                    : "No countries are currently assigned to this zone.";
+            }
 
             return `
                 <article class="shipping-rate-card ${rate.active ? "" : "inactive-rule"}">
                     <div class="shipping-rate-top">
                         <div>
                             <span class="shipping-rule-type">${escapeHtml(scope)}</span>
-                            <h4>${escapeHtml(location)}</h4>
-                            <p>${escapeHtml(zoneName)}</p>
+                            <h4>${escapeHtml(heading)}</h4>
+                            <p>${escapeHtml(coverage)}</p>
                         </div>
                         <span class="shipping-status ${rate.active ? "active" : "inactive"}">${rate.active ? "Active" : "Inactive"}</span>
                     </div>
