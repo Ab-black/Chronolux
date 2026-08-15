@@ -1,9 +1,14 @@
 const PAYMENT_FUNCTION = "paystack-initialize";
 const SHIPPING_COUNTRIES_FUNCTION = "shipping-countries";
+const SHIPPING_QUOTE_FUNCTION = "shipping-quote";
 const $ = (id) => document.getElementById(id);
 
 let supportedShippingCountries = [];
 let selectedShippingCountry = "";
+let currentWatch = null;
+let shippingQuote = null;
+let shippingQuoteTimer = null;
+let shippingQuoteRequest = 0;
 
 function setCheckoutMessage(message, isError = false) {
     const note = document.querySelector(".checkout-note");
@@ -48,6 +53,42 @@ function setCountryError(message) {
     error.textContent = message || "";
     input.setAttribute("aria-invalid", message ? "true" : "false");
     input.classList.toggle("country-invalid", Boolean(message));
+}
+
+function setShippingStatus(message = "", type = "") {
+    const status = $("shipping-calculation-status");
+    if (!status) return;
+    status.textContent = message;
+    status.className = `shipping-calculation-status ${type}`;
+}
+
+function formatMoney(value, currency = "USD") {
+    try {
+        return new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(Number(value || 0));
+    } catch {
+        return `${currency} ${Number(value || 0).toFixed(2)}`;
+    }
+}
+
+function resetShippingQuote(message = "Enter shipping details") {
+    shippingQuote = null;
+    const shippingBox = $("summary-shipping");
+    const totalBox = $("summary-total");
+    if (shippingBox) shippingBox.textContent = message;
+    if (totalBox && currentWatch) totalBox.textContent = currentWatch.new_price;
+}
+
+function showShippingLoading() {
+    const shippingBox = $("summary-shipping");
+    const totalBox = $("summary-total");
+    if (shippingBox) shippingBox.innerHTML = '<span class="shipping-price-loading" aria-hidden="true"></span><span>Calculating…</span>';
+    if (totalBox) totalBox.innerHTML = '<span class="shipping-total-loading" aria-hidden="true"></span>';
+    setShippingStatus("Calculating delivery price…", "loading");
 }
 
 function closeCountryOptions() {
@@ -102,6 +143,7 @@ function selectShippingCountry(name) {
     $("shipping-country").value = country.name;
     setCountryError("");
     closeCountryOptions();
+    scheduleShippingQuote();
 }
 
 async function loadSupportedShippingCountries() {
@@ -133,6 +175,7 @@ function validateShippingCountry() {
         setCountryError(value.trim()
             ? "Shipping to this country is currently not established. Please select a supported country from the list."
             : "Please select a shipping country.");
+        resetShippingQuote("Enter shipping details");
         return false;
     }
 
@@ -152,14 +195,19 @@ function setupCountryPicker() {
     input.addEventListener("click", openCountryOptions);
     input.addEventListener("input", () => {
         selectedShippingCountry = "";
+        shippingQuote = null;
         setCountryError("");
+        resetShippingQuote("Enter shipping details");
         openCountryOptions();
         renderCountryOptions(input.value);
     });
 
     input.addEventListener("blur", () => {
         setTimeout(() => {
-            if (!options.matches(":hover")) validateShippingCountry();
+            if (!options.matches(":hover")) {
+                const valid = validateShippingCountry();
+                if (valid) scheduleShippingQuote();
+            }
         }, 120);
     });
 
@@ -176,6 +224,63 @@ function setupCountryPicker() {
     document.addEventListener("click", event => {
         if (!$("shipping-country-picker")?.contains(event.target)) closeCountryOptions();
     });
+}
+
+function scheduleShippingQuote() {
+    clearTimeout(shippingQuoteTimer);
+    shippingQuoteTimer = setTimeout(calculateShippingQuote, 250);
+}
+
+function getShippingInputs() {
+    const country = selectedShippingCountry || $("shipping-country")?.value.trim() || "";
+    const state = $("shipping-state")?.value.trim() || "";
+    return { country, state };
+}
+
+async function calculateShippingQuote() {
+    if (!currentWatch) return;
+    const { country, state } = getShippingInputs();
+    if (!country || !validateShippingCountry()) return;
+
+    const requestId = ++shippingQuoteRequest;
+    showShippingLoading();
+
+    try {
+        const { data, error } = await supabaseClient.functions.invoke(SHIPPING_QUOTE_FUNCTION, {
+            body: {
+                product_slug: currentWatch.slug,
+                country,
+                state: state || null,
+                currency: "USD"
+            }
+        });
+
+        if (requestId !== shippingQuoteRequest) return;
+        if (error) throw error;
+        if (data?.error) throw new Error(data.error);
+        if (!data?.quote) throw new Error("Shipping to this location is currently not established.");
+
+        shippingQuote = data.quote;
+        const shipping = Number(data.quote.calculated_shipping || 0);
+        const subtotal = Number(data.quote.subtotal ?? data.quote.watch_price ?? 0);
+        const total = Number(data.quote.total_amount ?? subtotal + shipping);
+        const currency = data.quote.currency || data.quote.shipping_currency || "USD";
+
+        $("summary-shipping").textContent = formatMoney(shipping, currency);
+        $("summary-total").textContent = formatMoney(total, currency);
+        setShippingStatus(`Shipping to ${data.quote.shipping_zone || country} calculated.`, "success");
+    } catch (error) {
+        if (requestId !== shippingQuoteRequest) return;
+        console.error("Shipping quote error:", error);
+        resetShippingQuote("Unavailable");
+        setShippingStatus(error?.message || "Shipping to this location is currently not established.", "error");
+    }
+}
+
+function setupShippingRecalculation() {
+    const state = $("shipping-state");
+    state?.addEventListener("input", scheduleShippingQuote);
+    state?.addEventListener("change", scheduleShippingQuote);
 }
 
 async function loadCheckoutProduct() {
@@ -201,6 +306,7 @@ async function loadCheckoutProduct() {
 
         if (error || !watch) throw new Error("This timepiece could not be found.");
 
+        currentWatch = watch;
         productBox.innerHTML = `
             <img src="${escapeHtml(watch.image)}" alt="${escapeHtml(watch.model)}" loading="eager">
             <div>
@@ -214,6 +320,8 @@ async function loadCheckoutProduct() {
         priceBox.textContent = watch.new_price;
         totalBox.textContent = watch.new_price;
         setCheckoutMessage("Your payment is securely processed through our payment provider.");
+
+        setupShippingRecalculation();
 
         form.addEventListener("submit", async (event) => {
             event.preventDefault();
@@ -230,12 +338,18 @@ async function loadCheckoutProduct() {
                 return;
             }
 
+            if (!shippingQuote) {
+                await calculateShippingQuote();
+                if (!shippingQuote) {
+                    setCheckoutMessage("We could not calculate shipping for this location. Please check your shipping details.", true);
+                    return;
+                }
+            }
+
             setLoading(true);
             setCheckoutMessage("Creating your secure order and preparing payment…");
 
             try {
-                // Only the product slug and validated shipping country are used from the browser.
-                // The server determines the real product price from the database.
                 const { data: order, error: orderError } = await supabaseClient.rpc(
                     "create_chronolux_order",
                     {
