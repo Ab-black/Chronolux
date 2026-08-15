@@ -21,9 +21,9 @@ function formatMoney(value, currency = "USD") {
     const amount = Number(value);
     if (!Number.isFinite(amount)) return value || "—";
     try {
-        return new Intl.NumberFormat(undefined, { style: "currency", currency: currency || "USD", maximumFractionDigits: 2 }).format(amount);
+        return new Intl.NumberFormat(undefined, { style: "currency", currency: currency || "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amount);
     } catch {
-        return `${currency || "USD"} ${amount.toLocaleString()}`;
+        return `${currency || "USD"} ${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 }
 
@@ -33,14 +33,16 @@ function escapeHtml(value) {
         .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
 }
 
-function renderConfirmation(order, stored) {
+function renderConfirmation(order, stored, verification) {
+    const currency = order?.currency || "USD";
     const product = {
         brand: order?.product_brand || stored?.product?.brand || "ChronoLux",
         model: order?.product_model || stored?.product?.model || "Timepiece",
-        price: order?.unit_price ?? stored?.product?.price,
-        currency: order?.currency || stored?.product?.currency || "USD",
+        price: order?.unit_price ?? order?.subtotal ?? stored?.product?.price,
         image: stored?.product?.image || ""
     };
+    const shipping = Number(order?.shipping_price);
+    const total = Number(order?.total_amount ?? verification?.paid_amount);
 
     $("confirmation-order-number").textContent = order?.order_number || stored?.order_number || "—";
     $("confirmation-payment").textContent = "Confirmed";
@@ -52,11 +54,14 @@ function renderConfirmation(order, stored) {
     $("confirmation-country").textContent = order?.shipping_country || stored?.shipping?.country || "—";
     $("confirmation-postal").textContent = order?.shipping_postal || stored?.shipping?.postal || "—";
     $("confirmation-email-note").textContent = order?.customer_email || stored?.customer?.email || "your email address";
+    $("confirmation-watch-total").textContent = formatMoney(product.price, currency);
+    $("confirmation-shipping").textContent = Number.isFinite(shipping) ? formatMoney(shipping, order?.shipping_currency || currency) : "—";
+    $("confirmation-total").textContent = Number.isFinite(total) ? formatMoney(total, currency) : "—";
 
     const productBox = $("confirmation-product");
     productBox.innerHTML = `
         ${product.image ? `<img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.model)}" loading="eager">` : ""}
-        <div><p>${escapeHtml(product.brand)}</p><h3>${escapeHtml(product.model)}</h3><strong>${formatMoney(product.price, product.currency)}</strong></div>
+        <div><p>${escapeHtml(product.brand)}</p><h3>${escapeHtml(product.model)}</h3><strong>${formatMoney(product.price, currency)}</strong></div>
     `;
 
     $("confirmation-loading").hidden = true;
@@ -84,7 +89,12 @@ async function confirmOrder() {
             return;
         }
 
-        renderConfirmation(data.order, stored);
+        if (!data?.order) {
+            showFailure("Payment was verified, but the order record could not be loaded securely. Please contact ChronoLux Concierge.");
+            return;
+        }
+
+        renderConfirmation(data.order, stored, data);
         sessionStorage.removeItem("chronolux-checkout");
     } catch (error) {
         console.error("Confirmation verification error:", error);
