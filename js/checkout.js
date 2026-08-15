@@ -1,4 +1,4 @@
-const PAYMENT_FUNCTION = "paystack-initialize";
+const PAYMENT_FUNCTION = "flutterwave-initialize";
 const SHIPPING_COUNTRIES_FUNCTION = "shipping-countries";
 const SHIPPING_QUOTE_FUNCTION = "shipping-quote";
 const $ = (id) => document.getElementById(id);
@@ -319,7 +319,7 @@ async function loadCheckoutProduct() {
         summaryProduct.textContent = `${watch.brand} — ${watch.model}`;
         priceBox.textContent = watch.new_price;
         totalBox.textContent = watch.new_price;
-        setCheckoutMessage("Your payment is securely processed through our payment provider.");
+        setCheckoutMessage("Your payment is securely processed through Flutterwave.");
 
         setupShippingRecalculation();
 
@@ -370,7 +370,7 @@ async function loadCheckoutProduct() {
                 const createdOrder = Array.isArray(order) ? order[0] : order;
                 if (!createdOrder?.order_id) throw new Error("Order could not be created.");
 
-                const callbackUrl = `${window.location.origin}${window.location.pathname}`;
+                const callbackUrl = `${window.location.origin}/confirmation.html`;
                 const { data: payment, error: paymentError } = await supabaseClient.functions.invoke(
                     PAYMENT_FUNCTION,
                     {
