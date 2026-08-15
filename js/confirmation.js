@@ -1,4 +1,4 @@
-const VERIFY_FUNCTION = "paystack-verify";
+const VERIFY_FUNCTION = "flutterwave-verify";
 const $ = (id) => document.getElementById(id);
 
 function getCheckoutSession() {
@@ -70,16 +70,20 @@ function renderConfirmation(order, stored, verification) {
 }
 
 async function confirmOrder() {
-    const reference = new URLSearchParams(window.location.search).get("reference");
+    const params = new URLSearchParams(window.location.search);
+    const reference = params.get("tx_ref") || params.get("reference");
+    const transactionId = params.get("transaction_id");
     const stored = getCheckoutSession();
 
-    if (!reference) {
+    if (!reference && !transactionId) {
         showFailure("No payment reference was provided. We cannot confirm this order without a valid payment reference.");
         return;
     }
 
     try {
-        const { data, error } = await supabaseClient.functions.invoke(VERIFY_FUNCTION, { body: { reference } });
+        const { data, error } = await supabaseClient.functions.invoke(VERIFY_FUNCTION, {
+            body: { reference, transaction_id: transactionId }
+        });
         if (error) throw error;
 
         if (!data?.verified || data?.payment_status !== "paid") {
