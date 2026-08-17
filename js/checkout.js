@@ -370,7 +370,7 @@ async function loadCheckoutProduct() {
                 const createdOrder = Array.isArray(order) ? order[0] : order;
                 if (!createdOrder?.order_id) throw new Error("Order could not be created.");
 
-                const callbackUrl = `${window.location.origin}/confirmation.html`;
+                const callbackUrl = new URL("confirmation.html", window.location.href).href;
                 const { data: payment, error: paymentError } = await supabaseClient.functions.invoke(
                     PAYMENT_FUNCTION,
                     {
