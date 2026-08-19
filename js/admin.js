@@ -4,10 +4,23 @@ CHRONOLUX ADMIN
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-    // Step 1: require a valid Supabase Auth session before opening the dashboard.
+    // Require both a valid Supabase Auth session and an active admin allowlist entry.
     const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
 
     if (sessionError || !session) {
+        window.location.replace("admin-login.html");
+        return;
+    }
+
+    const { data: adminUser, error: adminError } = await supabaseClient
+        .from("admin_users")
+        .select("user_id")
+        .eq("user_id", session.user.id)
+        .eq("active", true)
+        .maybeSingle();
+
+    if (adminError || !adminUser) {
+        await supabaseClient.auth.signOut();
         window.location.replace("admin-login.html");
         return;
     }
