@@ -1,0 +1,59 @@
+/*=========================================
+CHRONOLUX ADMIN - MOBILE LAYOUT
+Mobile-only overrides. Desktop admin layout remains unchanged.
+=========================================*/
+
+@media (max-width: 900px) {
+    .sidebar { width:100%; position:relative; height:auto; display:block; }
+    .sidebar-logo { padding:22px 20px; text-align:center; }
+    .sidebar-logo h2 { font-size:30px; }
+    .sidebar-logo p { margin-top:4px; font-size:13px; }
+    .sidebar-menu { padding:12px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+    .sidebar-menu li { min-width:0; padding:12px 10px; justify-content:center; gap:8px; border-radius:9px; font-size:13px; text-align:center; }
+    .sidebar-footer { padding:14px 20px; text-align:center; }
+    .admin-main { width:100%; margin-left:0; padding:18px 14px 30px; overflow-x:hidden; }
+    .admin-header { margin-bottom:24px; gap:12px; }
+    .admin-header h1 { font-size:34px; }
+    .admin-header p { font-size:13px; }
+    .admin-user { font-size:15px; }
+    .admin-user i { font-size:28px; }
+    .page-header,.shipping-page-header { gap:16px; }
+    .page-header .gold-btn,.shipping-page-header .gold-btn { width:100%; }
+    .inventory-toolbar { gap:10px; }
+    .inventory-toolbar input,.inventory-toolbar select { width:100%; min-width:0; }
+    .inventory-table { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .inventory-table table { min-width:680px; }
+    .watch-form { width:100%; padding:18px; }
+    .form-grid { grid-template-columns:1fr; }
+    .form-group input,.form-group textarea,.form-group select { width:100%; min-width:0; }
+    .shipping-grid { grid-template-columns:1fr; }
+    .shipping-overview { grid-template-columns:1fr; }
+    .shipping-preview-form { grid-template-columns:1fr; }
+    .shipping-preview-result { grid-template-columns:1fr; }
+    .shipping-panel { min-width:0; padding:18px; }
+    .shipping-panel-heading { flex-direction:column; gap:12px; }
+    .shipping-panel-heading .outline-btn { width:100%; }
+    .shipping-rate-values { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .shipping-rate-top,.shipping-rule-block-top { flex-direction:column; align-items:flex-start; }
+    .shipping-rate-actions,.shipping-zone-actions,.shipping-modal-actions { width:100%; justify-content:flex-start; }
+    .shipping-specific-rule { grid-template-columns:1fr; gap:8px; }
+    .shipping-form-grid,.shipping-state-row { grid-template-columns:1fr; }
+    .shipping-country-options { grid-template-columns:1fr; }
+    .shipping-modal-dialog { width:calc(100% - 20px); max-height:92vh; margin:4vh auto; padding:18px; }
+    .shipping-modal-header { gap:12px; }
+    .shipping-modal-header h3 { font-size:28px; }
+    .shipping-modal-actions { flex-direction:column-reverse; }
+    .shipping-modal-actions button { width:100%; }
+    .reviews-container { grid-template-columns:1fr; }
+    .review-card { padding:20px; }
+}
+
+@media (max-width: 480px) {
+    .sidebar-menu { grid-template-columns:1fr 1fr; gap:6px; padding:10px; }
+    .sidebar-menu li { padding:11px 6px; font-size:12px; }
+    .sidebar-menu li i { font-size:13px; }
+    .admin-main { padding:16px 12px 26px; }
+    .admin-header h1 { font-size:30px; }
+    .gold-btn { padding:13px 18px; }
+    .shipping-rate-values { grid-template-columns:1fr; }
+}
