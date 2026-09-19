@@ -44,33 +44,7 @@ async function loadWatches() {
             </div>
         </div>`;
     });
-    setupCartButtons();
 }
 
 document.addEventListener("DOMContentLoaded", loadWatches);
-
-
-function setupCartButtons() {
-    document.querySelectorAll(".add-to-cart-btn").forEach(button => {
-        button.addEventListener("click", () => {
-            const added = addToCart({
-                id: button.dataset.watchId,
-                slug: button.dataset.watchSlug,
-                brand: button.dataset.watchBrand,
-                model: button.dataset.watchModel,
-                price: button.dataset.watchPrice,
-                image: button.dataset.watchImage,
-                quantity: 1
-            });
-            if (!added) return;
-            const originalText = button.textContent.trim();
-            button.textContent = "ADDED TO CART";
-            button.classList.add("cart-added");
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.classList.remove("cart-added");
-            }, 1600);
-        });
-    });
-}
 
