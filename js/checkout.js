@@ -246,13 +246,22 @@ async function calculateShippingQuote() {
     showShippingLoading();
 
     try {
-        const { data, error } = await supabaseClient.functions.invoke(SHIPPING_QUOTE_FUNCTION, {
-            body: {
-                product_slug: currentWatch.slug,
+        const requestBody = currentWatch.isCart
+            ? {
+                cart_items: getCart().map(item => ({ watch_id: Number(item.id), quantity: Number(item.quantity) || 1 })),
                 country,
                 state: state || null,
                 currency: "USD"
             }
+            : {
+                product_slug: currentWatch.slug,
+                country,
+                state: state || null,
+                currency: "USD"
+            };
+
+        const { data, error } = await supabaseClient.functions.invoke(SHIPPING_QUOTE_FUNCTION, {
+            body: requestBody
         });
 
         if (requestId !== shippingQuoteRequest) return;
@@ -283,15 +292,138 @@ function setupShippingRecalculation() {
     state?.addEventListener("change", scheduleShippingQuote);
 }
 
+async function loadCartCheckout() {
+    const productBox = $("checkout-product");
+    const summaryProduct = $("summary-product");
+    const priceBox = $("summary-price");
+    const totalBox = $("summary-total");
+    const form = $("checkout-form");
+    const cart = getCart();
+
+    if (!cart.length) {
+        productBox.textContent = "Your cart is currently empty. Please return to your cart.";
+        summaryProduct.textContent = "Your cart is empty";
+        priceBox.textContent = "$0.00";
+        totalBox.textContent = "$0.00";
+        setCheckoutMessage("Your cart is empty. Please add a timepiece before continuing.", true);
+        form.querySelector(".checkout-submit")?.setAttribute("disabled", "true");
+        return;
+    }
+
+    currentWatch = { isCart: true, new_price: getCartSubtotal() };
+
+    const renderCart = () => {
+        const items = getCart();
+        if (!items.length) {
+            window.location.href = "cart.html";
+            return;
+        }
+
+        productBox.innerHTML = items.map(item => '<div class="checkout-product-item"><img src="' + escapeHtml(item.image) + '" alt="' + escapeHtml(item.model) + '" loading="eager"><div><p>' + escapeHtml(item.brand) + '</p><h3>' + escapeHtml(item.model) + '</h3><span>Quantity: ' + (Number(item.quantity) || 1) + '</span><strong>' + formatMoney(getCartItemSubtotal(item), "USD") + '</strong></div></div>').join("");
+        summaryProduct.innerHTML = items.map(item => '<div class="summary-product-item"><span>' + escapeHtml(item.brand) + ' — ' + escapeHtml(item.model) + ' × ' + (Number(item.quantity) || 1) + '</span><strong>' + formatMoney(getCartItemSubtotal(item), "USD") + '</strong></div>').join("");
+
+        const subtotal = getCartSubtotal();
+        priceBox.textContent = formatMoney(subtotal, "USD");
+        if (!shippingQuote) totalBox.textContent = formatMoney(subtotal, "USD");
+    };
+
+    renderCart();
+    document.addEventListener("chronolux:cart-updated", renderCart);
+    setupShippingRecalculation();
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (!validateShippingCountry()) {
+            $("shipping-country")?.focus();
+            return;
+        }
+
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            setCheckoutMessage("Please complete all required details before continuing.", true);
+            return;
+        }
+
+        if (!shippingQuote) {
+            await calculateShippingQuote();
+            if (!shippingQuote) {
+                setCheckoutMessage("We could not calculate shipping for this location. Please check your shipping details.", true);
+                return;
+            }
+        }
+
+        setLoading(true);
+        setCheckoutMessage("Creating your secure order and preparing payment…");
+
+        try {
+            const items = getCart().map(item => ({
+                watch_id: Number(item.id),
+                quantity: Number(item.quantity) || 1
+            }));
+
+            const { data: order, error: orderError } = await supabaseClient.rpc("create_chronolux_cart_order", {
+                p_items: items,
+                p_customer_name: $("customer-name").value.trim(),
+                p_customer_email: $("customer-email").value.trim(),
+                p_customer_phone: $("customer-phone").value.trim(),
+                p_shipping_country: selectedShippingCountry,
+                p_shipping_state: $("shipping-state").value.trim(),
+                p_shipping_address: $("shipping-address").value.trim(),
+                p_shipping_city: $("shipping-city").value.trim(),
+                p_shipping_postal: $("shipping-postal").value.trim()
+            });
+
+            if (orderError) throw orderError;
+
+            const createdOrder = Array.isArray(order) ? order[0] : order;
+            if (!createdOrder?.order_id) throw new Error("Order could not be created.");
+
+            const callbackUrl = new URL("confirmation.html", window.location.href).href;
+            const { data: payment, error: paymentError } = await supabaseClient.functions.invoke(PAYMENT_FUNCTION, {
+                body: { order_id: createdOrder.order_id, callback_url: callbackUrl }
+            });
+
+            if (paymentError) throw paymentError;
+            if (!payment?.authorization_url) throw new Error("Payment could not be initialized.");
+
+            sessionStorage.setItem("chronolux-checkout", JSON.stringify({
+                order_id: createdOrder.order_id,
+                order_number: createdOrder.order_number,
+                payment_reference: payment.reference,
+                cart: getCart(),
+                customer: {
+                    name: $("customer-name").value.trim(),
+                    email: $("customer-email").value.trim(),
+                    phone: $("customer-phone").value.trim()
+                },
+                shipping: {
+                    country: selectedShippingCountry,
+                    state: $("shipping-state").value.trim(),
+                    address: $("shipping-address").value.trim(),
+                    city: $("shipping-city").value.trim(),
+                    postal: $("shipping-postal").value.trim()
+                }
+            }));
+
+            window.location.href = payment.authorization_url;
+        } catch (error) {
+            console.error("Cart checkout error:", error);
+            setCheckoutMessage(error?.message || "We could not start secure payment. Please try again.", true);
+            setLoading(false);
+        }
+    });
+}
+
 async function loadCheckoutProduct() {
-    const slug = new URLSearchParams(window.location.search).get("slug");
+    const slug = new URLSearchParams(window.location.search).get("slug");\n    const cartMode = new URLSearchParams(window.location.search).get("cart") === "1";
     const productBox = $("checkout-product");
     const summaryProduct = $("summary-product");
     const priceBox = $("summary-price");
     const totalBox = $("summary-total");
     const form = $("checkout-form");
 
-    if (!slug) {
+    if (!slug && cartMode) {\n        return loadCartCheckout();\n    }\n\n    if (!slug) {
         productBox.textContent = "No product was selected. Please return to the collection.";
         setCheckoutMessage("Select a timepiece before continuing.", true);
         return;
