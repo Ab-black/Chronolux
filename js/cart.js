@@ -9,6 +9,12 @@
 
 const CHRONOLUX_CART_KEY = "chronolux-cart";
 
+function updateCartCountUI() {
+    document.querySelectorAll(".cart-count").forEach(element => {
+        element.textContent = getCartItemCount();
+    });
+}
+
 function getCart() {
     try {
         const storedCart = localStorage.getItem(CHRONOLUX_CART_KEY);
@@ -126,6 +132,10 @@ function getCartItemCount() {
 
 // Product-card cart interaction is handled centrally so dynamically
 // rendered cards and pages using the same cart logic remain consistent.
+document.addEventListener("DOMContentLoaded", updateCartCountUI);
+
+document.addEventListener("chronolux:cart-updated", updateCartCountUI);
+
 document.addEventListener("click", (event) => {
     const button = event.target.closest(".add-to-cart-btn");
     if (!button) return;
