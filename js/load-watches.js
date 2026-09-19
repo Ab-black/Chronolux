@@ -37,12 +37,40 @@ async function loadWatches() {
                     <span class="old-price">${watch.old_price}</span>
                     <span class="new-price">${watch.new_price}</span>
                 </h4>
-                <a href="checkout.html?slug=${encodeURIComponent(watch.slug)}" class="watch-btn">
-                    BUY NOW
-                </a>
+                <div class="watch-actions">
+                    <button type="button" class="watch-btn add-to-cart-btn" data-watch-id="${watch.id}" data-watch-slug="${watch.slug}" data-watch-brand="${watch.brand}" data-watch-model="${watch.model}" data-watch-price="${watch.new_price}" data-watch-image="${watch.image}">ADD TO CART</button>
+                    <a href="checkout.html?slug=${encodeURIComponent(watch.slug)}" class="watch-btn">BUY NOW</a>
+                </div>
             </div>
         </div>`;
     });
+    setupCartButtons();
 }
 
 document.addEventListener("DOMContentLoaded", loadWatches);
+
+
+function setupCartButtons() {
+    document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+        button.addEventListener("click", () => {
+            const added = addToCart({
+                id: button.dataset.watchId,
+                slug: button.dataset.watchSlug,
+                brand: button.dataset.watchBrand,
+                model: button.dataset.watchModel,
+                price: button.dataset.watchPrice,
+                image: button.dataset.watchImage,
+                quantity: 1
+            });
+            if (!added) return;
+            const originalText = button.textContent.trim();
+            button.textContent = "ADDED TO CART";
+            button.classList.add("cart-added");
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.classList.remove("cart-added");
+            }, 1600);
+        });
+    });
+}
+
