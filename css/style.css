@@ -3437,3 +3437,33 @@ CONTACT MAP
     }
 
 }
+
+/* ======================================
+   CART ACTIONS — PRODUCT CARDS
+====================================== */
+
+.watch-actions{
+    display:flex;
+    gap:10px;
+    width:100%;
+}
+
+.watch-actions .watch-btn{
+    flex:1;
+    width:auto;
+    border:0;
+    cursor:pointer;
+    font:inherit;
+}
+
+.watch-actions .add-to-cart-btn{
+    background:transparent;
+    color:var(--gold);
+    border:1px solid var(--gold);
+}
+
+.watch-actions .add-to-cart-btn:hover,
+.watch-actions .add-to-cart-btn.cart-added{
+    background:var(--gold);
+    color:#000;
+}
