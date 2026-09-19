@@ -416,14 +416,19 @@ async function loadCartCheckout() {
 }
 
 async function loadCheckoutProduct() {
-    const slug = new URLSearchParams(window.location.search).get("slug");\n    const cartMode = new URLSearchParams(window.location.search).get("cart") === "1";
+    const slug = new URLSearchParams(window.location.search).get("slug");
+    const cartMode = new URLSearchParams(window.location.search).get("cart") === "1";
     const productBox = $("checkout-product");
     const summaryProduct = $("summary-product");
     const priceBox = $("summary-price");
     const totalBox = $("summary-total");
     const form = $("checkout-form");
 
-    if (!slug && cartMode) {\n        return loadCartCheckout();\n    }\n\n    if (!slug) {
+    if (!slug && cartMode) {
+        return loadCartCheckout();
+    }
+
+    if (!slug) {
         productBox.textContent = "No product was selected. Please return to the collection.";
         setCheckoutMessage("Select a timepiece before continuing.", true);
         return;
