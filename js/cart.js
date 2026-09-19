@@ -61,12 +61,28 @@ function addToCart(item) {
         cart.push(normalizedItem);
     }
 
-    return saveCart(cart);
+    const saved = saveCart(cart);
+
+    if (saved) {
+        document.dispatchEvent(new CustomEvent("chronolux:cart-updated", {
+            detail: { count: getCartItemCount() }
+        }));
+    }
+
+    return saved;
 }
 
 function removeFromCart(productId) {
     const cart = getCart().filter(item => String(item.id) !== String(productId));
-    return saveCart(cart);
+    const saved = saveCart(cart);
+
+    if (saved) {
+        document.dispatchEvent(new CustomEvent("chronolux:cart-updated", {
+            detail: { count: getCartItemCount() }
+        }));
+    }
+
+    return saved;
 }
 
 function updateCartQuantity(productId, quantity) {
@@ -82,7 +98,15 @@ function updateCartQuantity(productId, quantity) {
     if (!item) return false;
 
     item.quantity = nextQuantity;
-    return saveCart(cart);
+    const saved = saveCart(cart);
+
+    if (saved) {
+        document.dispatchEvent(new CustomEvent("chronolux:cart-updated", {
+            detail: { count: getCartItemCount() }
+        }));
+    }
+
+    return saved;
 }
 
 function clearCart() {
