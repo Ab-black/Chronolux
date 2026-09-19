@@ -122,3 +122,32 @@ function clearCart() {
 function getCartItemCount() {
     return getCart().reduce((total, item) => total + Number(item.quantity || 0), 0);
 }
+
+
+// Product-card cart interaction is handled centrally so dynamically
+// rendered cards and pages using the same cart logic remain consistent.
+document.addEventListener("click", (event) => {
+    const button = event.target.closest(".add-to-cart-btn");
+    if (!button) return;
+
+    const added = addToCart({
+        id: button.dataset.watchId,
+        slug: button.dataset.watchSlug,
+        brand: button.dataset.watchBrand,
+        model: button.dataset.watchModel,
+        price: button.dataset.watchPrice,
+        image: button.dataset.watchImage,
+        quantity: 1
+    });
+
+    if (!added) return;
+
+    const originalText = button.textContent.trim();
+    button.textContent = "ADDED TO CART";
+    button.classList.add("cart-added");
+
+    setTimeout(() => {
+        button.textContent = originalText;
+        button.classList.remove("cart-added");
+    }, 1600);
+});
