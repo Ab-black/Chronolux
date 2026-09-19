@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Cart | ChronoLux</title>
+<meta name="description" content="Review your selected ChronoLux luxury watches before checkout.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+<style>
+.cart-page{padding:150px 0 100px;min-height:75vh}.cart-page-header{text-align:center;margin-bottom:55px}.cart-page-header span{display:block;color:var(--gold);letter-spacing:4px;font-size:13px;text-transform:uppercase;margin-bottom:10px}.cart-page-header h1{font-family:'Cormorant Garamond',serif;font-size:58px}.cart-layout{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:50px;align-items:start}.cart-items{display:flex;flex-direction:column;gap:18px}.cart-item{display:grid;grid-template-columns:120px minmax(0,1fr) auto;gap:24px;align-items:center;padding:22px;background:#0d0d0d;border:1px solid rgba(255,255,255,.08)}.cart-item-image{width:120px;height:120px;background:#111;display:flex;align-items:center;justify-content:center}.cart-item-image img{width:100%;height:100%;object-fit:contain;padding:10px}.cart-item-brand{display:block;color:var(--gold);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}.cart-item-model{font-family:'Cormorant Garamond',serif;font-size:27px;margin-bottom:10px}.cart-item-price{color:var(--gray);font-size:14px}.cart-item-meta{display:flex;align-items:center;gap:25px;margin-top:15px}.cart-quantity{display:flex;align-items:center;gap:10px;color:var(--gray);font-size:14px}.cart-quantity button{width:30px;height:30px;border:1px solid rgba(200,169,106,.45);background:transparent;color:var(--gold);cursor:pointer}.cart-quantity button:hover,.cart-quantity button:focus-visible{background:var(--gold);color:#000}.cart-item-subtotal{text-align:right;white-space:nowrap}.cart-item-subtotal span{display:block;color:var(--gray);font-size:12px;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}.cart-item-subtotal strong{font-size:18px}.cart-remove{display:block;margin-top:14px;background:none;border:0;color:#999;cursor:pointer;text-decoration:underline;font:inherit}.cart-remove:hover,.cart-remove:focus-visible{color:var(--gold)}.cart-summary{background:#0d0d0d;border:1px solid rgba(200,169,106,.25);padding:32px;position:sticky;top:110px}.cart-summary h2{font-family:'Cormorant Garamond',serif;font-size:32px;margin-bottom:25px}.cart-summary-row{display:flex;justify-content:space-between;gap:20px;color:var(--gray);padding:12px 0}.cart-summary-total{border-top:1px solid rgba(255,255,255,.1);margin-top:8px;padding-top:20px;color:#fff;font-size:20px}.cart-checkout-btn{display:block;width:100%;text-align:center;margin-top:25px;padding:15px 20px;background:var(--gold);color:#000;font-weight:600}.cart-empty{display:none;text-align:center;max-width:650px;margin:0 auto;padding:70px 30px;border:1px solid rgba(255,255,255,.08);background:#0d0d0d}.cart-empty i{font-size:35px;color:var(--gold);margin-bottom:20px}.cart-empty h2{font-family:'Cormorant Garamond',serif;font-size:40px;margin-bottom:12px}.cart-empty p{color:var(--gray);margin-bottom:25px}.cart-collection-btn{display:inline-block;padding:13px 25px;border:1px solid var(--gold);color:var(--gold)}.cart-collection-btn:hover,.cart-collection-btn:focus-visible{background:var(--gold);color:#000}@media(max-width:900px){.cart-layout{grid-template-columns:1fr}.cart-summary{position:static}}@media(max-width:600px){.cart-page{padding:120px 0 70px}.cart-page-header h1{font-size:45px}.cart-item{grid-template-columns:80px minmax(0,1fr);gap:15px}.cart-item-image{width:80px;height:80px}.cart-item-model{font-size:23px}.cart-item-meta{flex-direction:column;align-items:flex-start;gap:10px}.cart-item-subtotal{grid-column:2;text-align:left}.cart-remove{margin-top:8px}.cart-summary{padding:25px}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><nav class="navbar">
+<a href="index.html" class="logo">Chrono<span>Lux</span></a>
+<ul class="nav-menu"><li><a href="index.html">Home</a></li><li><a href="collection.html">Collections</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul>
+<div class="nav-right"><a href="cart.html" class="cart-indicator" aria-label="View cart"><i class="fas fa-shopping-bag" aria-hidden="true"></i><span class="cart-count" aria-live="polite">0</span></a><button class="menu-btn" type="button" aria-label="Open Menu"><i class="fas fa-bars"></i></button></div>
+</nav></div></header>
+<main class="cart-page"><div class="container">
+<div class="cart-page-header"><span>ChronoLux Selection</span><h1>Your Cart</h1></div>
+<div id="cart-content" class="cart-layout"><section id="cart-items" class="cart-items" aria-label="Cart items"></section>
+<aside class="cart-summary" aria-label="Cart summary"><h2>Cart Summary</h2><div class="cart-summary-row"><span>Subtotal</span><strong id="cart-subtotal">$0.00</strong></div><div class="cart-summary-row cart-summary-total"><span>Total</span><strong id="cart-total">$0.00</strong></div><a id="cart-checkout" href="collection.html" class="cart-checkout-btn">Proceed to Checkout</a></aside></div>
+<section id="cart-empty" class="cart-empty"><i class="fas fa-shopping-bag" aria-hidden="true"></i><h2>Your ChronoLux selection is currently empty.</h2><p>Explore our collection and add a timepiece to your private selection.</p><a href="collection.html" class="cart-collection-btn">Return to Collection</a></section>
+</div></main>
+<footer class="footer"><div class="container footer-content"><div><h2 class="logo">Chrono<span>Lux</span></h2><p>Discover exceptional luxury watches curated for collectors, enthusiasts and investors.</p></div><div><h3>Quick Links</h3><a href="index.html">Home</a><a href="collection.html">Collections</a><a href="about.html">About</a><a href="contact.html">Contact</a></div><div><h3>Contact</h3><p>Email: info@chronolux.com</p><p>WhatsApp: +234 000 000 0000</p></div></div><div class="copyright">© 2026 ChronoLux. All Rights Reserved.</div></footer>
+<script src="js/cart.js"></script>
+<script>
+function formatCartPrice(price){const numeric=Number(String(price).replace(/[^0-9.-]+/g,""));return Number.isFinite(numeric)?numeric:0;}
+function renderCart(){
+ const cart=getCart(),items=document.getElementById("cart-items"),content=document.getElementById("cart-content"),empty=document.getElementById("cart-empty"),subtotalEl=document.getElementById("cart-subtotal"),totalEl=document.getElementById("cart-total");
+ if(!cart.length){content.style.display="none";empty.style.display="block";return;}
+ content.style.display="grid";empty.style.display="none";let subtotal=0;
+ items.innerHTML=cart.map(item=>{
+  const price=formatCartPrice(item.price),itemSubtotal=price*item.quantity;subtotal+=itemSubtotal;
+  return '<article class="cart-item"><a class="cart-item-image" href="product.html?slug='+encodeURIComponent(item.slug)+'" aria-label="View '+item.brand+' '+item.model+'"><img src="'+item.image+'" alt="'+item.brand+' '+item.model+'"></a><div><span class="cart-item-brand">'+item.brand+'</span><h2 class="cart-item-model">'+item.model+'</h2><div class="cart-item-price">'+item.price+'</div><div class="cart-item-meta"><div class="cart-quantity"><span>Quantity:</span><button type="button" data-action="decrease" data-id="'+item.id+'" aria-label="Decrease quantity">−</button><strong>'+item.quantity+'</strong><button type="button" data-action="increase" data-id="'+item.id+'" aria-label="Increase quantity">+</button></div></div></div><div class="cart-item-subtotal"><span>Subtotal</span><strong>'+itemSubtotal.toLocaleString("en-US",{style:"currency",currency:"USD"})+'</strong><button type="button" class="cart-remove" data-action="remove" data-id="'+item.id+'">Remove</button></div></article>';
+ }).join("");
+ const formatted=subtotal.toLocaleString("en-US",{style:"currency",currency:"USD"});subtotalEl.textContent=formatted;totalEl.textContent=formatted;
+}
+document.addEventListener("click",event=>{const control=event.target.closest("[data-action]");if(!control)return;const id=control.dataset.id,item=getCart().find(cartItem=>String(cartItem.id)===String(id));if(!item)return;if(control.dataset.action==="increase")updateCartQuantity(id,item.quantity+1);if(control.dataset.action==="decrease")updateCartQuantity(id,item.quantity-1);if(control.dataset.action==="remove")removeFromCart(id);renderCart();});
+document.addEventListener("chronolux:cart-updated",renderCart);document.addEventListener("DOMContentLoaded",renderCart);
+</script>
+</body>
+</html>
