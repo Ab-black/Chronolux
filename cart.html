@@ -36,10 +36,10 @@ function renderCart(){
  if(!cart.length){content.style.display="none";empty.style.display="block";return;}
  content.style.display="grid";empty.style.display="none";let subtotal=0;
  items.innerHTML=cart.map(item=>{
-  const price=formatCartPrice(item.price),itemSubtotal=price*item.quantity;subtotal+=itemSubtotal;
+  const itemSubtotal=getCartItemSubtotal(item);subtotal+=itemSubtotal;
   return '<article class="cart-item"><a class="cart-item-image" href="product.html?slug='+encodeURIComponent(item.slug)+'" aria-label="View '+item.brand+' '+item.model+'"><img src="'+item.image+'" alt="'+item.brand+' '+item.model+'"></a><div><span class="cart-item-brand">'+item.brand+'</span><h2 class="cart-item-model">'+item.model+'</h2><div class="cart-item-price">'+item.price+'</div><div class="cart-item-meta"><div class="cart-quantity"><span>Quantity:</span><button type="button" data-action="decrease" data-id="'+item.id+'" aria-label="Decrease quantity">−</button><strong>'+item.quantity+'</strong><button type="button" data-action="increase" data-id="'+item.id+'" aria-label="Increase quantity">+</button></div></div></div><div class="cart-item-subtotal"><span>Subtotal</span><strong>'+itemSubtotal.toLocaleString("en-US",{style:"currency",currency:"USD"})+'</strong><button type="button" class="cart-remove" data-action="remove" data-id="'+item.id+'">Remove</button></div></article>';
  }).join("");
- const formatted=subtotal.toLocaleString("en-US",{style:"currency",currency:"USD"});subtotalEl.textContent=formatted;totalEl.textContent=formatted;
+ const formatted=getCartSubtotal().toLocaleString("en-US",{style:"currency",currency:"USD"});subtotalEl.textContent=formatted;totalEl.textContent=formatted;
 }
 document.addEventListener("click",event=>{const control=event.target.closest("[data-action]");if(!control)return;const id=control.dataset.id,item=getCart().find(cartItem=>String(cartItem.id)===String(id));if(!item)return;if(control.dataset.action==="increase")updateCartQuantity(id,item.quantity+1);if(control.dataset.action==="decrease")updateCartQuantity(id,item.quantity-1);if(control.dataset.action==="remove")removeFromCart(id);renderCart();});
 document.addEventListener("chronolux:cart-updated",renderCart);document.addEventListener("DOMContentLoaded",renderCart);
