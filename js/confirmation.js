@@ -35,6 +35,9 @@ function escapeHtml(value) {
 
 function renderConfirmation(order, stored, verification) {
     const currency = order?.currency || "USD";
+    const items = Array.isArray(verification?.items) ? verification.items : [];
+    const isCartOrder = items.length > 1 || Boolean(stored?.cart);
+
     const product = {
         brand: order?.product_brand || stored?.product?.brand || "ChronoLux",
         model: order?.product_model || stored?.product?.model || "Timepiece",
@@ -54,21 +57,27 @@ function renderConfirmation(order, stored, verification) {
     $("confirmation-country").textContent = order?.shipping_country || stored?.shipping?.country || "—";
     $("confirmation-postal").textContent = order?.shipping_postal || stored?.shipping?.postal || "—";
     $("confirmation-email-note").textContent = order?.customer_email || stored?.customer?.email || "your email address";
-    $("confirmation-watch-total").textContent = formatMoney(product.price, currency);
+
+    if (isCartOrder && items.length) {
+        $("confirmation-watch-total").textContent = formatMoney(order?.subtotal, currency);
+        $("confirmation-product").innerHTML = items.map(item =>
+            '<div class="confirmation-product-item"><div><p>' + escapeHtml(item.product_brand) + '</p><h3>' + escapeHtml(item.product_model || "Luxury Timepiece") + '</h3><span>Quantity: ' + Number(item.quantity || 1) + '</span></div><strong>' + formatMoney(item.line_total, currency) + '</strong></div>'
+        ).join("");
+    } else {
+        $("confirmation-watch-total").textContent = formatMoney(product.price, currency);
+        $("confirmation-product").innerHTML = `
+            ${product.image ? `<img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.model)}" loading="eager">` : ""}
+            <div><p>${escapeHtml(product.brand)}</p><h3>${escapeHtml(product.model)}</h3><strong>${formatMoney(product.price, currency)}</strong></div>
+        `;
+    }
+
     $("confirmation-shipping").textContent = Number.isFinite(shipping) ? formatMoney(shipping, order?.shipping_currency || currency) : "—";
     $("confirmation-total").textContent = Number.isFinite(total) ? formatMoney(total, currency) : "—";
-
-    const productBox = $("confirmation-product");
-    productBox.innerHTML = `
-        ${product.image ? `<img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.model)}" loading="eager">` : ""}
-        <div><p>${escapeHtml(product.brand)}</p><h3>${escapeHtml(product.model)}</h3><strong>${formatMoney(product.price, currency)}</strong></div>
-    `;
 
     $("confirmation-loading").hidden = true;
     $("confirmation-failure").hidden = true;
     $("confirmation-success").hidden = false;
 }
-
 async function confirmOrder() {
     const params = new URLSearchParams(window.location.search);
     const reference = params.get("tx_ref") || params.get("reference");
@@ -99,6 +108,7 @@ async function confirmOrder() {
         }
 
         renderConfirmation(data.order, stored, data);
+        if (stored?.cart && typeof clearCart === "function") clearCart();
         sessionStorage.removeItem("chronolux-checkout");
     } catch (error) {
         console.error("Confirmation verification error:", error);
