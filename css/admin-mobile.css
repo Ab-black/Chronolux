@@ -57,3 +57,17 @@ Mobile-only overrides. Desktop admin layout remains unchanged.
     .gold-btn { padding:13px 18px; }
     .shipping-rate-values { grid-template-columns:1fr; }
 }
+
+
+@media (max-width: 900px) {
+    .orders-page-header{flex-direction:column;align-items:flex-start}
+    .orders-page-header .gold-btn{width:100%}
+    .orders-overview{grid-template-columns:1fr}
+    .orders-toolbar{grid-template-columns:1fr}
+    .orders-table-wrap{margin-left:-2px;margin-right:-2px}
+    .orders-modal-dialog{width:calc(100% - 20px);max-height:92vh;margin:4vh auto;padding:18px}
+    .orders-modal-header h3{font-size:28px}
+    .orders-detail-grid{grid-template-columns:1fr}
+    .orders-detail-card.full{grid-column:auto}
+    .orders-detail-item{grid-template-columns:1fr;gap:5px}
+}
