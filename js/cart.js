@@ -11,8 +11,12 @@ const CHRONOLUX_CART_KEY = "chronolux-cart";
 const CHRONOLUX_DEFAULT_MAX_QUANTITY = null; // No inventory limit exists in the current watches schema.
 
 function updateCartCountUI() {
+    const count = getCartItemCount();
     document.querySelectorAll(".cart-count").forEach(element => {
-        element.textContent = getCartItemCount();
+        element.textContent = count;
+    });
+    document.querySelectorAll(".cart-indicator").forEach(indicator => {
+        indicator.setAttribute("aria-label", `View cart, ${count} ${count === 1 ? "item" : "items"}`);
     });
 }
 
