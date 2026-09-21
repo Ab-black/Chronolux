@@ -3468,6 +3468,12 @@ CONTACT MAP
     color:#000;
 }
 
+.watch-actions .add-to-cart-btn.cart-already-added{
+    background:transparent;
+    color:var(--gold);
+    border-color:rgba(200,169,106,.65);
+}
+
 
 /* Cart count */
 .cart-indicator{
