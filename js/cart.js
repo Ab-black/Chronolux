@@ -66,18 +66,20 @@ function normalizeCartItem(item) {
 
 function addToCart(item) {
     const normalizedItem = normalizeCartItem(item);
-    if (!normalizedItem) return false;
+    if (!normalizedItem) {
+        return { saved: false, alreadyInCart: false };
+    }
 
     const cart = getCart();
     const existingItem = cart.find(cartItem => String(cartItem.id) === String(normalizedItem.id));
 
+    // Phase 14 intentionally treats the cart as a selection:
+    // clicking ADD TO CART again does not silently increase quantity.
     if (existingItem) {
-        const maxQuantity = getCartQuantityLimit(existingItem);
-        const requestedQuantity = existingItem.quantity + normalizedItem.quantity;
-        existingItem.quantity = maxQuantity ? Math.min(requestedQuantity, maxQuantity) : requestedQuantity;
-    } else {
-        cart.push(normalizedItem);
+        return { saved: true, alreadyInCart: true };
     }
+
+    cart.push(normalizedItem);
 
     const saved = saveCart(cart);
 
@@ -87,7 +89,23 @@ function addToCart(item) {
         }));
     }
 
-    return saved;
+    return { saved, alreadyInCart: false };
+}
+
+function showCartFeedback(button, message, stateClass) {
+    if (!button) return;
+
+    const originalText = button.dataset.originalText || button.textContent.trim();
+    button.dataset.originalText = originalText;
+    button.textContent = message;
+    button.classList.remove("cart-added", "cart-already-added");
+    if (stateClass) button.classList.add(stateClass);
+
+    clearTimeout(button._cartFeedbackTimer);
+    button._cartFeedbackTimer = setTimeout(() => {
+        button.textContent = originalText;
+        button.classList.remove("cart-added", "cart-already-added");
+    }, 1800);
 }
 
 function removeFromCart(productId) {
@@ -156,7 +174,7 @@ document.addEventListener("click", (event) => {
     const button = event.target.closest(".add-to-cart-btn");
     if (!button) return;
 
-    const added = addToCart({
+    const result = addToCart({
         id: button.dataset.watchId,
         slug: button.dataset.watchSlug,
         brand: button.dataset.watchBrand,
@@ -166,16 +184,14 @@ document.addEventListener("click", (event) => {
         quantity: 1
     });
 
-    if (!added) return;
+    if (!result.saved) return;
 
-    const originalText = button.textContent.trim();
-    button.textContent = "ADDED TO CART";
-    button.classList.add("cart-added");
+    if (result.alreadyInCart) {
+        showCartFeedback(button, "ALREADY IN SELECTION", "cart-already-added");
+        return;
+    }
 
-    setTimeout(() => {
-        button.textContent = originalText;
-        button.classList.remove("cart-added");
-    }, 1600);
+    showCartFeedback(button, "ADDED TO SELECTION", "cart-added");
 });
 
 
