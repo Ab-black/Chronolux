@@ -3474,6 +3474,65 @@ CONTACT MAP
     border-color:rgba(200,169,106,.65);
 }
 
+/* ======================================
+   PHASE 15 — PRODUCT CARD ACTIONS
+   Keep ADD TO CART + BUY NOW side-by-side
+   without allowing long labels/model names to
+   break the existing card layout.
+====================================== */
+
+.watch-actions{
+    align-items:stretch;
+}
+
+.watch-actions .watch-btn{
+    min-width:0;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.watch-details h3{
+    min-width:0;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+}
+
+@media (max-width:768px){
+    .watch-actions{
+        gap:8px;
+    }
+
+    .watch-actions .watch-btn{
+        padding:14px 8px;
+        font-size:13px;
+        line-height:1.2;
+    }
+}
+
+@media (max-width:480px){
+    .watch-actions{
+        gap:7px;
+    }
+
+    .watch-actions .watch-btn{
+        padding:13px 6px;
+        font-size:11px;
+        letter-spacing:.1px;
+    }
+}
+
+@media (max-width:360px){
+    .watch-actions{
+        gap:6px;
+    }
+
+    .watch-actions .watch-btn{
+        padding:12px 5px;
+        font-size:10px;
+    }
+}
+
 
 /* Cart count */
 .cart-indicator{
