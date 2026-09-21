@@ -51,6 +51,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         });
 
+        item.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                item.click();
+            }
+        });
+
     });
 
     // Sign out through Supabase instead of simply navigating to the login page.
