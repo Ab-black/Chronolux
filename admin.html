@@ -36,6 +36,7 @@
             <li data-page="reviews"><i class="fas fa-star-half-alt"></i>Reviews</li>
             <li data-page="messages"><i class="fas fa-envelope"></i>Messages</li>
             <li data-page="featured"><i class="fas fa-star"></i>Featured</li>
+            <li data-page="orders"><i class="fas fa-receipt"></i>Orders</li>
             <li data-page="shipping"><i class="fas fa-truck-fast"></i>Shipping</li>
             <li data-page="settings"><i class="fas fa-cog"></i>Settings</li>
         </ul>
@@ -100,6 +101,34 @@
         <section id="reviews" class="page"><div class="page-header"><div><h2>Customer Reviews</h2><p>Manage customer testimonials and ratings.</p></div></div><div id="reviews-container" class="reviews-container"></div></section>
         <section id="featured" class="page"></section>
 
+
+        <section id="orders" class="page">
+            <div class="orders-admin">
+                <div class="orders-page-header">
+                    <div><span class="orders-eyebrow">ORDER MANAGEMENT</span><h2>Customer Orders</h2><p>Review purchases, payment status, delivery details and order progress.</p></div>
+                    <button type="button" class="gold-btn" id="refresh-orders"><i class="fas fa-rotate"></i> Refresh Orders</button>
+                </div>
+                <div id="orders-message" class="orders-message" role="status" aria-live="polite"></div>
+                <div class="orders-overview">
+                    <div class="orders-stat"><span>Total Orders</span><strong id="orders-total-count">—</strong></div>
+                    <div class="orders-stat"><span>Paid Orders</span><strong id="orders-paid-count">—</strong></div>
+                    <div class="orders-stat"><span>Pending Orders</span><strong id="orders-pending-count">—</strong></div>
+                    <div class="orders-stat"><span>Delivered</span><strong id="orders-delivered-count">—</strong></div>
+                </div>
+                <div class="orders-toolbar">
+                    <input id="orders-search" type="search" placeholder="Search order number, customer, email or payment reference..." aria-label="Search orders">
+                    <select id="orders-status-filter" aria-label="Filter orders by status"><option value="">All Order Statuses</option><option value="pending">Pending</option><option value="confirmed">Confirmed</option><option value="processing">Processing</option><option value="shipped">Shipped</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option></select>
+                    <select id="orders-payment-filter" aria-label="Filter orders by payment status"><option value="">All Payment Statuses</option><option value="pending">Pending</option><option value="paid">Paid</option><option value="failed">Failed</option><option value="refunded">Refunded</option></select>
+                </div>
+                <div class="orders-table-wrap">
+                    <table class="orders-table">
+                        <thead><tr><th>Order</th><th>Customer</th><th>Products</th><th>Qty</th><th>Total</th><th>Payment</th><th>Order Status</th><th>Shipping Destination</th><th>Date</th><th>Payment Reference</th><th>Action</th></tr></thead>
+                        <tbody id="orders-table-body"><tr><td colspan="11" class="orders-empty">Loading orders...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
         <section id="shipping" class="page">
             <div class="shipping-admin">
                 <div class="shipping-page-header">
@@ -157,6 +186,7 @@
 <script src="js/load-admin-watches.js"></script>
 <script src="js/admin-reviews.js"></script>
 <script src="js/admin-shipping.js"></script>
+<script src="js/admin-orders.js"></script>
 
 </body>
 </html>
