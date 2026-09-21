@@ -3604,3 +3604,22 @@ CONTACT MAP
     text-align:center;
     font-weight:700;
 }
+
+
+/*=========================================
+ACCESSIBILITY - KEYBOARD FOCUS
+=========================================*/
+
+:where(a, button, input, select, textarea):focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:3px;
+}
+
+.newsletter-form input:focus-visible,
+.search-box input:focus-visible,
+.contact-form input:focus-visible,
+.contact-form select:focus-visible,
+.contact-form textarea:focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:2px;
+}
