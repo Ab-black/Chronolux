@@ -47,7 +47,7 @@
             </ul>
 
             <div class="nav-right">
-                <button class="search-btn" type="button">
+                <button class="search-btn" type="button" aria-label="Search">
                     <i class="fas fa-search"></i>
                 </button>
                 <span class="cart-indicator" aria-label="Cart items">
@@ -59,7 +59,7 @@
     <span class="cart-count" aria-live="polite">0</span>
 </a>
 
-<button class="menu-btn" type="button" aria-label="Open Menu">
+<button class="menu-btn" type="button" aria-label="Open Menu" aria-expanded="false">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
@@ -235,8 +235,8 @@
         <p>Receive exclusive updates whenever rare luxury timepieces become available.</p>
 
         <form class="newsletter-form">
-            <input type="email" placeholder="Enter your email address">
-            <button>Subscribe</button>
+            <label class="sr-only" for="newsletter-email">Email address</label>\n            <input id="newsletter-email" type="email" placeholder="Enter your email address" aria-label="Email address" required>
+            <button type="submit">Subscribe</button>
         </form>
     </div>
 </section>
