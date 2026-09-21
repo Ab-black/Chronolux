@@ -12,7 +12,405 @@
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/responsive.css">
 <style>
-.cart-page{padding:150px 0 100px;min-height:75vh}.cart-page-header{text-align:center;margin-bottom:55px}.cart-page-header span{display:block;color:var(--gold);letter-spacing:4px;font-size:13px;text-transform:uppercase;margin-bottom:10px}.cart-page-header h1{font-family:'Cormorant Garamond',serif;font-size:58px}.cart-layout{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:50px;align-items:start}.cart-items{display:flex;flex-direction:column;gap:18px}.cart-item{display:grid;grid-template-columns:120px minmax(0,1fr) auto;gap:24px;align-items:center;padding:22px;background:#0d0d0d;border:1px solid rgba(255,255,255,.08)}.cart-item-image{width:120px;height:120px;background:#111;display:flex;align-items:center;justify-content:center}.cart-item-image img{width:100%;height:100%;object-fit:contain;padding:10px}.cart-item-brand{display:block;color:var(--gold);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}.cart-item-model{font-family:'Cormorant Garamond',serif;font-size:27px;margin-bottom:10px}.cart-item-price{color:var(--gray);font-size:14px}.cart-item-meta{display:flex;align-items:center;gap:25px;margin-top:15px}.cart-quantity{display:flex;align-items:center;gap:10px;color:var(--gray);font-size:14px}.cart-quantity button{width:30px;height:30px;border:1px solid rgba(200,169,106,.45);background:transparent;color:var(--gold);cursor:pointer}.cart-quantity button:hover,.cart-quantity button:focus-visible{background:var(--gold);color:#000}.cart-item-subtotal{text-align:right;white-space:nowrap}.cart-item-subtotal span{display:block;color:var(--gray);font-size:12px;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}.cart-item-subtotal strong{font-size:18px}.cart-remove{display:block;margin-top:14px;background:none;border:0;color:#999;cursor:pointer;text-decoration:underline;font:inherit}.cart-remove:hover,.cart-remove:focus-visible{color:var(--gold)}.cart-summary{background:#0d0d0d;border:1px solid rgba(200,169,106,.25);padding:32px;position:sticky;top:110px}.cart-summary h2{font-family:'Cormorant Garamond',serif;font-size:32px;margin-bottom:25px}.cart-summary-row{display:flex;justify-content:space-between;gap:20px;color:var(--gray);padding:12px 0}.cart-summary-total{border-top:1px solid rgba(255,255,255,.1);margin-top:8px;padding-top:20px;color:#fff;font-size:20px}.cart-checkout-btn{display:block;width:100%;text-align:center;margin-top:25px;padding:15px 20px;background:var(--gold);color:#000;font-weight:600}.cart-empty{display:none;text-align:center;max-width:650px;margin:0 auto;padding:70px 30px;border:1px solid rgba(255,255,255,.08);background:#0d0d0d}.cart-empty i{font-size:35px;color:var(--gold);margin-bottom:20px}.cart-empty h2{font-family:'Cormorant Garamond',serif;font-size:40px;margin-bottom:12px}.cart-empty p{color:var(--gray);margin-bottom:25px}.cart-collection-btn{display:inline-block;padding:13px 25px;border:1px solid var(--gold);color:var(--gold)}.cart-collection-btn:hover,.cart-collection-btn:focus-visible{background:var(--gold);color:#000}@media(max-width:900px){.cart-layout{grid-template-columns:1fr}.cart-summary{position:static}}@media(max-width:600px){.cart-page{padding:120px 0 70px}.cart-page-header h1{font-size:45px}.cart-item{grid-template-columns:80px minmax(0,1fr);gap:15px}.cart-item-image{width:80px;height:80px}.cart-item-model{font-size:23px}.cart-item-meta{flex-direction:column;align-items:flex-start;gap:10px}.cart-item-subtotal{grid-column:2;text-align:left}.cart-remove{margin-top:8px}.cart-summary{padding:25px}}
+/* =========================================================
+   CHRONOLUX CART — PHASE 13
+   Responsive cart presentation only.
+   Preserves the existing ChronoLux typography, palette,
+   spacing language, card treatment and button styling.
+   ========================================================= */
+
+.cart-page{
+    padding:150px 0 100px;
+    min-height:75vh;
+}
+
+.cart-page-header{
+    text-align:center;
+    margin-bottom:55px;
+}
+
+.cart-page-header span{
+    display:block;
+    color:var(--gold);
+    letter-spacing:4px;
+    font-size:13px;
+    text-transform:uppercase;
+    margin-bottom:10px;
+}
+
+.cart-page-header h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:58px;
+    line-height:1.05;
+}
+
+.cart-layout{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 360px;
+    gap:50px;
+    align-items:start;
+}
+
+.cart-items{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    min-width:0;
+}
+
+.cart-item{
+    display:grid;
+    grid-template-columns:120px minmax(0,1fr) auto;
+    gap:24px;
+    align-items:center;
+    min-width:0;
+    padding:22px;
+    background:#0d0d0d;
+    border:1px solid rgba(255,255,255,.08);
+    box-sizing:border-box;
+}
+
+.cart-item-image{
+    width:120px;
+    height:120px;
+    background:#111;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+}
+
+.cart-item-image img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    padding:10px;
+    box-sizing:border-box;
+}
+
+.cart-item-details{
+    min-width:0;
+}
+
+.cart-item-brand{
+    display:block;
+    color:var(--gold);
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-bottom:5px;
+}
+
+.cart-item-model{
+    font-family:'Cormorant Garamond',serif;
+    font-size:27px;
+    line-height:1.15;
+    margin-bottom:10px;
+    overflow-wrap:anywhere;
+}
+
+.cart-item-price{
+    color:var(--gray);
+    font-size:14px;
+}
+
+.cart-item-meta{
+    display:flex;
+    align-items:center;
+    gap:25px;
+    margin-top:15px;
+}
+
+.cart-quantity{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:var(--gray);
+    font-size:14px;
+}
+
+.cart-quantity button{
+    width:30px;
+    height:30px;
+    border:1px solid rgba(200,169,106,.45);
+    background:transparent;
+    color:var(--gold);
+    cursor:pointer;
+    flex-shrink:0;
+}
+
+.cart-quantity button:hover,
+.cart-quantity button:focus-visible{
+    background:var(--gold);
+    color:#000;
+}
+
+.cart-item-subtotal{
+    text-align:right;
+    white-space:nowrap;
+    min-width:105px;
+}
+
+.cart-item-subtotal span{
+    display:block;
+    color:var(--gray);
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:4px;
+}
+
+.cart-item-subtotal strong{
+    font-size:18px;
+}
+
+.cart-remove{
+    display:block;
+    margin:14px 0 0 auto;
+    background:none;
+    border:0;
+    color:#999;
+    cursor:pointer;
+    text-decoration:underline;
+    font:inherit;
+}
+
+.cart-remove:hover,
+.cart-remove:focus-visible{
+    color:var(--gold);
+}
+
+.cart-summary{
+    background:#0d0d0d;
+    border:1px solid rgba(200,169,106,.25);
+    padding:32px;
+    position:sticky;
+    top:110px;
+    box-sizing:border-box;
+}
+
+.cart-summary h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:32px;
+    margin-bottom:25px;
+}
+
+.cart-summary-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:20px;
+    color:var(--gray);
+    padding:12px 0;
+}
+
+.cart-summary-row strong{
+    color:#fff;
+    text-align:right;
+}
+
+.cart-summary-total{
+    border-top:1px solid rgba(255,255,255,.1);
+    margin-top:8px;
+    padding-top:20px;
+    color:#fff;
+    font-size:20px;
+}
+
+.cart-summary-total strong{
+    color:var(--gold);
+}
+
+.cart-summary-note{
+    margin-top:3px;
+    color:#888;
+    font-size:12px;
+    line-height:1.5;
+}
+
+.cart-checkout-btn{
+    display:block;
+    width:100%;
+    text-align:center;
+    margin-top:25px;
+    padding:15px 20px;
+    background:var(--gold);
+    color:#000;
+    font-weight:600;
+    box-sizing:border-box;
+    transition:opacity .25s ease,transform .25s ease;
+}
+
+.cart-checkout-btn:hover,
+.cart-checkout-btn:focus-visible{
+    opacity:.9;
+    transform:translateY(-1px);
+}
+
+.cart-empty{
+    display:none;
+    text-align:center;
+    max-width:650px;
+    margin:0 auto;
+    padding:70px 30px;
+    border:1px solid rgba(255,255,255,.08);
+    background:#0d0d0d;
+    box-sizing:border-box;
+}
+
+.cart-empty i{
+    font-size:35px;
+    color:var(--gold);
+    margin-bottom:20px;
+}
+
+.cart-empty h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:40px;
+    margin-bottom:12px;
+}
+
+.cart-empty p{
+    color:var(--gray);
+    margin-bottom:25px;
+}
+
+.cart-collection-btn{
+    display:inline-block;
+    padding:13px 25px;
+    border:1px solid var(--gold);
+    color:var(--gold);
+}
+
+.cart-collection-btn:hover,
+.cart-collection-btn:focus-visible{
+    background:var(--gold);
+    color:#000;
+}
+
+/* Tablet — preserve the two-column feel while giving the
+   item cards and summary more breathing room. */
+@media (max-width:1100px){
+    .cart-layout{
+        grid-template-columns:minmax(0,1fr) 320px;
+        gap:30px;
+    }
+
+    .cart-item{
+        grid-template-columns:100px minmax(0,1fr);
+        gap:20px;
+    }
+
+    .cart-item-image{
+        width:100px;
+        height:100px;
+    }
+
+    .cart-item-subtotal{
+        grid-column:2;
+        grid-row:2;
+        justify-self:start;
+        text-align:left;
+        min-width:0;
+    }
+
+    .cart-remove{
+        margin-left:0;
+    }
+}
+
+/* Smaller tablets / large phones — transition to a
+   single-column cart without changing the visual language. */
+@media (max-width:900px){
+    .cart-layout{
+        grid-template-columns:1fr;
+        gap:28px;
+    }
+
+    .cart-summary{
+        position:static;
+    }
+}
+
+/* Mobile — one-column layout with clear item hierarchy:
+   watch → price → quantity → remove → summary. */
+@media (max-width:600px){
+    .cart-page{
+        padding:120px 0 70px;
+    }
+
+    .cart-page-header{
+        margin-bottom:38px;
+    }
+
+    .cart-page-header h1{
+        font-size:45px;
+    }
+
+    .cart-item{
+        grid-template-columns:80px minmax(0,1fr);
+        gap:15px;
+        padding:18px;
+    }
+
+    .cart-item-image{
+        width:80px;
+        height:80px;
+    }
+
+    .cart-item-model{
+        font-size:23px;
+    }
+
+    .cart-item-meta{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
+        margin-top:12px;
+    }
+
+    .cart-item-subtotal{
+        grid-column:1 / -1;
+        grid-row:auto;
+        text-align:left;
+        padding-top:5px;
+        border-top:1px solid rgba(255,255,255,.07);
+        width:100%;
+    }
+
+    .cart-remove{
+        margin:8px 0 0;
+    }
+
+    .cart-summary{
+        padding:25px;
+    }
+
+    .cart-summary h2{
+        font-size:29px;
+    }
+}
+
+@media (max-width:400px){
+    .cart-item{
+        grid-template-columns:70px minmax(0,1fr);
+        padding:15px;
+    }
+
+    .cart-item-image{
+        width:70px;
+        height:70px;
+    }
+
+    .cart-item-model{
+        font-size:21px;
+    }
+
+    .cart-summary{
+        padding:22px 18px;
+    }
+}
 </style>
 </head>
 <body>
@@ -24,7 +422,7 @@
 <main class="cart-page"><div class="container">
 <div class="cart-page-header"><span>ChronoLux Selection</span><h1>Your Cart</h1></div>
 <div id="cart-content" class="cart-layout"><section id="cart-items" class="cart-items" aria-label="Cart items"></section>
-<aside class="cart-summary" aria-label="Cart summary"><h2>Cart Summary</h2><div class="cart-summary-row"><span>Subtotal</span><strong id="cart-subtotal">$0.00</strong></div><div class="cart-summary-row cart-summary-total"><span>Total</span><strong id="cart-total">$0.00</strong></div><a id="cart-checkout" href="checkout.html?cart=1" class="cart-checkout-btn">Proceed to Checkout</a></aside></div>
+<aside class="cart-summary" aria-label="Cart summary"><h2>Order Summary</h2><div class="cart-summary-row"><span>Subtotal</span><strong id="cart-subtotal">$0.00</strong></div><div class="cart-summary-row"><span>Shipping</span><strong>Calculated at checkout</strong></div><p class="cart-summary-note">Shipping is calculated after you provide your delivery destination.</p><div class="cart-summary-row cart-summary-total"><span>Total</span><strong id="cart-total">Calculated at checkout</strong></div><a id="cart-checkout" href="checkout.html?cart=1" class="cart-checkout-btn">Proceed to Checkout</a></aside></div>
 <section id="cart-empty" class="cart-empty"><i class="fas fa-shopping-bag" aria-hidden="true"></i><h2>Your ChronoLux selection is currently empty.</h2><p>Explore our collection and add a timepiece to your private selection.</p><a href="collection.html" class="cart-collection-btn">Return to Collection</a></section>
 </div></main>
 <footer class="footer"><div class="container footer-content"><div><h2 class="logo">Chrono<span>Lux</span></h2><p>Discover exceptional luxury watches curated for collectors, enthusiasts and investors.</p></div><div><h3>Quick Links</h3><a href="index.html">Home</a><a href="collection.html">Collections</a><a href="about.html">About</a><a href="contact.html">Contact</a></div><div><h3>Contact</h3><p>Email: info@chronolux.com</p><p>WhatsApp: +234 000 000 0000</p></div></div><div class="copyright">© 2026 ChronoLux. All Rights Reserved.</div></footer>
@@ -37,9 +435,9 @@ function renderCart(){
  content.style.display="grid";empty.style.display="none";let subtotal=0;
  items.innerHTML=cart.map(item=>{
   const itemSubtotal=getCartItemSubtotal(item);subtotal+=itemSubtotal;
-  return '<article class="cart-item"><a class="cart-item-image" href="product.html?slug='+encodeURIComponent(item.slug)+'" aria-label="View '+item.brand+' '+item.model+'"><img src="'+item.image+'" alt="'+item.brand+' '+item.model+'"></a><div><span class="cart-item-brand">'+item.brand+'</span><h2 class="cart-item-model">'+item.model+'</h2><div class="cart-item-price">'+item.price+'</div><div class="cart-item-meta"><div class="cart-quantity"><span>Quantity:</span><button type="button" data-action="decrease" data-id="'+item.id+'" aria-label="Decrease quantity">−</button><strong>'+item.quantity+'</strong><button type="button" data-action="increase" data-id="'+item.id+'" aria-label="Increase quantity">+</button></div></div></div><div class="cart-item-subtotal"><span>Subtotal</span><strong>'+itemSubtotal.toLocaleString("en-US",{style:"currency",currency:"USD"})+'</strong><button type="button" class="cart-remove" data-action="remove" data-id="'+item.id+'">Remove</button></div></article>';
+  return '<article class="cart-item"><a class="cart-item-image" href="product.html?slug='+encodeURIComponent(item.slug)+'" aria-label="View '+item.brand+' '+item.model+'"><img src="'+item.image+'" alt="'+item.brand+' '+item.model+'"></a><div class="cart-item-details"><span class="cart-item-brand">'+item.brand+'</span><h2 class="cart-item-model">'+item.model+'</h2><div class="cart-item-price">'+item.price+'</div><div class="cart-item-meta"><div class="cart-quantity"><span>Quantity:</span><button type="button" data-action="decrease" data-id="'+item.id+'" aria-label="Decrease quantity">−</button><strong>'+item.quantity+'</strong><button type="button" data-action="increase" data-id="'+item.id+'" aria-label="Increase quantity">+</button></div></div></div><div class="cart-item-subtotal"><span>Subtotal</span><strong>'+itemSubtotal.toLocaleString("en-US",{style:"currency",currency:"USD"})+'</strong><button type="button" class="cart-remove" data-action="remove" data-id="'+item.id+'">Remove</button></div></article>';
  }).join("");
- const formatted=getCartSubtotal().toLocaleString("en-US",{style:"currency",currency:"USD"});subtotalEl.textContent=formatted;totalEl.textContent=formatted;
+ const formatted=getCartSubtotal().toLocaleString("en-US",{style:"currency",currency:"USD"});subtotalEl.textContent=formatted;totalEl.textContent="Calculated at checkout";
 }
 document.addEventListener("click",event=>{const control=event.target.closest("[data-action]");if(!control)return;const id=control.dataset.id,item=getCart().find(cartItem=>String(cartItem.id)===String(id));if(!item)return;if(control.dataset.action==="increase")updateCartQuantity(id,item.quantity+1);if(control.dataset.action==="decrease")updateCartQuantity(id,item.quantity-1);if(control.dataset.action==="remove")removeFromCart(id);renderCart();});
 document.addEventListener("chronolux:cart-updated",renderCart);document.addEventListener("DOMContentLoaded",renderCart);
